@@ -6,16 +6,19 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Torana from "./Torana";
 import SiteHeader from "./SiteHeader";
+import { ScenePlate, SceneGrades } from "./Scene";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 // Centre of the walk-through opening in the gate image (see Torana.tsx).
-const OPENING = "49.1% 68.3%";
+const OPENING = "49.1% 62.8%";
+// Horizon point of the landscape photo (see Scene.tsx).
+const HORIZON = "50% 76%";
 
 /**
- * Landing: the real torana at night. Scrolling (pinned, ~3 screens) walks you through
- * it while dawn breaks. On the other side "Harvard Undergraduate" and "India Forum"
- * slide in from opposite sides and meet in the middle.
+ * Landing: the real torana at blue hour, just before sunrise. Scrolling (pinned,
+ * ~3 screens) walks you through it as the sun comes up. On the other side
+ * "Harvard Undergraduate" and "India Forum" slide in from opposite sides and meet.
  */
 export default function GateIntro() {
   const root = useRef<HTMLElement>(null);
@@ -23,7 +26,8 @@ export default function GateIntro() {
   useGSAP(
     () => {
       const q = gsap.utils.selector(root);
-      gsap.set(q(".intro .torana"), { transformOrigin: OPENING });
+      gsap.set(q(".torana"), { transformOrigin: OPENING });
+      gsap.set(q(".scene__back"), { transformOrigin: HORIZON });
 
       const mm = gsap.matchMedia();
 
@@ -41,19 +45,18 @@ export default function GateIntro() {
         });
 
         tl.to(q(".scroll-hint"), { autoAlpha: 0, duration: 0.05 }, 0)
-          // Approach and pass through the gate.
+          // Walk up to and through the gate. The landscape behind moves much less (parallax).
           .to(q(".torana"), { scale: 9, duration: 0.6, ease: "power2.in" }, 0)
-          .to(q(".torana__shade"), { opacity: 0, duration: 0.45, ease: "power1.out" }, 0)
-          .to(q(".torana"), { filter: "blur(6px)", duration: 0.12 }, 0.46)
-          .to(q(".torana"), { autoAlpha: 0, duration: 0.08 }, 0.52)
-          // The world moves past: ground drops away, the horizon glow grows.
-          .to(q(".land"), { yPercent: 40, scale: 1.4, duration: 0.6, ease: "power2.in" }, 0)
-          .to(q(".sky__sun"), { scale: 2.4, opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0)
-          .to(q(".sky__dawn"), { opacity: 1, duration: 0.5 }, 0.1)
-          .to(q(".sky__stars"), { opacity: 0, duration: 0.3 }, 0.05)
-          .to(q(".land"), { autoAlpha: 0, duration: 0.1 }, 0.5)
-          .to(q(".sky__day"), { opacity: 1, duration: 0.25 }, 0.5)
-          .to(q(".site-header"), { color: "var(--marine)", duration: 0.2 }, 0.5)
+          .to(q(".torana"), { filter: "blur(5px)", duration: 0.1 }, 0.48)
+          .to(q(".torana"), { autoAlpha: 0, duration: 0.08 }, 0.53)
+          .to(q(".scene__back"), { scale: 1.28, duration: 0.62, ease: "power1.in" }, 0)
+          // Sunrise: blue hour lifts, warm light arrives.
+          .to(q(".torana__shade"), { opacity: 0, duration: 0.42, ease: "power1.inOut" }, 0.05)
+          .to(q(".scene__plate--day"), { opacity: 1, duration: 0.5, ease: "power1.inOut" }, 0.08)
+          .to(q(".scene__warm"), { opacity: 0.6, duration: 0.45, ease: "power1.out" }, 0.25)
+          .to(q(".site-header"), { color: "var(--marine)", duration: 0.15 }, 0.42)
+          // Through the gate, the camera tilts up to the open sky where the name appears.
+          .to(q(".scene__back"), { yPercent: 20, duration: 0.3, ease: "power2.inOut" }, 0.54)
           // Close the gap: the name arrives from both sides.
           .fromTo(q(".title__l"), { xPercent: -120, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 1, duration: 0.28, ease: "power3.out" }, 0.58)
           .fromTo(q(".title__r"), { xPercent: 120, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 1, duration: 0.28, ease: "power3.out" }, 0.58)
@@ -63,27 +66,20 @@ export default function GateIntro() {
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set(q(".scroll-hint"), { autoAlpha: 0 });
-        gsap.set(q(".title__l, .title__r, .title__meta"), { autoAlpha: 1 });
+        gsap.set(q(".torana__shade"), { opacity: 0 });
+        gsap.set(q(".scene__plate--day"), { opacity: 1 });
       });
     },
     { scope: root },
   );
 
   return (
-    <section ref={root} className="intro" aria-label="Harvard Undergraduate India Forum">
-      <div className="sky" aria-hidden="true">
-        <div className="sky__stars" />
-        <div className="sky__dawn" />
-        <div className="sky__day" />
-        <div className="sky__sun" />
-      </div>
-      <div className="land" aria-hidden="true">
-        <div className="land__mist" />
-      </div>
-
-      <div className="intro__gate">
+    <section ref={root} className="scene intro" aria-label="Harvard Undergraduate India Forum">
+      <ScenePlate />
+      <div className="scene__gate">
         <Torana />
       </div>
+      <SceneGrades />
 
       <SiteHeader />
 
