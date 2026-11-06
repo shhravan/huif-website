@@ -110,7 +110,7 @@ a {
   position: absolute;
   inset: 0;
   /* neutral exposure drop with a slight cool cast: blue-hour light on stone */
-  background: #7f8aa8;
+  background: #a3abc0;
   mix-blend-mode: multiply;
   -webkit-mask-image: var(--torana-mask);
   mask-image: var(--torana-mask);

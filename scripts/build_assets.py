@@ -43,27 +43,17 @@ base = 5290 - gy0
 occl = 1 - 0.28*np.clip(1 - np.abs(yy - base)/260., 0, 1)
 rgb = rgb*occl[..., None]
 
-# neutralise the modern yellow tactile strip in the paving (desaturate yellow pixels below the base)
-low = yy > base - 120
-r_, g_, b_ = rgb[..., 0], rgb[..., 1], rgb[..., 2]
-yellow = low & (xx > w*0.55) & (r_ > b_ + 14) & (g_ > b_ + 8)
-grey = (0.3*r_ + 0.59*g_ + 0.11*b_)[..., None] * np.array([1.04, 0.99, 0.95])
-rgb = np.where(yellow[..., None], grey*0.92, rgb)
-# match the photo's paving tone to the rendered sandstone paving around it (outside the gate itself)
-pav = (yy > base - 20) & (a < 0.5)
-src_mean = rgb[pav].reshape(-1, 3).mean(0)
-TARGET = np.array(TARGET_RGB)
-rgb[pav] = np.clip(rgb[pav]*(TARGET/src_mean), 0, 255)
-# real Sanchi paving under and in front of the pillars, feathered into the plate's earth
-ground = np.clip((yy - base + 95)/110., 0, 1)
-cx = w*0.49
-side = np.clip(1 - (np.abs(xx - cx) - w*0.26)/(w*0.30), 0, 1)**1.8
-bottom_fade = np.clip((h - yy)/120., 0, 1)
-ground = ground*side*bottom_fade
-alpha = np.maximum(a, ground*0.96)
-
+# contact shadow on the paving under each pillar (premultiplied: dark colour + alpha, under the gate)
+sh = np.zeros((h, w), np.float32)
+for cxp in (734, 2615):
+    sh += np.exp(-(((xx - cxp)/330.)**2 + ((yy - (base + 8))/46.)**2))
+sh = np.asarray(Image.fromarray((np.clip(sh, 0, 1)*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(28)), dtype=np.float32)/255.
+sh = sh*0.62*(yy > base - 60)
+alpha = a + sh*(1 - a)
+shadow_rgb = np.array([34, 28, 24], np.float32)
+rgb = (rgb*a[..., None] + shadow_rgb*(sh*(1 - a))[..., None])/np.maximum(alpha[..., None], 1e-4)
 im = Image.fromarray(rgb.astype(np.uint8)); im.putalpha(Image.fromarray((alpha*255).astype(np.uint8)))
-for W in (2400, 1400):
+for W in (3200, 2400, 1400):
     im.resize((W, round(h*W/w)), Image.LANCZOS).save(f"{OUT}/gate/torana-{W}.webp", quality=86, method=6)
 print("gate", w, h, "aspect %.4f" % (w/h), "base %.4f" % (base/h), "eye %.4f" % ((0.82*5082)/h),
       "origin %.4f %.4f" % (((1320+2515)/2 - gx0)/w, (3700-gy0)/h))
