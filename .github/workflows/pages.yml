@@ -12,7 +12,8 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  # never cancel a running Pages deploy: a half-cancelled deploy blocks the next ones
+  cancel-in-progress: false
 
 jobs:
   build:
