@@ -174,15 +174,12 @@ function Figures() {
   );
 }
 
-export default function Gate({ className }: { className?: string }) {
+export default function Gate({ className, decorative = false }: { className?: string; decorative?: boolean }) {
+  const a11y = decorative
+    ? { "aria-hidden": true as const }
+    : { role: "img", "aria-label": "A carved stone gateway (torana)" };
   return (
-    <svg
-      className={className}
-      viewBox="0 0 1200 1000"
-      role="img"
-      aria-label="A carved stone gateway (torana)"
-      overflow="visible"
-    >
+    <svg className={className} viewBox="0 0 1200 1000" overflow="visible" {...a11y}>
       <Struts y={200} h={60} layer="struts-upper" />
       <Struts y={330} h={60} layer="struts-lower" />
       <Figures />
