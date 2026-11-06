@@ -39,7 +39,7 @@ a {
   color: inherit;
 }
 
-/* ---------- Scene: real landscape photo + gate + light grades ---------- */
+/* ---------- Scene: real sky and paving + gate ---------- */
 
 .scene {
   position: relative;
@@ -56,10 +56,6 @@ a {
   position: absolute;
   inset: 0;
   z-index: 0;
-}
-
-.scene__plate--day {
-  opacity: 0;
 }
 
 .scene__plate {
@@ -106,44 +102,12 @@ a {
   height: 100%;
 }
 
-.torana__shade {
-  position: absolute;
-  inset: 0;
-  /* neutral exposure drop with a slight cool cast: blue-hour light on stone */
-  background: #a3abc0;
-  mix-blend-mode: multiply;
-  -webkit-mask-image: var(--torana-mask);
-  mask-image: var(--torana-mask);
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-}
-
 .torana__img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
   user-select: none;
-}
-
-/* Light grades over photo + gate together */
-/* no z-index here: the grades must blend with the photo and gate beneath them */
-.scene__grades {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.scene__grades > div {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-}
-
-/* sunrise wash: warm light from behind the viewer, strongest low in the frame */
-.scene__warm {
-  opacity: 0;
-  mix-blend-mode: soft-light;
-  background: linear-gradient(180deg, rgba(255, 214, 190, 0.35) 0%, rgba(255, 196, 150, 0.55) 60%, rgba(255, 170, 110, 0.7) 100%);
 }
 
 .grain {

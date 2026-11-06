@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Torana from "./Torana";
 import SiteHeader from "./SiteHeader";
-import { ScenePlate, SceneGrades } from "./Scene";
+import { ScenePlate } from "./Scene";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -50,10 +50,6 @@ export default function GateIntro() {
           .to(q(".torana"), { filter: "blur(5px)", duration: 0.1 }, 0.48)
           .to(q(".torana"), { autoAlpha: 0, duration: 0.08 }, 0.53)
           .to(q(".scene__back"), { scale: 1.28, duration: 0.62, ease: "power1.in" }, 0)
-          // Sunrise: blue hour lifts, warm light arrives.
-          .to(q(".torana__shade"), { opacity: 0, duration: 0.42, ease: "power1.inOut" }, 0.05)
-          .to(q(".scene__plate--day"), { opacity: 1, duration: 0.5, ease: "power1.inOut" }, 0.08)
-          .to(q(".scene__warm"), { opacity: 0.6, duration: 0.45, ease: "power1.out" }, 0.25)
           .to(q(".site-header"), { color: "var(--marine)", duration: 0.15 }, 0.42)
           // Through the gate, the camera tilts up to the open sky where the name appears.
           .to(q(".scene__back"), { yPercent: 20, duration: 0.3, ease: "power2.inOut" }, 0.54)
@@ -66,8 +62,6 @@ export default function GateIntro() {
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set(q(".scroll-hint"), { autoAlpha: 0 });
-        gsap.set(q(".torana__shade"), { opacity: 0 });
-        gsap.set(q(".scene__plate--day"), { opacity: 1 });
       });
     },
     { scope: root },
@@ -79,7 +73,6 @@ export default function GateIntro() {
       <div className="scene__gate">
         <Torana />
       </div>
-      <SceneGrades />
 
       <SiteHeader />
 
