@@ -4,17 +4,18 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import Gate from "./Gate";
-import Backdrop from "./Backdrop";
+import Torana from "./Torana";
+import SiteHeader from "./SiteHeader";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
+// Centre of the walk-through opening in the gate image (see Torana.tsx).
+const OPENING = "49.1% 68.3%";
+
 /**
- * Scroll-driven intro. The gate is the hero: it opens filling the screen with the
- * name framed in its opening. Scrolling (about three screens, pinned) walks you
- * through it — the gate scales up around its opening while the sky warms. On the
- * other side the gate reappears as a small logo mark above the title, then the pin
- * releases and the page scrolls normally.
+ * Landing: the real torana at night. Scrolling (pinned, ~3 screens) walks you through
+ * it while dawn breaks. On the other side "Harvard Undergraduate" and "India Forum"
+ * slide in from opposite sides and meet in the middle.
  */
 export default function GateIntro() {
   const root = useRef<HTMLElement>(null);
@@ -22,100 +23,87 @@ export default function GateIntro() {
   useGSAP(
     () => {
       const q = gsap.utils.selector(root);
+      gsap.set(q(".intro .torana"), { transformOrigin: OPENING });
+
       const mm = gsap.matchMedia();
 
-      // Scale the gate around the centre of its walk-through opening (x 600, y 760 of 1200×1000).
-      gsap.set(q(".gate"), { transformOrigin: "50% 76%" });
-
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // Only the big gate's layers, not the logo mark's.
-        const layer = (names: string) =>
-          q(names.split(",").map((n) => `.gate [data-layer="${n.trim()}"]`).join(","));
-
         const tl = gsap.timeline({
           defaults: { ease: "none" },
           scrollTrigger: {
             trigger: root.current,
             start: "top top",
-            end: "+=300%",
-            scrub: 0.6,
+            end: "+=320%",
+            scrub: 0.8,
             pin: true,
             anticipatePin: 1,
           },
         });
 
-        // 0 → 1 is the whole pinned scroll.
-        tl.to(q(".scroll-hint"), { autoAlpha: 0, y: 20, duration: 0.08 }, 0)
-          .to(q(".intro-name"), { autoAlpha: 0, scale: 1.25, duration: 0.18, ease: "power1.in" }, 0)
-          // Walk through the gate: accelerate as we get close.
-          .to(q(".gate"), { scale: 11, duration: 0.72, ease: "power2.in" }, 0)
-          // Extra separation between parts so the layers feel like real depth.
-          .to(layer("pillar-left"), { x: -60, duration: 0.72, ease: "power2.in" }, 0)
-          .to(layer("pillar-right"), { x: 60, duration: 0.72, ease: "power2.in" }, 0)
-          .to(layer("arch-top, finials"), { y: -50, duration: 0.72, ease: "power2.in" }, 0)
-          .to(layer("arch-mid, struts-upper"), { y: -30, duration: 0.72, ease: "power2.in" }, 0)
-          .to(q(".gate"), { autoAlpha: 0, duration: 0.12 }, 0.6)
-          // Atmosphere moves with us.
-          .to(q('[data-layer="ground"]'), { scale: 1.9, svgOrigin: "600 900", duration: 0.85, ease: "power1.inOut" }, 0)
-          .to(q('[data-layer="sun"]'), { scale: 2.2, svgOrigin: "600 820", duration: 0.85, ease: "power1.inOut" }, 0)
-          .to(q(".stage__dawn"), { opacity: 1, duration: 0.6 }, 0.3)
-          // Night ground warms to sunlit sandstone (and blends into the page below).
-          .fromTo(
-            root.current,
-            { "--ground": "#3b2a2f", "--path": "#574047" },
-            { "--ground": "#ead3b4", "--path": "#d9b38c", duration: 0.5 },
-            0.35,
-          )
-          // Other side: the gate settles back in as the logo mark, then the title.
-          .fromTo(
-            q(".hero__mark"),
-            { autoAlpha: 0, scale: 1.8 },
-            { autoAlpha: 1, scale: 1, duration: 0.2, ease: "power2.out" },
-            0.6,
-          )
-          .fromTo(
-            q(".hero__text"),
-            { autoAlpha: 0, y: 30 },
-            { autoAlpha: 1, y: 0, duration: 0.15, ease: "power2.out" },
-            0.72,
-          )
-          .to({}, { duration: 0.05 }); // short hold at the end before unpinning
+        tl.to(q(".scroll-hint"), { autoAlpha: 0, duration: 0.05 }, 0)
+          // Approach and pass through the gate.
+          .to(q(".torana"), { scale: 9, duration: 0.6, ease: "power2.in" }, 0)
+          .to(q(".torana__shade"), { opacity: 0, duration: 0.45, ease: "power1.out" }, 0)
+          .to(q(".torana"), { filter: "blur(6px)", duration: 0.12 }, 0.46)
+          .to(q(".torana"), { autoAlpha: 0, duration: 0.08 }, 0.52)
+          // The world moves past: ground drops away, the horizon glow grows.
+          .to(q(".land"), { yPercent: 40, scale: 1.4, duration: 0.6, ease: "power2.in" }, 0)
+          .to(q(".sky__sun"), { scale: 2.4, opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0)
+          .to(q(".sky__dawn"), { opacity: 1, duration: 0.5 }, 0.1)
+          .to(q(".sky__stars"), { opacity: 0, duration: 0.3 }, 0.05)
+          .to(q(".land"), { autoAlpha: 0, duration: 0.1 }, 0.5)
+          .to(q(".sky__day"), { opacity: 1, duration: 0.25 }, 0.5)
+          .to(q(".site-header"), { color: "var(--marine)", duration: 0.2 }, 0.5)
+          // Close the gap: the name arrives from both sides.
+          .fromTo(q(".title__l"), { xPercent: -120, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 1, duration: 0.28, ease: "power3.out" }, 0.58)
+          .fromTo(q(".title__r"), { xPercent: 120, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 1, duration: 0.28, ease: "power3.out" }, 0.58)
+          .fromTo(q(".title__meta"), { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.12, ease: "power2.out" }, 0.8)
+          .to({}, { duration: 0.06 });
       });
 
-      // No motion: show the arrival state (logo mark + title) as a static hero.
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(q(".scroll-hint, .intro-name, .gate"), { autoAlpha: 0 });
-        gsap.set(q(".hero__mark, .hero__text, .stage__dawn"), { autoAlpha: 1 });
-        gsap.set(root.current, { "--ground": "#ead3b4", "--path": "#d9b38c" });
+        gsap.set(q(".scroll-hint"), { autoAlpha: 0 });
+        gsap.set(q(".title__l, .title__r, .title__meta"), { autoAlpha: 1 });
       });
     },
     { scope: root },
   );
 
   return (
-    <section ref={root} className="stage" aria-label="Welcome">
-      <div className="stage__dawn" aria-hidden="true" />
-      <div className="scene">
-        <Backdrop className="backdrop" />
-        <Gate className="gate" />
-        {/* The name, framed in the gate's opening at the start. */}
-        <p className="intro-name" aria-hidden="true">
-          HUIF
-        </p>
+    <section ref={root} className="intro" aria-label="Harvard Undergraduate India Forum">
+      <div className="sky" aria-hidden="true">
+        <div className="sky__stars" />
+        <div className="sky__dawn" />
+        <div className="sky__day" />
+        <div className="sky__sun" />
+      </div>
+      <div className="land" aria-hidden="true">
+        <div className="land__mist" />
       </div>
 
-      <div className="hero">
-        <Gate className="hero__mark" decorative />
-        <div className="hero__text">
-          <h1 className="hero__title">HUIF</h1>
-          <p className="hero__tagline">Placeholder tagline goes here</p>
-        </div>
+      <div className="intro__gate">
+        <Torana />
+      </div>
+
+      <SiteHeader />
+
+      <div className="title">
+        <h1 className="title__name">
+          <span className="title__l">Harvard Undergraduate</span>
+          <span className="title__r">India Forum</span>
+        </h1>
+        <p className="title__meta">
+          <span>The first Harvard forum in India</span>
+          <span className="title__dot" aria-hidden="true" />
+          <span>13–14 March</span>
+        </p>
       </div>
 
       <div className="scroll-hint" aria-hidden="true">
         <span>Scroll to enter</span>
         <span className="scroll-hint__line" />
       </div>
+      <div className="grain" aria-hidden="true" />
     </section>
   );
 }
