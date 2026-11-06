@@ -13,7 +13,7 @@ Open http://localhost:3000 and scroll.
 
 ## How the landing page works
 
-1. **Entrance** (`components/GateIntro.tsx`): the torana at night. Scrolling walks you through its opening while dawn breaks. Then "Harvard Undergraduate" and "India Forum" slide in from opposite sides and meet.
+1. **Entrance** (`components/GateIntro.tsx`): the torana in daylight. Scrolling walks you through its opening; then "Harvard Undergraduate" and "India Forum" slide in from opposite sides and meet.
 2. **Sections** (`app/page.tsx`): placeholders for now.
 3. **Exit** (`components/GateOutro.tsx`): the gate comes back as you walk out backwards, at dusk, with the "Become a Part" button.
 4. **Footer** (`components/SiteFooter.tsx`).
