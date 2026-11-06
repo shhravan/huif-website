@@ -1,6 +1,6 @@
 # huif-website
 
-Experimental scroll-driven intro: the site opens on a Sanchi-style torana (gate) and you "walk through" it as you scroll. On the other side the gate returns as a small logo mark above the title.
+Website for the Harvard Undergraduate India Forum (HUIF). This branch is an experiment with the landing page: you walk through a real photograph of the Sanchi torana as you scroll.
 
 ## Run locally
 
@@ -11,17 +11,24 @@ npm run dev
 
 Open http://localhost:3000 and scroll.
 
-## Where things live
+## How the landing page works
 
-- `components/GateIntro.tsx`: the pinned scroll section and the GSAP ScrollTrigger timeline (all timing is here).
-- `components/Gate.tsx`: the gate as a layered SVG. Each part (pillars, architraves, finials) is its own `data-layer` group.
-- `components/Backdrop.tsx`: the ground, path and sunrise glow behind the gate.
-- `app/globals.css`: placeholder brand colours and fonts as CSS variables at the top of the file.
+1. **Entrance** (`components/GateIntro.tsx`): the torana at night. Scrolling walks you through its opening while dawn breaks. Then "Harvard Undergraduate" and "India Forum" slide in from opposite sides and meet.
+2. **Sections** (`app/page.tsx`): placeholders for now.
+3. **Exit** (`components/GateOutro.tsx`): the gate comes back as you walk out backwards, at dusk, with the "Become a Part" button.
+4. **Footer** (`components/SiteFooter.tsx`).
 
-## Swapping in brand assets
+The gate is a real photograph (see `CREDITS.md`), cut out of its background and saved as `public/gate/torana-2400.webp` (desktop) and `torana-1400.webp` (mobile). `components/Torana.tsx` renders it; the darker "night" look is a masked overlay, so there is only one image to download.
 
-- Colours and fonts: edit the variables in `:root` in `app/globals.css`.
-- Gate / logo: redraw the groups in `Gate.tsx` from the logo artwork, keeping the `data-layer` names so the animation still targets them. The same component is used for both the big gate and the small logo mark at the end.
-- Name and tagline: in `GateIntro.tsx` (`.intro-name` at the start, `.hero__text` at the end).
+Brand colours and fonts are CSS variables at the top of `app/globals.css`.
 
-Users with "reduce motion" turned on get the arrival state (logo mark + title) as a static hero, with no pinned scroll.
+## Preview on GitHub Pages
+
+`.github/workflows/pages.yml` builds a static export and deploys it to GitHub Pages on every push to this branch. To turn it on (one time):
+
+1. The repo must be public (GitHub Pages on private repos needs a paid plan).
+2. Settings → Pages → Build and deployment → Source: **GitHub Actions**.
+3. Settings → Environments → `github-pages` → Deployment branches: add `claude/amazing-keller-8tk9px` (by default only the default branch may deploy).
+4. Re-run the "Deploy preview to GitHub Pages" workflow from the Actions tab.
+
+The site will be at `https://<owner>.github.io/huif-website/`.
