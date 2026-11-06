@@ -2,16 +2,14 @@ import { asset } from "@/lib/asset";
 
 /**
  * The east gateway (torana) of the Great Stupa at Sanchi: a real photograph, cut out
- * from its background so it can stand in our own sky.
+ * from its background, perspective-corrected, with the real paving at its base kept and
+ * feathered into the scene's paving. See CREDITS.md and scripts/build_assets.py.
  *
- * Photo: "Front View of Gate" by Photo Dharma, CC BY 2.0 (Wikimedia Commons).
- * Edited: background removed, colour warmed. See CREDITS.md.
+ * Image geometry (fractions of the image box):
+ *   aspect 0.6265 · eye-level line 75.3% down · walk-through opening centre 49.1% / 62.8%
  *
- * Aspect ratio 0.682 (w/h). The centre of the walk-through opening sits at
- * 49.1% across and 68.3% down; GateIntro/GateOutro scale around that point.
- *
- * `.torana__shade` is a copy of the gate's silhouette (via CSS mask) filled with the
- * night colour, so the stone can be darkened for night and lit for dawn cheaply.
+ * `.torana__shade` darkens and cools the stone for blue hour (a neutral exposure drop,
+ * masked to the gate's own silhouette).
  */
 export default function Torana({ className = "" }: { className?: string }) {
   const src = asset("/gate/torana-2400.webp");
@@ -22,7 +20,7 @@ export default function Torana({ className = "" }: { className?: string }) {
         className="torana__img"
         src={src}
         srcSet={`${srcSmall} 1400w, ${src} 2400w`}
-        sizes="(orientation: portrait) 90vw, 60vh"
+        sizes="(orientation: portrait) 96vw, 60vh"
         alt="The carved east gateway of the Great Stupa at Sanchi"
         draggable={false}
         fetchPriority="high"

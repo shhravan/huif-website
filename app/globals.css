@@ -8,10 +8,6 @@
   --marine: #042d62;
   --ageless: #ebece1;
 
-  --night-top: #01142e;
-  --night-mid: #042d62;
-  --night-low: #24497c;
-  --earth: #17110e;
 
   --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
   --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -43,135 +39,83 @@ a {
   color: inherit;
 }
 
-/* ---------- Shared scene: sky, land, grain ---------- */
+/* ---------- Scene: real landscape photo + gate + light grades ---------- */
 
-.intro,
-.outro {
+.scene {
   position: relative;
   height: 100vh;
   height: 100svh;
   overflow: hidden;
   isolation: isolate;
+  background: #8d9bb6;
+  /* horizon of the landscape photo, measured from the bottom of the screen */
+  --horizon: 24vh;
 }
 
-.sky {
+.scene__back {
   position: absolute;
   inset: 0;
-  z-index: -2;
-  background: linear-gradient(180deg, var(--night-top) 0%, var(--night-mid) 55%, var(--night-low) 82%, #3c5a86 100%);
+  z-index: 0;
 }
 
-.sky > div {
+.scene__plate--day {
+  opacity: 0;
+}
+
+.scene__plate {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 76%;
+  user-select: none;
 }
 
-.sky__stars {
-  opacity: 0.7;
-  background-image:
-    radial-gradient(1px 1px at 12% 18%, #fff 50%, transparent 51%),
-    radial-gradient(1px 1px at 27% 8%, #fff 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 41% 22%, #fff 50%, transparent 51%),
-    radial-gradient(1px 1px at 63% 12%, #fff 50%, transparent 51%),
-    radial-gradient(1px 1px at 78% 26%, #fff 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 88% 9%, #fff 50%, transparent 51%),
-    radial-gradient(1px 1px at 6% 38%, #fff 50%, transparent 51%),
-    radial-gradient(1px 1px at 93% 41%, #fff 50%, transparent 51%),
-    radial-gradient(1px 1px at 52% 4%, #fff 50%, transparent 51%),
-    radial-gradient(1px 1px at 34% 33%, #fff 50%, transparent 51%);
-}
-
-.sky__dawn {
-  opacity: 0;
-  background: linear-gradient(180deg, #284a80 0%, #7a7aa3 38%, #d6a7a6 66%, #f6cdb4 84%, #fbe1cc 100%);
-}
-
-.sky__day {
-  opacity: 0;
-  background: linear-gradient(180deg, #d8dde2 0%, var(--ageless) 40%, var(--pink) 100%);
-}
-
-.sky__sun {
-  inset: auto !important;
-  left: 50% !important;
-  bottom: 14vh;
-  width: 90vmin;
-  height: 60vmin;
-  translate: -50% 50%;
-  opacity: 0.35;
-  background: radial-gradient(closest-side, rgba(255, 222, 190, 0.9), rgba(255, 196, 160, 0.35) 45%, rgba(255, 190, 160, 0) 100%);
-  mix-blend-mode: screen;
-}
-
-.sky__sun--low {
-  opacity: 0.55;
-}
-
-.land {
+/* soft atmospheric haze sitting on the horizon */
+.scene__haze {
   position: absolute;
   left: -10%;
   right: -10%;
-  bottom: 0;
-  height: 24vh;
-  z-index: -1;
-  transform-origin: 50% 0%;
-  background: linear-gradient(180deg, #3a3240 0%, #241c1f 18%, var(--earth) 100%);
+  bottom: calc(var(--horizon) - 8vh);
+  height: 22vh;
+  background: radial-gradient(60% 50% at 50% 55%, rgba(236, 226, 220, 0.22), rgba(236, 226, 220, 0));
+  animation: haze 24s ease-in-out infinite alternate;
 }
 
-/* haze sitting on the horizon, and ground fog around the pillar bases */
-.land__mist {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 100%;
-  height: 16vh;
-  background: linear-gradient(0deg, rgba(196, 180, 196, 0.32), rgba(196, 180, 196, 0));
-}
-.land::after {
-  content: "";
-  position: absolute;
-  inset: 30% 0 0;
-  background: linear-gradient(180deg, rgba(120, 104, 112, 0), rgba(120, 104, 112, 0.22) 40%, rgba(20, 16, 14, 0) 100%);
+@keyframes haze {
+  from { transform: translateX(-2%); opacity: 0.75; }
+  to { transform: translateX(2%); opacity: 1; }
 }
 
-.grain {
+.scene__gate {
   position: absolute;
-  inset: -50%;
-  z-index: 5;
-  pointer-events: none;
-  opacity: 0.09;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-}
-
-/* ---------- The gate ---------- */
-
-.intro__gate,
-.outro__gate {
-  position: absolute;
+  z-index: 1;
   left: 50%;
-  bottom: 9vh;
-  height: min(84vh, 139vw);
-  aspect-ratio: 0.682;
+  --gate-h: min(91.8vh, 153vw);
+  height: var(--gate-h);
+  aspect-ratio: 0.6265;
+  /* put the gate photo's eye-level line (75.3% down) on the landscape's horizon */
+  bottom: calc(var(--horizon) - 0.2466 * var(--gate-h));
   translate: -50% 0;
-}
-
-.torana::before {
-  /* soft contact shadow where the pillars meet the ground (moves and fades with the gate) */
-  content: "";
-  position: absolute;
-  left: 10%;
-  right: 10%;
-  bottom: -2%;
-  height: 6%;
-  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
-  filter: blur(6px);
 }
 
 .torana {
   position: relative;
   width: 100%;
   height: 100%;
+}
+
+.torana__shade {
+  position: absolute;
+  inset: 0;
+  /* neutral exposure drop with a slight cool cast: blue-hour light on stone */
+  background: #7f8aa8;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: var(--torana-mask);
+  mask-image: var(--torana-mask);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
 .torana__img {
@@ -182,16 +126,40 @@ a {
   user-select: none;
 }
 
-.torana__shade {
+/* Light grades over photo + gate together */
+/* no z-index here: the grades must blend with the photo and gate beneath them */
+.scene__grades {
   position: absolute;
   inset: 0;
-  background: #06204a;
-  mix-blend-mode: multiply;
-  opacity: 0.62;
-  -webkit-mask-image: var(--torana-mask);
-  mask-image: var(--torana-mask);
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
+  pointer-events: none;
+}
+.scene__grades > div {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+/* sunrise wash: warm light from behind the viewer, strongest low in the frame */
+.scene__warm {
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  background: linear-gradient(180deg, rgba(255, 214, 190, 0.35) 0%, rgba(255, 196, 150, 0.55) 60%, rgba(255, 170, 110, 0.7) 100%);
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene__haze {
+    animation: none;
+  }
 }
 
 /* ---------- Header ---------- */
@@ -249,13 +217,14 @@ a {
 
 .title {
   position: absolute;
-  inset: 0;
+  top: calc(11vh + env(safe-area-inset-top, 0px));
+  left: 0;
+  right: 0;
   z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: clamp(20px, 4vh, 40px);
+  gap: clamp(14px, 2.6vh, 28px);
   padding: 0 var(--gutter);
   text-align: center;
   color: var(--marine);
@@ -268,7 +237,7 @@ a {
   flex-direction: column;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(2.6rem, 8.4vw, 8rem);
+  font-size: clamp(2.4rem, 6.4vw, 6.4rem);
   line-height: 0.98;
   letter-spacing: -0.02em;
   text-wrap: balance;
@@ -391,16 +360,15 @@ a {
 
 /* ---------- Exit gate + CTA ---------- */
 
-.outro .outro__gate {
-  height: min(70vh, 120vw);
-  bottom: 22vh;
+.outro .scene__gate {
+  --gate-h: min(66vh, 120vw);
 }
 
 .outro__cta {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: calc(5vh + env(safe-area-inset-bottom, 0px));
+  top: calc(9vh + env(safe-area-inset-top, 0px));
   z-index: 3;
   display: flex;
   flex-direction: column;
@@ -408,14 +376,14 @@ a {
   gap: 18px;
   padding: 0 var(--gutter);
   text-align: center;
-  color: var(--ageless);
+  color: var(--marine);
 }
 
 .outro__cta h2 {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(1.5rem, 3.4vw, 2.6rem);
+  font-size: clamp(1.6rem, 3.6vw, 2.8rem);
   line-height: 1.1;
   text-wrap: balance;
 }
@@ -426,8 +394,8 @@ a {
   gap: 12px;
   padding: 14px 26px;
   border-radius: 999px;
-  background: var(--pink);
-  color: var(--marine);
+  background: var(--marine);
+  color: var(--ageless);
   font-weight: 600;
   font-size: 0.95rem;
   letter-spacing: 0.04em;
@@ -436,7 +404,7 @@ a {
 }
 .button:hover,
 .button:focus-visible {
-  background: var(--ageless);
+  background: #0a3d80;
 }
 :focus-visible {
   outline: 2px solid var(--pink);
