@@ -1,0 +1,215 @@
+/*
+ * Placeholder brand tokens. Swap these when the real brand assets arrive.
+ */
+:root {
+  --sky-top: #141a33;
+  --sky-mid: #3b2d55;
+  --sky-low: #d98a6a;
+  --dawn-top: #6f86b8;
+  --dawn-low: #f6c99a;
+
+  --stone: #d9a074;
+  --stone-light: #edc29b;
+  --stone-dark: #8c5536;
+
+  --sun: #ffd9a3;
+  --ground: #3b2a2f;
+  --path: #574047;
+  --stupa: #f1dcc0;
+  --stupa-shade: #c9a988;
+  --stupa-line: #7d5a45;
+
+  --paper: #f8f1e7;
+  --ink: #2a1d16;
+  --accent: #b5643a;
+
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ---------- Gate intro ---------- */
+
+.stage {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 50%, var(--sky-low) 100%);
+}
+
+.stage__dawn {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(180deg, var(--dawn-top) 0%, var(--dawn-low) 100%);
+  pointer-events: none;
+}
+
+.scene {
+  position: absolute;
+  left: 50%;
+  bottom: 6vh;
+  width: min(94vw, 110vh);
+  aspect-ratio: 1200 / 1000;
+  transform: translateX(-50%);
+}
+
+@media (orientation: portrait) {
+  .scene {
+    width: 150vw;
+    bottom: 14vh;
+  }
+}
+
+.sanctuary,
+.gate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Gate paint classes */
+.g-stone {
+  fill: var(--stone);
+  stroke: var(--stone-dark);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.g-line {
+  fill: none;
+  stroke: var(--stone-dark);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.g-carve {
+  fill: var(--stone-dark);
+}
+.g-carve-soft {
+  fill: var(--stone-dark);
+  opacity: 0.35;
+}
+
+.hero {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 9vh;
+  text-align: center;
+  color: var(--ink);
+  opacity: 0;
+  visibility: hidden;
+  padding: 0 16px;
+}
+
+.hero__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(3rem, 10vw, 7.5rem);
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.hero__tagline {
+  margin: 0.75rem 0 0;
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  letter-spacing: 0.04em;
+}
+
+.scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 2.2vh;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--stone-light);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.scroll-hint__line {
+  width: 1px;
+  height: 28px;
+  background: currentColor;
+  animation: hint 1.8s ease-in-out infinite;
+  transform-origin: top;
+}
+
+@keyframes hint {
+  0% { transform: scaleY(0); opacity: 1; }
+  60% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint__line { animation: none; }
+}
+
+/* ---------- Placeholder content ---------- */
+
+.content {
+  padding: clamp(64px, 12vh, 128px) 16px;
+}
+.content--alt {
+  background: #f1e5d5;
+}
+.content__inner {
+  max-width: 960px;
+  margin: 0 auto;
+}
+.content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin: 0 0 1rem;
+}
+.content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 60ch;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.card {
+  background: var(--paper);
+  border-radius: 12px;
+  padding: 24px;
+}
+.card h3 {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+}
+.footer {
+  padding: 40px 16px;
+  text-align: center;
+  font-size: 0.9rem;
+}
