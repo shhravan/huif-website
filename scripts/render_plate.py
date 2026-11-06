@@ -52,7 +52,7 @@ for ox, oy in ((-.25, -.25), (.25, -.25), (-.25, .25), (.25, .25)):   # 4x super
 ground = np.mean(ss, 0)
 # light: dawn = dim, cool skylight; day = soft warm morning light from behind the viewer
 if mode == "dawn":
-    ground = ground*np.array([0.50, 0.54, 0.66])
+    ground = ground*np.array([0.66, 0.69, 0.80])
 else:
     ground = ground*np.array([1.04, 0.98, 0.90])*0.98
 # large-scale weathering variation in the stone (world-space value noise)
