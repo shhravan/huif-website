@@ -1,21 +1,34 @@
-# Harvard Undergraduate India Forum (HUIF) website
+# huif-website
 
-Static site for the Harvard Undergraduate India Forum, a new undergraduate-led forum held in India (March 2027). No build step or dependencies.
+Website for the Harvard Undergraduate India Forum (HUIF). This branch is an experiment with the landing page: you walk through a real photograph of the Sanchi torana as you scroll.
 
 ## Run locally
 
 ```bash
-python3 -m http.server 8000
+npm install
+npm run dev
 ```
 
-Then open http://localhost:8000.
+Open http://localhost:3000 and scroll.
 
-## Edit content
+## How the landing page works
 
-- `index.html`: all copy. Search for `TODO` to find every placeholder (dates, venue, speakers, schedule, team, sponsors, FAQ, contact email, social links, registration link, footer disclaimer).
-- `styles.css`: colors are CSS variables at the top (`--crimson`, etc.).
-- `script.js`: mobile menu, schedule tabs, and the countdown. Set `data-date` on the `<section class="hero">` (e.g. `2027-03-20T09:00:00+05:30`) to turn the countdown on.
+1. **Entrance** (`components/GateIntro.tsx`): the torana at night. Scrolling walks you through its opening while dawn breaks. Then "Harvard Undergraduate" and "India Forum" slide in from opposite sides and meet.
+2. **Sections** (`app/page.tsx`): placeholders for now.
+3. **Exit** (`components/GateOutro.tsx`): the gate comes back as you walk out backwards, at dusk, with the "Become a Part" button.
+4. **Footer** (`components/SiteFooter.tsx`).
 
-## Deploy
+The gate is a real photograph (see `CREDITS.md`), cut out of its background, perspective-corrected, with the real paving at its base kept: `public/gate/torana-*.webp`, rendered by `components/Torana.tsx`. Behind it, `components/Scene.tsx` shows a real sky over red-sandstone paving rendered in perspective to match the gate's camera: `public/scene/{dawn,day}-*.webp`. The page opens at blue hour (dawn plate, gate dimmed) and crossfades to morning as you walk through. `scripts/` holds the image-processing scripts for reference.
 
-Any static host works. Point it at the repo root with no build command (Vercel, Netlify, Cloudflare Pages, or GitHub Pages).
+Brand colours and fonts are CSS variables at the top of `app/globals.css`.
+
+## Preview on GitHub Pages
+
+`.github/workflows/pages.yml` builds a static export and deploys it to GitHub Pages on every push to this branch. To turn it on (one time):
+
+1. The repo must be public (GitHub Pages on private repos needs a paid plan).
+2. Settings → Pages → Build and deployment → Source: **GitHub Actions**.
+3. Settings → Environments → `github-pages` → Deployment branches: add `claude/amazing-keller-8tk9px` (by default only the default branch may deploy).
+4. Re-run the "Deploy preview to GitHub Pages" workflow from the Actions tab.
+
+The site will be at `https://<owner>.github.io/huif-website/`.

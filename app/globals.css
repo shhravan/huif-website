@@ -1,0 +1,524 @@
+/*
+ * HUIF brand tokens (from the team brief).
+ *   Pink Scallop #f2e0d4 · Marine #042d62 · Ageless #ebece1
+ * Fonts are placeholders until brand fonts arrive.
+ */
+:root {
+  --pink: #f2e0d4;
+  --marine: #042d62;
+  --ageless: #ebece1;
+
+
+  --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --gutter: max(16px, env(safe-area-inset-left, 0px));
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--ageless);
+  color: var(--marine);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+}
+
+/* ---------- Scene: real landscape photo + gate + light grades ---------- */
+
+.scene {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: #8d9bb6;
+  /* horizon of the landscape photo, measured from the bottom of the screen */
+  --horizon: 24vh;
+}
+
+.scene__back {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.scene__plate--day {
+  opacity: 0;
+}
+
+.scene__plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 76%;
+  user-select: none;
+}
+
+/* soft atmospheric haze sitting on the horizon */
+.scene__haze {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: calc(var(--horizon) - 8vh);
+  height: 22vh;
+  background: radial-gradient(60% 50% at 50% 55%, rgba(236, 226, 220, 0.22), rgba(236, 226, 220, 0));
+  animation: haze 24s ease-in-out infinite alternate;
+}
+
+@keyframes haze {
+  from { transform: translateX(-2%); opacity: 0.75; }
+  to { transform: translateX(2%); opacity: 1; }
+}
+
+.scene__gate {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  --gate-h: min(91.8vh, 153vw);
+  height: var(--gate-h);
+  aspect-ratio: 0.6265;
+  /* put the gate photo's eye-level line (75.3% down) on the landscape's horizon */
+  bottom: calc(var(--horizon) - 0.2466 * var(--gate-h));
+  translate: -50% 0;
+}
+
+.torana {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.torana__shade {
+  position: absolute;
+  inset: 0;
+  /* neutral exposure drop with a slight cool cast: blue-hour light on stone */
+  background: #a3abc0;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: var(--torana-mask);
+  mask-image: var(--torana-mask);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+.torana__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+/* Light grades over photo + gate together */
+/* no z-index here: the grades must blend with the photo and gate beneath them */
+.scene__grades {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.scene__grades > div {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+/* sunrise wash: warm light from behind the viewer, strongest low in the frame */
+.scene__warm {
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  background: linear-gradient(180deg, rgba(255, 214, 190, 0.35) 0%, rgba(255, 196, 150, 0.55) 60%, rgba(255, 170, 110, 0.7) 100%);
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene__haze {
+    animation: none;
+  }
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: calc(18px + env(safe-area-inset-top, 0px)) var(--gutter) 18px;
+  color: var(--ageless);
+}
+
+.site-header__mark {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+}
+
+.site-header__nav {
+  display: flex;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.site-header__nav a {
+  text-decoration: none;
+  opacity: 0.85;
+}
+.site-header__nav a:hover,
+.site-header__nav a:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 760px) {
+  .site-header__nav {
+    display: none;
+  }
+}
+
+/* ---------- Title that closes the gap ---------- */
+
+.title {
+  position: absolute;
+  top: calc(11vh + env(safe-area-inset-top, 0px));
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 2.6vh, 28px);
+  padding: 0 var(--gutter);
+  text-align: center;
+  color: var(--marine);
+  pointer-events: none;
+}
+
+.title__name {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 6.4vw, 6.4rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.title__l,
+.title__r {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.title__meta {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px 14px;
+  font-size: clamp(0.72rem, 1.4vw, 0.9rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0;
+  visibility: hidden;
+}
+
+@media (max-width: 520px) {
+  .title__meta {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .title__dot {
+    display: none;
+  }
+}
+
+.title__dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ---------- Scroll hint ---------- */
+
+.scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: calc(2.4vh + env(safe-area-inset-bottom, 0px));
+  z-index: 4;
+  translate: -50% 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--ageless);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.scroll-hint__line {
+  width: 1px;
+  height: 28px;
+  background: currentColor;
+  transform-origin: top;
+  animation: hint 1.8s ease-in-out infinite;
+}
+
+@keyframes hint {
+  0% { transform: scaleY(0); opacity: 1; }
+  60% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* ---------- Placeholder sections ---------- */
+
+.section {
+  background: var(--pink);
+  padding-block: clamp(72px, 14vh, 140px);
+  padding-left: var(--gutter);
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.section:nth-of-type(odd) {
+  background: var(--ageless);
+}
+
+.section__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) 3fr;
+  gap: 24px 48px;
+  align-items: start;
+}
+
+.section__label {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.section__text {
+  margin: 0;
+  max-width: 28ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.6vw, 2.8rem);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+@media (max-width: 640px) {
+  .section__inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Exit gate + CTA ---------- */
+
+.outro .scene__gate {
+  --gate-h: min(66vh, 120vw);
+}
+
+.outro__cta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(9vh + env(safe-area-inset-top, 0px));
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 0 var(--gutter);
+  text-align: center;
+  color: var(--marine);
+}
+
+.outro__cta h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 3.6vw, 2.8rem);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  background: var(--marine);
+  color: var(--ageless);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.button:hover,
+.button:focus-visible {
+  background: #0a3d80;
+}
+:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  background: var(--marine);
+  color: var(--ageless);
+  padding-block: 72px 32px;
+  padding-left: var(--gutter);
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+.site-footer__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+.site-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 420px;
+}
+
+.site-footer__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  line-height: 1.1;
+}
+
+.site-footer__line {
+  margin: 0;
+  opacity: 0.8;
+}
+
+.site-footer__form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+.site-footer__form label,
+.site-footer__label {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--pink);
+}
+.site-footer__field {
+  display: flex;
+  gap: 8px;
+}
+.site-footer__field input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(235, 236, 225, 0.35);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ageless);
+  font: inherit;
+}
+.site-footer__field button {
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--pink);
+  color: var(--marine);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.site-footer__cols {
+  display: flex;
+  gap: 64px;
+}
+.site-footer__cols ul {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.site-footer__cols a {
+  text-decoration: none;
+  opacity: 0.85;
+}
+.site-footer__cols a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.site-footer__credit {
+  max-width: 1100px;
+  margin: 56px auto 0;
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint__line {
+    animation: none;
+  }
+}
