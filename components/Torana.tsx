@@ -7,16 +7,13 @@ import { asset } from "@/lib/asset";
  *
  * Image geometry (fractions of the image box):
  *   aspect 0.6265 · eye-level line 75.3% down · walk-through opening centre 49.1% / 62.8%
- *
- * `.torana__shade` darkens and cools the stone for blue hour (a neutral exposure drop,
- * masked to the gate's own silhouette).
  */
 export default function Torana({ className = "" }: { className?: string }) {
   const src = asset("/gate/torana-2400.webp");
   const srcLarge = asset("/gate/torana-3200.webp");
   const srcSmall = asset("/gate/torana-1400.webp");
   return (
-    <div className={`torana ${className}`} style={{ ["--torana-mask" as string]: `url(${srcSmall})` }}>
+    <div className={`torana ${className}`}>
       <img
         className="torana__img"
         src={src}
@@ -27,7 +24,6 @@ export default function Torana({ className = "" }: { className?: string }) {
         draggable={false}
         fetchPriority="high"
       />
-      <div className="torana__shade" aria-hidden="true" />
     </div>
   );
 }
