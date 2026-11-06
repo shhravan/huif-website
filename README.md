@@ -1,6 +1,6 @@
-# Harvard India Conference 2027 website
+# Harvard India Undergrad Forum (HIUF) website
 
-Static site for the first Harvard India Conference held in India (March 2027), led by Harvard undergraduates. No build step or dependencies.
+Static site for the Harvard India Undergrad Forum, a new undergraduate-led forum held in India (March 2027). No build step or dependencies.
 
 ## Run locally
 
