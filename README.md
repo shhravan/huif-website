@@ -1,6 +1,6 @@
-# Harvard India Undergrad Forum (HIUF) website
+# Harvard Undergraduate India Forum (HUIF) website
 
-Static site for the Harvard India Undergrad Forum, a new undergraduate-led forum held in India (March 2027). No build step or dependencies.
+Static site for the Harvard Undergraduate India Forum, a new undergraduate-led forum held in India (March 2027). No build step or dependencies.
 
 ## Run locally
 
