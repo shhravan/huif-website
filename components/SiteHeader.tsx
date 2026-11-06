@@ -1,4 +1,4 @@
-const NAV = ["About", "Programme", "Speakers", "Get involved", "Attend"];
+const NAV = ["About", "Programme", "Speakers", "Get involved", "Attend", "FAQ"];
 
 /** Top bar. "HUIF" is a stand-in until the real logo arrives. */
 export default function SiteHeader() {

@@ -58,7 +58,7 @@ export default function GateOutro() {
   );
 
   return (
-    <section ref={root} className="scene outro" id="get-involved" aria-labelledby="outro-title">
+    <section ref={root} className="scene outro" id="join" aria-labelledby="outro-title">
       <ScenePlate />
       <div className="scene__gate">
         <Torana />
