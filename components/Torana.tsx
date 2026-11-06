@@ -13,14 +13,16 @@ import { asset } from "@/lib/asset";
  */
 export default function Torana({ className = "" }: { className?: string }) {
   const src = asset("/gate/torana-2400.webp");
+  const srcLarge = asset("/gate/torana-3200.webp");
   const srcSmall = asset("/gate/torana-1400.webp");
   return (
     <div className={`torana ${className}`} style={{ ["--torana-mask" as string]: `url(${srcSmall})` }}>
       <img
         className="torana__img"
         src={src}
-        srcSet={`${srcSmall} 1400w, ${src} 2400w`}
-        sizes="(orientation: portrait) 96vw, 60vh"
+        srcSet={`${srcSmall} 1400w, ${src} 2400w, ${srcLarge} 3200w`}
+        // larger than its on-screen size on purpose: the gate is zoomed ~9x during the walk-through
+        sizes="(orientation: portrait) 96vw, 160vh"
         alt="The carved east gateway of the Great Stupa at Sanchi"
         draggable={false}
         fetchPriority="high"
