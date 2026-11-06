@@ -7,7 +7,7 @@
 - **Author:** Photo Dharma (Sadao, Thailand), via Flickr (Anandajoti)
 - **Source:** https://commons.wikimedia.org/wiki/File:001_Front_View_of_Gate_(33682987101).jpg
 - **License:** CC BY 2.0 — https://creativecommons.org/licenses/by/2.0/
-- **Changes:** background (stupa, railing, sky) removed with an AI segmentation model plus manual cleanup; edge colours cleaned; perspective corrected (keystone); the real paving at the base kept and feathered; colour warmed slightly; resized. Used in `public/gate/torana-*.webp`.
+- **Changes:** background (stupa, railing, sky) removed with an AI segmentation model plus manual cleanup; edge colours cleaned; perspective corrected (keystone); colour warmed slightly; resized. Used in `public/gate/torana-*.webp`.
 
 The credit line is also shown in the site footer, as the license requires.
 
