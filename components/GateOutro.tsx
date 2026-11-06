@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Torana from "./Torana";
-import { ScenePlate, SceneGrades } from "./Scene";
+import { ScenePlate } from "./Scene";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -25,9 +25,6 @@ export default function GateOutro() {
       const q = gsap.utils.selector(root);
       gsap.set(q(".torana"), { transformOrigin: OPENING });
       gsap.set(q(".scene__back"), { transformOrigin: HORIZON });
-      gsap.set(q(".torana__shade"), { opacity: 0 });
-      gsap.set(q(".scene__plate--day"), { opacity: 1 });
-      gsap.set(q(".scene__warm"), { opacity: 0.45 });
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
@@ -63,7 +60,6 @@ export default function GateOutro() {
       <div className="scene__gate">
         <Torana />
       </div>
-      <SceneGrades />
       <div className="outro__cta">
         <h2 id="outro-title">Be part of the first Harvard forum in India</h2>
         <a className="button" href="#get-involved">
