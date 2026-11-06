@@ -1,34 +1,40 @@
 import GateIntro from "@/components/GateIntro";
+import GateOutro from "@/components/GateOutro";
+import SiteFooter from "@/components/SiteFooter";
+
+// Placeholder sections between the entrance and the exit. Real content comes later.
+const SECTIONS = [
+  {
+    id: "about",
+    label: "About",
+    text: "One line about what the Harvard Undergraduate India Forum is. Placeholder until the team sends the copy.",
+  },
+  {
+    id: "programme",
+    label: "Programme",
+    text: "Two days of panels and conversations, 13–14 March. The full schedule will live here.",
+  },
+  {
+    id: "speakers",
+    label: "Speakers",
+    text: "Speakers grouped by panel. Coming in a later round.",
+  },
+];
 
 export default function Home() {
   return (
-    <main>
+    <main id="top">
       <GateIntro />
-
-      {/* Placeholder content — the regular homepage continues after the gate. */}
-      <section className="content">
-        <div className="content__inner">
-          <h2>About</h2>
-          <p>
-            Placeholder copy. Once you've passed through the gate, the page scrolls like a normal
-            site. Swap this out for the real HUIF sections.
-          </p>
-        </div>
-      </section>
-      <section className="content content--alt">
-        <div className="content__inner">
-          <h2>What we do</h2>
-          <div className="cards">
-            {["Programs", "Events", "Community"].map((t) => (
-              <article key={t} className="card">
-                <h3>{t}</h3>
-                <p>Short placeholder description.</p>
-              </article>
-            ))}
+      {SECTIONS.map((s) => (
+        <section key={s.id} id={s.id} className="section">
+          <div className="section__inner">
+            <h2 className="section__label">{s.label}</h2>
+            <p className="section__text">{s.text}</p>
           </div>
-        </div>
-      </section>
-      <footer className="footer">© HUIF</footer>
+        </section>
+      ))}
+      <GateOutro />
+      <SiteFooter />
     </main>
   );
 }
