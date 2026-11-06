@@ -39,7 +39,8 @@ export default function SiteFooter() {
         Gateway photograph: “Front View of Gate”, Sanchi, by Photo Dharma,{" "}
         <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>, via{" "}
         <a href="https://commons.wikimedia.org/wiki/File:001_Front_View_of_Gate_(33682987101).jpg">Wikimedia Commons</a>.
-        Background removed and colour adjusted.
+        Background removed, perspective and colour adjusted. Sky and paving from{" "}
+        <a href="https://polyhaven.com">Poly Haven</a> (CC0).
       </p>
     </footer>
   );

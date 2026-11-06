@@ -18,7 +18,7 @@ Open http://localhost:3000 and scroll.
 3. **Exit** (`components/GateOutro.tsx`): the gate comes back as you walk out backwards, at dusk, with the "Become a Part" button.
 4. **Footer** (`components/SiteFooter.tsx`).
 
-The gate is a real photograph (see `CREDITS.md`), cut out of its background and saved as `public/gate/torana-2400.webp` (desktop) and `torana-1400.webp` (mobile). `components/Torana.tsx` renders it; the darker "night" look is a masked overlay, so there is only one image to download.
+The gate is a real photograph (see `CREDITS.md`), cut out of its background, perspective-corrected, with the real paving at its base kept: `public/gate/torana-*.webp`, rendered by `components/Torana.tsx`. Behind it, `components/Scene.tsx` shows a real sky over red-sandstone paving rendered in perspective to match the gate's camera: `public/scene/{dawn,day}-*.webp`. The page opens at blue hour (dawn plate, gate dimmed) and crossfades to morning as you walk through. `scripts/` holds the image-processing scripts for reference.
 
 Brand colours and fonts are CSS variables at the top of `app/globals.css`.
 
