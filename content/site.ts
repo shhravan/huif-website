@@ -12,6 +12,7 @@ export const site = {
     { label: "About", href: "#about" },
     { label: "Programme", href: "#programme" },
   ],
+  instagram: { label: "Instagram", handle: "@harvardu_indiaforum", href: "https://www.instagram.com/harvardu_indiaforum" },
   contact: {
     label: "Get in touch",
     href: CONTACT_EMAIL ? `mailto:${CONTACT_EMAIL}` : "#contact",
@@ -92,7 +93,7 @@ export type Panel = { title: string; question?: string };
 
 export const programme = {
   heading: "Programme",
-  intro: "All times are Mumbai time (IST). Choose a day to see both rooms side by side.",
+  intro: "Choose a day to see both rooms side by side.",
   days: [
     {
       id: "day-1",
