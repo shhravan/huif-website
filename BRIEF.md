@@ -28,7 +28,7 @@ One scrolling page, like indiaconferenceharvard.com, but carrying only what is c
 | 2 | About | Why the Forum exists, and where | The About paragraphs beside a picture of many people; the facts; three pictures of Mumbai |
 | 2b | Questions | The questions are the Forum's identity | The five central questions, set large |
 | 3 | Programme | Two days, two rooms, sixteen conversations | The Schedule as a timetable, rooms named once per day |
-| 4 | Exit | Questions? Write to us | The Gate again, with "Get in touch" |
+| 4 | Exit | Join the conversation in Mumbai | The Gate again, with the email address |
 | 5 | Footer | A designed close | The name, contact email, image credits |
 
 Panel titles are shown as in the Schedule, without the "(Infra)" and "(AI)" tags. No panel count appears in headline copy.
