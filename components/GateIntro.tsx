@@ -109,7 +109,6 @@ export default function GateIntro() {
       </div>
 
       <div className="opening__statement">
-        <p className="smallcaps">{opening.statementEyebrow}</p>
         <h2>{opening.statement}</h2>
       </div>
       <div className="grain" aria-hidden="true" />
