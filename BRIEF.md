@@ -29,7 +29,7 @@ One scrolling page, but carrying only what is confirmed.
 | 4 | Theme | What "India Uncharted" and "A Nation of Multitudes" mean | The brief's theme notes; the photograph of people pulling carts |
 | 5 | Panels | Sixteen panels, two days | Every Panel title from the Schedule |
 | 6 | Questions | The questions are the Forum's identity | Five central questions |
-| 7 | Programme | The full Schedule | Day tabs; five structures to choose from with `?__variant=timetable`, `calendar`, `agenda`, `overview` or `editorial` (picker shown only with the parameter) |
+| 7 | Programme | The full Schedule | A calendar grid, one day at a time: hours down the side, both rooms side by side, each slot as tall as it is long |
 | 8 | Close | Join the conversation in Mumbai | The Gate again, with "Get in touch" |
 | 9 | Footer | A designed close | The name, "Reach us directly" with the email, navigation, the one required credit |
 
