@@ -4,7 +4,7 @@
  */
 
 /** The team's contact address. Until it is set, "Get in touch" leads to the closing section, which says so. */
-export const CONTACT_EMAIL: string | null = null;
+export const CONTACT_EMAIL: string | null = "harvardundergraduateindiaforum@gmail.com";
 
 export const site = {
   name: "Harvard Undergraduate India Forum",
