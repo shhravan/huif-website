@@ -18,3 +18,47 @@ _Avoid_: Harvard shield, Veritas, crest
 **Gate**:
 The real photographed east gateway of the Great Stupa at Sanchi that the visitor walks through on the site.
 _Avoid_: Torana in visitor-facing copy, arch, door
+
+**India Conference at Harvard**:
+The long-running student-organised conference about India held at Harvard since 2004. A separate gathering that inspired the Forum, not the same organisation.
+_Avoid_: calling the Forum its branch, edition or successor
+
+## The 2027 Forum
+
+**Theme**:
+The 2027 Forum's title idea: "India Uncharted: A Nation of Multitudes". Final.
+_Avoid_: tagline, slogan, title
+
+**Programme**:
+Everything that happens across the two days in Mumbai, 13–14 March 2027: keynotes, panels and the sessions between them.
+_Avoid_: Program, Agenda, Lineup
+
+**Schedule**:
+The confirmed timetable of the Programme, by day, time and room. It is the source of truth for panel titles.
+_Avoid_: Timetable, Itinerary
+
+**Panel**:
+A 75-minute discussion in one room and one slot of the Schedule. There are 16.
+_Avoid_: Track, Session (for a panel), Talk
+
+**Keynote**:
+A single-speaker talk that opens or closes a day, held in one room with nothing running beside it.
+_Avoid_: Plenary, Address
+
+**Central question**:
+The one question a Panel sets out to explore, published with the Panel where it exists.
+_Avoid_: Prompt, Topic, Theme (for a panel)
+
+## The website
+
+**Launch page**:
+The single-page site published before registration opens: what the Forum is, the Theme, the Programme, and a way to get in touch.
+_Avoid_: Landing page, Teaser, Holding page
+
+**Get in touch**:
+The Launch page's only action: an email to the organising team.
+_Avoid_: Become a Part, Contact us, Join
+
+**Register**:
+Signing up to attend. Not offered on the Launch page, and not mentioned in its copy, until ticketing exists.
+_Avoid_: Register your interest, Attend, RSVP
