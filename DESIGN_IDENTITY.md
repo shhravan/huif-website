@@ -32,10 +32,10 @@ On photographs and Marine, the button inverts to stone with a Marine label. Phot
 
 ## Feel
 
-Classy through restraint: two colours, very large regular-weight type, one idea per screen, generous space. No gradients except the legibility shade on the opening photograph, no shadows, no dividers, no captions.
+Classy through restraint: two colours, very large regular-weight type, one idea per screen, generous space. Each section has its own composition: the centred statement (Context), picture beside text (About), a sticky heading beside a ledger (Questions), the timetable (Programme), a full-screen photograph (Invitation). No gradients except the legibility shade on the opening photograph, no shadows, no dividers, no captions.
 
 Motion follows `better-ui`: buttons press to 0.96 over 150ms; sections enter once with opacity, 4px blur and 12px rise over 300ms, 100ms apart; nothing moves under reduced motion.
 
 ## Photographs
 
-One of the team's, full screen: Mumbai at dusk behind the invitation. No captions or credits.
+Two of the team's: the Municipal Corporation through an arch beside About, and Mumbai at dusk, full screen, behind the invitation. No captions or credits.

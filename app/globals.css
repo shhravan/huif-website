@@ -389,39 +389,36 @@ html.lenis body {
   }
 }
 
-/* ---------- Context: one statement on Marine ---------- */
+/* ---------- Context: the one centred moment, on Marine ---------- */
 
 .context {
   padding-block: var(--section);
   background: var(--color-bg-inverse);
   color: var(--color-text-inverse);
 }
-.context__title {
+.context__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.context__inner h2 {
   max-width: 24ch;
 }
-.context__text {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 32px;
-  margin-top: clamp(64px, 8vw, 128px);
-}
-.context__text div {
-  grid-column: 8 / span 5;
-}
-.context__text p {
-  margin: 0 0 1em;
-  color: var(--color-text-inverse-muted);
-}
-.context__text p:first-child {
-  color: var(--color-text-inverse);
+.context__lead {
+  max-width: 34ch;
+  margin: clamp(48px, 5vw, 80px) 0 0;
+  font-family: var(--font-display);
   font-size: var(--text-lead);
   line-height: 1.4;
+  text-wrap: balance;
 }
-.context__text p:last-child {
-  margin-bottom: 0;
+.context__close {
+  margin: 28px 0 0;
+  color: var(--color-text-inverse-muted);
 }
 
-/* ---------- About: the Forum ---------- */
+/* ---------- About: picture and text, side by side ---------- */
 
 .about {
   padding-block: var(--section);
@@ -431,37 +428,45 @@ html.lenis body {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 32px;
-  align-items: start;
+  align-items: center;
 }
-.about__title {
-  grid-column: 1 / span 6;
+.about__picture {
+  grid-column: 1 / span 5;
+  margin: 0;
+}
+.about__picture img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+.about__body {
+  grid-column: 7 / span 6;
 }
 .about__text {
-  grid-column: 8 / span 5;
-  padding-top: 0.6em;
+  margin-top: clamp(28px, 3vw, 44px);
+  max-width: 58ch;
 }
 .about__text p {
-  margin: 0 0 1.1em;
+  margin: 0 0 1em;
 }
 .about__text p:first-child {
   font-size: var(--text-lead);
   line-height: 1.4;
 }
-.about__text p:last-child {
-  margin-bottom: 0;
-}
-
 .about__facts {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 32px;
-  margin: clamp(96px, 10vw, 160px) 0 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 32px;
+  margin: clamp(40px, 4vw, 64px) 0 0;
+  padding-top: clamp(28px, 3vw, 40px);
 }
 .about__fact {
   margin: 0;
 }
 .about__fact dt {
-  margin: 0 0 10px;
+  margin: 0 0 6px;
   color: var(--color-text-muted);
   font-size: var(--text-small);
 }
@@ -472,49 +477,47 @@ html.lenis body {
   line-height: 1.15;
 }
 
-/* ---------- Questions: a ledger ---------- */
+/* ---------- Questions: a sticky heading beside the ledger ---------- */
 
 .questions {
-  padding-block: 0 var(--section);
+  padding-block: var(--section);
+  background: var(--color-bg-inverse-deep);
+  color: var(--color-text-inverse);
 }
-.questions__head {
+.questions__grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 16px 32px;
-  align-items: end;
-  margin-bottom: clamp(56px, 7vw, 104px);
+  gap: 32px;
+  align-items: start;
 }
-.questions__head h2 {
-  grid-column: 1 / span 6;
+.questions__head {
+  grid-column: 1 / span 4;
+  position: sticky;
+  top: 112px;
 }
 .questions__head p {
-  grid-column: 8 / span 5;
-  margin: 0;
-  color: var(--color-text-muted);
+  margin: 20px 0 0;
+  max-width: 28ch;
+  color: var(--color-text-inverse-muted);
 }
 .questions__list {
+  grid-column: 6 / span 7;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.questions__item {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 12px 32px;
-  padding: clamp(32px, 3.4vw, 48px) 0;
+.questions__item + .questions__item {
+  margin-top: clamp(56px, 6vw, 96px);
 }
 .questions__q {
-  grid-column: 1 / span 7;
   margin: 0;
   font-family: var(--font-display);
   font-size: var(--text-lead);
   line-height: 1.35;
 }
 .questions__meta {
-  grid-column: 9 / span 4;
-  margin: 0;
-  padding-top: 0.25em;
-  color: var(--color-text-muted);
+  margin: 16px 0 0;
+  color: var(--color-text-inverse-muted);
 }
 
 /* ---------- Programme: the printed timetable, on Marine ---------- */
@@ -548,17 +551,13 @@ html.lenis body {
 
 .day__head {
   display: flex;
+  justify-content: space-between;
   flex-wrap: wrap;
   align-items: baseline;
   gap: 4px 24px;
 }
 .day__title {
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: var(--text-head);
-  line-height: 1;
-  letter-spacing: -0.02em;
 }
 .day__date {
   margin: 0;
@@ -722,20 +721,19 @@ html.lenis body {
 /* ---------- Narrow screens ---------- */
 
 @media (max-width: 900px) {
-  .context__text div,
-  .about__title,
-  .about__text,
-  .questions__head h2,
-  .questions__head p,
-  .questions__q,
-  .questions__meta,
+  .about__picture,
+  .about__body,
+  .questions__head,
+  .questions__list,
   .programme__head h2,
   .programme__head p {
     grid-column: 1 / -1;
   }
-  .about__facts {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 32px 16px;
+  .questions__head {
+    position: static;
+  }
+  .about__picture {
+    order: 2;
   }
   .day__rooms,
   .slot {
