@@ -26,6 +26,7 @@ export const opening = {
 
 /** The team's photographs, used full screen. Files are in public/photos as <name>-<width>.webp. */
 export const photos = {
+  municipal: { name: "municipal", w: [800, 1200], ratio: 1200 / 1500, alt: "The domed Municipal Corporation headquarters in Mumbai, seen through a carved stone arch" },
   dusk: { name: "dusk", w: [1200, 1920], ratio: 1920 / 1080, alt: "The Mumbai skyline at dusk across the sea" },
 } as const;
 

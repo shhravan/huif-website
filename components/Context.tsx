@@ -1,20 +1,19 @@
 import { context } from "@/content/site";
 
-/** The context: why a single story about India is not enough (the narrative brief's first layer). */
+/** The context: the page's one centred moment, a statement on Marine (the narrative brief's first layer). */
 export default function Context() {
   return (
     <section className="context" aria-labelledby="context-title">
-      <div className="frame">
-        <h2 id="context-title" className="context__title display" data-reveal>
+      <div className="frame context__inner">
+        <h2 id="context-title" className="display" data-reveal>
           {context.heading}
         </h2>
-        <div className="context__text">
-          <div data-reveal style={{ ["--i" as string]: 1 }}>
-            {context.paragraphs.map((p) => (
-              <p key={p.slice(0, 24)}>{p}</p>
-            ))}
-          </div>
-        </div>
+        <p className="context__lead" data-reveal style={{ ["--i" as string]: 1 }}>
+          {context.paragraphs[0]}
+        </p>
+        <p className="context__close" data-reveal style={{ ["--i" as string]: 2 }}>
+          {context.paragraphs[1]}
+        </p>
       </div>
     </section>
   );
