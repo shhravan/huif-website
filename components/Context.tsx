@@ -1,8 +1,8 @@
 import { context } from "@/content/site";
 
 /**
- * The context, on Marine. Its heading is seen through the gate at the end of the walk (GateIntro),
- * so this section carries on from it with the paragraph.
+ * The context, on stone. Its heading appears at the end of the walk through the gate (GateIntro),
+ * so this section carries on from it: the paragraph, then the two reasons, each under its own heading.
  */
 export default function Context() {
   return (
@@ -13,9 +13,10 @@ export default function Context() {
         </p>
         <div className="context__reasons">
           {context.reasons.map((r, i) => (
-            <p key={r.lead} data-reveal style={{ ["--i" as string]: i + 1 }}>
-              <strong>{r.lead}</strong> {r.text}
-            </p>
+            <div key={r.lead} data-reveal style={{ ["--i" as string]: i + 1 }}>
+              <h3>{r.lead}</h3>
+              <p>{r.text}</p>
+            </div>
           ))}
         </div>
       </div>

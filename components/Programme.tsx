@@ -104,7 +104,6 @@ export default function Programme() {
           <h2 id="programme-title" className="head">
             {programme.heading}
           </h2>
-          <p>{programme.intro}</p>
         </header>
         <div className="tabs" role="tablist" aria-label="Day" onKeyDown={onKey}>
           {programme.days.map((day, i) => (

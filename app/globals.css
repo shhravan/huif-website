@@ -17,7 +17,6 @@
   --color-text: var(--marine-900);
   --color-text-muted: var(--marine-700);
   --color-bg-inverse: var(--marine-900);
-  --color-bg-inverse-deep: var(--marine-950);
   --color-text-inverse: var(--stone-50);
   --color-text-inverse-muted: var(--stone-300);
   --color-accent-solid: var(--marine-900);
@@ -271,7 +270,7 @@ html.lenis body {
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: var(--text-small);
+  font-size: var(--text-body);
   font-weight: 500;
 }
 
@@ -369,7 +368,7 @@ html.lenis body {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: clamp(48px, 12svh, 140px);
+  bottom: clamp(24px, 5svh, 56px);
   z-index: 4;
   display: flex;
   justify-content: center;
@@ -436,7 +435,10 @@ html.lenis body {
 
 /* ---------- Context: the one centred moment, on Marine ---------- */
 
+/* overlaps the walk's last frame by 2px, so no hairline shows where the softened sky meets the page */
 .context {
+  position: relative;
+  margin-top: -2px;
   padding-block: clamp(8px, 2vw, 24px) var(--section);
   background: var(--color-bg);
   color: var(--color-text);
@@ -451,7 +453,7 @@ html.lenis body {
   max-width: 24ch;
 }
 .context__lead {
-  max-width: 40ch;
+  max-width: 52ch;
   margin: 0;
   font-family: var(--font-display);
   font-size: var(--text-lead);
@@ -466,7 +468,7 @@ html.lenis body {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 32px clamp(32px, 5vw, 80px);
-  margin-top: clamp(72px, 8vw, 128px);
+  margin-top: clamp(48px, 5vw, 80px);
   text-align: left;
 }
 .context__reasons p {
@@ -474,9 +476,8 @@ html.lenis body {
   max-width: 48ch;
   color: var(--color-text-muted);
 }
-.context__reasons strong {
-  display: block;
-  margin-bottom: 10px;
+.context__reasons h3 {
+  margin: 0 0 10px;
   color: var(--color-text);
   font-family: var(--font-display);
   font-weight: 400;
@@ -498,15 +499,15 @@ html.lenis body {
   align-items: center;
 }
 .about__picture {
-  grid-column: 1 / span 5;
+  grid-column: 1 / span 6;
   margin: 0;
+  background: var(--color-bg-inverse);
 }
-.about__picture img {
+/* the Sea Link in points (components/SeaLink.tsx), on Marine */
+.sealink {
   display: block;
   width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
+  aspect-ratio: 1.47;
 }
 .about__body {
   grid-column: 7 / span 6;
@@ -592,80 +593,69 @@ html.lenis body {
   margin: 0;
   color: var(--color-text-muted);
 }
-.panels__grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 32px;
-  align-items: start;
-}
-.panel-card {
-  grid-column: 1 / span 4;
-  position: sticky;
-  top: 112px;
-  padding: clamp(24px, 2.4vw, 36px);
-  background: var(--color-bg-surface);
-}
-.panel-card__when {
-  margin: 0;
-  font-size: var(--text-small);
-  color: var(--color-text-muted);
-}
-.panel-card__title {
-  margin: 14px 0 0;
-  font-family: var(--font-display);
-  font-size: var(--text-lead);
-  line-height: 1.2;
-}
-.panel-card__question {
-  margin: 16px 0 0;
-}
-.panels__inline .panel-card__question {
-  margin-top: 10px;
-}
-.panels__days {
-  grid-column: 6 / span 7;
-}
-.panels__day + .panels__day {
-  margin-top: clamp(48px, 5vw, 72px);
-}
-.panels__label {
-  margin: 0 0 12px;
-  color: var(--color-text-muted);
-}
-.panels__list {
+/* one large index, set in a slow stagger; each title opens in place */
+.panels__index {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.panels__item {
-  display: block;
-  width: 100%;
-  padding: 4px 0;
+.panels__entry {
+  padding: 6px 0;
+}
+.panels__entry:nth-child(4n + 2) {
+  padding-left: 8%;
+}
+.panels__entry:nth-child(4n + 3) {
+  padding-left: 16%;
+}
+.panels__entry:nth-child(4n + 4) {
+  padding-left: 8%;
+}
+.panels__title {
+  margin: 0;
+  font-weight: 400;
+}
+.panels__title button {
+  padding: 0;
   border: 0;
   background: none;
-  color: var(--color-text-muted);
+  color: var(--color-text);
   font-family: var(--font-display);
-  font-size: clamp(1.625rem, 1.1rem + 1.6vw, 2.625rem);
-  line-height: 1.15;
-  letter-spacing: -0.015em;
+  font-size: clamp(1.875rem, 1rem + 2.6vw, 3.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
   text-align: left;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.12em;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition-property: color;
+  transition-property: text-decoration-color;
   transition-duration: 150ms;
   transition-timing-function: ease-out;
 }
-.panels__item[aria-pressed="true"] {
-  color: var(--color-text);
+.panels__title button[aria-expanded="true"] {
+  text-decoration-color: currentColor;
 }
 @media (hover: hover) {
-  .panels__item:hover {
-    color: var(--color-text);
+  .panels__title button:hover {
+    text-decoration-color: currentColor;
   }
 }
-/* on wide screens the details sit in the card; on phones they open under the title */
-.panels__inline {
-  display: none;
+.panels__more {
+  max-width: 60ch;
+  padding: 14px 0 22px;
+}
+.panels__when {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+.panels__question {
+  margin: 8px 0 0;
+  font-size: var(--text-lead);
+  line-height: 1.4;
 }
 
 /* ---------- Programme: a calendar on stone, one day at a time ---------- */
@@ -682,12 +672,8 @@ html.lenis body {
   margin-bottom: clamp(48px, 5vw, 72px);
 }
 .programme__head h2 {
-  grid-column: 1 / span 6;
-}
-.programme__head p {
-  grid-column: 8 / span 5;
-  margin: 0;
-  color: var(--color-text-muted);
+  grid-column: 1 / -1;
+  text-align: center;
 }
 
 /* day tabs: a filled Marine block for the selected day, stone for the other */
@@ -747,6 +733,7 @@ html.lenis body {
 .cal__head p {
   margin: 0;
   color: var(--color-text-muted);
+  text-align: center;
 }
 .cal__grid {
   position: relative;
@@ -848,22 +835,30 @@ html.lenis body {
   text-wrap: balance;
 }
 
-/* ---------- Footer ---------- */
+/* ---------- Footer: an invitation, then a Marine band with the name across it ---------- */
 
 .site-footer {
-  padding-block: clamp(96px, 10vw, 160px) 40px;
-  background: var(--color-bg-inverse-deep);
-  color: var(--color-text-inverse);
+  padding-top: var(--section);
+  background: var(--color-bg);
+  color: var(--color-text);
 }
-
 .site-footer__top {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 40px 32px;
   align-items: start;
+  padding-bottom: var(--section);
 }
-.site-footer__top .site-footer__line {
-  grid-column: 1 / span 4;
+.site-footer__invite {
+  grid-column: 1 / span 6;
+}
+.site-footer__heading {
+  max-width: 16ch;
+}
+.site-footer__line {
+  max-width: 44ch;
+  margin: 20px 0 28px;
+  color: var(--color-text-muted);
 }
 .site-footer__col {
   grid-column: span 2;
@@ -873,7 +868,11 @@ html.lenis body {
 }
 .site-footer__label {
   margin: 0 0 12px;
-  color: var(--color-text-inverse-muted);
+  font-family: var(--font-display);
+  font-size: var(--text-lead);
+}
+.site-footer__label--gap {
+  margin-top: 32px;
 }
 .site-footer__col ul {
   display: flex;
@@ -891,15 +890,57 @@ html.lenis body {
     text-decoration: underline;
   }
 }
-.site-footer__name {
-  max-width: 22ch;
-  margin-top: clamp(96px, 10vw, 160px);
-}
 
-.site-footer__credit {
-  margin: 120px 0 0;
-  font-size: var(--text-small);
+.site-footer__band {
+  overflow: hidden;
+  padding-top: clamp(48px, 5vw, 72px);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+}
+.site-footer__facts {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 24px 32px;
+  align-items: start;
+}
+.site-footer__facts p {
+  grid-column: span 3;
+  margin: 0;
   color: var(--color-text-inverse-muted);
+}
+.site-footer__facts span {
+  display: block;
+}
+.site-footer__value {
+  color: var(--color-text-inverse);
+  font-family: var(--font-display);
+  font-size: var(--text-head);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.site-footer__facts .site-footer__about {
+  grid-column: 8 / span 5;
+}
+.site-footer__pre {
+  margin: clamp(48px, 6vw, 96px) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lead);
+}
+/* the name across the full width, sitting on the band's lower edge */
+.site-footer__name {
+  margin: 0;
+  padding-bottom: 0.06em;
+  font-family: var(--font-display);
+  font-size: min(18.2vw, 262px);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+.site-footer__credit {
+  margin: 0;
+  padding: 20px 0;
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
 }
 
 /* ---------- Narrow screens ---------- */
@@ -909,22 +950,15 @@ html.lenis body {
   .about__body,
   .panels__head h2,
   .panels__head p,
-  .panel-card,
-  .panels__days,
   .programme__head h2,
   .programme__head p {
     grid-column: 1 / -1;
   }
-  .panel-card {
-    display: none;
-  }
-  .panels__inline {
-    display: block;
-    padding: 12px 0 20px;
-  }
-  .site-footer__top .site-footer__line,
+  .site-footer__invite,
   .site-footer__col,
-  .site-footer__col:last-child {
+  .site-footer__col:last-child,
+  .site-footer__facts p,
+  .site-footer__facts .site-footer__about {
     grid-column: 1 / -1;
   }
   .about__picture {
@@ -933,6 +967,9 @@ html.lenis body {
 }
 
 @media (max-width: 640px) {
+  .panels__entry:nth-child(n) {
+    padding-left: 0;
+  }
   .theme__parts,
   .context__reasons {
     grid-template-columns: 1fr;
