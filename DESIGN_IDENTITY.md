@@ -38,4 +38,4 @@ Motion follows `better-ui`: buttons press to 0.96 over 150ms; sections enter onc
 
 ## Photographs
 
-Two of the team's, full screen: the Gateway of India after the walk-through, and Mumbai at dusk behind the invitation. No captions or credits.
+One of the team's, full screen: Mumbai at dusk behind the invitation. No captions or credits.
