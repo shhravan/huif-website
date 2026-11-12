@@ -6,7 +6,7 @@ export default function About() {
     <section id="about" className="about" aria-labelledby="about-title">
       <div className="frame">
         <div className="about__grid">
-          <h2 id="about-title" className="about__title" data-reveal>
+          <h2 id="about-title" className="about__title head" data-reveal>
             {about.heading}
           </h2>
           <div className="about__text" data-reveal style={{ ["--i" as string]: 1 }}>

@@ -7,19 +7,23 @@ export default function Invitation() {
     <section id="contact" className="invitation" aria-labelledby="invitation-title">
       <Picture photo={photos.dusk} sizes="100vw" className="invitation__photo" />
       <div className="frame invitation__text">
-        <h2 id="invitation-title" data-reveal>
+        <h2 id="invitation-title" className="head" data-reveal>
           {closing.heading}
         </h2>
-        <p data-reveal style={{ ["--i" as string]: 1 }}>
-          {closing.line}
-        </p>
-        {CONTACT_EMAIL ? (
-          <a className="button" href={site.contact.href} data-reveal style={{ ["--i" as string]: 2 }}>
-            {CONTACT_EMAIL}
-          </a>
-        ) : (
-          <p>{closing.pending}</p>
-        )}
+        <div className="invitation__row" data-reveal style={{ ["--i" as string]: 1 }}>
+          {CONTACT_EMAIL ? (
+            <>
+              <a className="button" href={site.contact.href}>
+                {closing.action}
+              </a>
+              <p>
+                {closing.line} · {CONTACT_EMAIL}
+              </p>
+            </>
+          ) : (
+            <p>{closing.pending}</p>
+          )}
+        </div>
       </div>
     </section>
   );

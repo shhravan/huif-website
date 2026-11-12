@@ -14,7 +14,7 @@ export default function Questions() {
     <section className="questions" aria-labelledby="questions-title">
       <div className="frame">
         <header className="questions__head">
-          <h2 id="questions-title">{questions.heading}</h2>
+          <h2 id="questions-title" className="head">{questions.heading}</h2>
           <p>{questions.intro}</p>
         </header>
         <ol className="questions__list">

@@ -183,7 +183,7 @@ export const programme = {
 
 export const questions = {
   heading: "The questions",
-  intro: "Each panel sets out to explore one question. Five of them:",
+  intro: "Each panel explores one question. Here are five of them.",
   items: [
     { panel: "Building the India of Tomorrow", when: "Day 1 · 12:00 pm" },
     { panel: "Law, Institutions & a Changing India", when: "Day 1 · 10:30 am" },
@@ -196,6 +196,7 @@ export const questions = {
 export const closing = {
   heading: "Join the conversation in Mumbai",
   line: "13–14 March 2027",
+  action: "Email the team",
   pending: "Our contact address will be here shortly.",
 } as const;
 
