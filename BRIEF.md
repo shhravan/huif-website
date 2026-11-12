@@ -24,12 +24,15 @@ One scrolling page, but carrying only what is confirmed.
 | # | Section | Claim | Proof on the page |
 | - | --- | --- | --- |
 | 1 | Opening | The Forum, its Theme, Mumbai, 13–14 March 2027 | The Gate, the name and dates in large type, a "See the programme" button |
-| 1b | Arrival | Through the gate, into Mumbai | The Gateway of India, full screen, with the Theme |
-| 2 | About | Why the Forum exists, and where | The About paragraphs beside a picture of many people; the facts; three pictures of Mumbai |
-| 2b | Questions | The questions are the Forum's identity | The five central questions, set large |
-| 3 | Programme | Two days, two rooms, sixteen conversations | The Schedule as a timetable, rooms named once per day |
-| 4 | Exit | Join the conversation in Mumbai | The Gate again, with the email address |
-| 5 | Footer | A designed close | The name, contact email, image credits |
+| 2 | Arrival | Through the gate, into Mumbai | The Gateway of India, full screen, on its own |
+| 3 | Context | A country too complex for a single narrative | The narrative brief's opening lines |
+| 4 | About | A forum to bring those perspectives together | The About paragraphs from `docs/website-content.md`; the facts |
+| 5 | Questions | The questions are the Forum's identity | Five central questions, set as a ledger |
+| 6 | Programme | Two days, two rooms, sixteen conversations | The Schedule as a timetable |
+| 7 | Invitation | Join the conversation in Mumbai | Mumbai at dusk, the dates and the email address |
+| 8 | Footer | A designed close | The name, the facts, navigation, the one required credit |
+
+Photographs: two of the team's, used full screen (the Gateway of India and Mumbai at dusk). No captions or credits for the team's photographs.
 
 Panel titles are shown as in the Schedule, without the "(Infra)" and "(AI)" tags. No panel count appears in headline copy.
 
@@ -48,7 +51,6 @@ All copy lives in one content file, separate from layout. Each section is built,
 ## Open items
 
 - The Day 1 closing slot reads "Closing keynote / Networking social", as in the Schedule; confirm whether these are one event or two.
-- Sources and photographers for the team's photographs (see `CREDITS.md`).
 - "Choose your room" (pick one panel per slot and see your own two days) as the page's one interactive element.
 
 ## Later phase

@@ -27,31 +27,25 @@ export const opening = {
   action: { label: "See the programme", href: "#programme" },
 } as const;
 
-/**
- * Photographs, supplied by the team. `alt` describes the picture; `caption` names only what is certain.
- * Files are in public/photos as <name>-<width>.webp.
- */
+/** The team's photographs, used full screen. Files are in public/photos as <name>-<width>.webp. */
 export const photos = {
-  gateway: { name: "gateway", w: [1000, 2000], ratio: 2000 / 1586, alt: "Crowds in front of the Gateway of India, Mumbai, in late-afternoon light", caption: "Gateway of India, Mumbai" },
-  harbour: { name: "harbour", w: [1000, 2000], ratio: 2000 / 1500, alt: "The Gateway of India and the Taj Mahal Palace seen from boats in the harbour", caption: "Apollo Bunder, from the harbour" },
-  municipal: { name: "municipal", w: [1000, 2000], ratio: 2000 / 1500, alt: "The domed headquarters of the Brihanmumbai Municipal Corporation, seen through a stone arch", caption: "Municipal Corporation headquarters, Mumbai" },
-  balconies: { name: "balconies", w: [700, 1000], ratio: 1000 / 1500, alt: "A row of carved stone balconies on a dark basalt facade", caption: "Stone and basalt, south Mumbai" },
-  carts: { name: "carts", w: [1000, 1920], ratio: 1920 / 1238, alt: "Black-and-white photograph of people pulling carts in a line along an embankment, reflected in water", caption: "" },
-  coastalRoad: { name: "coastal-road", w: [1000, 2000], ratio: 2000 / 1333, alt: "Aerial view of new road interchanges curving over the sea towards the Mumbai skyline", caption: "Building the coastal road, Mumbai" },
-  sealinkNight: { name: "sealink-night", w: [1000, 2000], ratio: 2000 / 1123, alt: "The Bandra–Worli Sea Link lit at night above dark water", caption: "Bandra–Worli Sea Link at night" },
-  dusk: { name: "dusk", w: [1000, 1920], ratio: 1920 / 1080, alt: "The Mumbai skyline at dusk across the sea, windows lit against an orange sky", caption: "" },
+  gateway: { name: "gateway", w: [1200, 2000], ratio: 2000 / 1586, alt: "The Gateway of India, Mumbai, with crowds at its base" },
+  dusk: { name: "dusk", w: [1200, 1920], ratio: 1920 / 1080, alt: "The Mumbai skyline at dusk across the sea" },
 } as const;
 
 export type Photo = (typeof photos)[keyof typeof photos];
 
-/** After the walk-through: arriving in Mumbai. */
-export const arrival = {
-  statement: "India Uncharted: A Nation of Multitudes",
-  line: "Mumbai, 13–14 March 2027",
+/** The story, in the order of the narrative brief: the context, the response, the invitation. */
+export const context = {
+  heading: "A country too complex for a single narrative",
+  paragraphs: [
+    "India’s future is being shaped across boardrooms and classrooms, laboratories and hospitals, public institutions and communities, and through the work of people whose experiences and ambitions often look very different from one another.",
+    "No single perspective can capture the whole picture.",
+  ],
 } as const;
 
 export const about = {
-  heading: "A country of many stories",
+  heading: "A forum to bring those perspectives together",
   paragraphs: [
     "Under this year’s theme, India Uncharted: A Nation of Multitudes, we hope to explore the diverse perspectives and opportunities shaping India’s future.",
     "The Forum was born out of a shared desire among Indian international students at Harvard to remain meaningfully engaged with our nation amid profound change. As members of the Indian diaspora studying abroad, we see this gathering as an opportunity to contribute to India’s future through thoughtful conversations across disciplines, generations, and perspectives.",
@@ -59,7 +53,7 @@ export const about = {
   facts: [
     { label: "Where", value: "Mumbai" },
     { label: "When", value: "13–14 March 2027" },
-    { label: "Programme", value: "16 panels and 4 keynotes" },
+    { label: "Programme", value: "16 panels, 4 keynotes" },
     { label: "Format", value: "Two days, two rooms" },
   ],
 } as const;
@@ -189,7 +183,7 @@ export const programme = {
 
 export const questions = {
   heading: "The questions",
-  intro: "Each panel sets out to explore one question. These are five of them.",
+  intro: "Each panel sets out to explore one question. Five of them:",
   items: [
     { panel: "Building the India of Tomorrow", when: "Day 1 · 12:00 pm" },
     { panel: "Law, Institutions & a Changing India", when: "Day 1 · 10:30 am" },
@@ -201,7 +195,7 @@ export const questions = {
 
 export const closing = {
   heading: "Join the conversation in Mumbai",
-  line: "Questions about the Forum? Write to us.",
+  line: "13–14 March 2027",
   pending: "Our contact address will be here shortly.",
 } as const;
 
