@@ -67,7 +67,7 @@ export default function Programme() {
         {programme.days.map((day) => (
           <section key={day.id} className="day" aria-labelledby={`${day.id}-title`}>
             <div className="day__head" data-reveal>
-              <h3 id={`${day.id}-title`} className="day__title">
+              <h3 id={`${day.id}-title`} className="day__title display">
                 {day.label}
               </h3>
               <p className="day__date">{day.date}</p>

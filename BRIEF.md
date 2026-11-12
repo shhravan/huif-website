@@ -31,7 +31,7 @@ One scrolling page, like indiaconferenceharvard.com, but carrying only what is c
 | 7 | Invitation | Join the conversation in Mumbai | Mumbai at dusk, the dates and the email address |
 | 8 | Footer | A designed close | The name, the facts, navigation, the one required credit |
 
-Photographs: one of the team's, used full screen (Mumbai at dusk). No captions or credits for the team's photographs.
+Photographs: two of the team's (the Municipal Corporation beside About; Mumbai at dusk, full screen). No captions or credits for the team's photographs.
 
 Panel titles are shown as in the Schedule, without the "(Infra)" and "(AI)" tags. No panel count appears in headline copy.
 

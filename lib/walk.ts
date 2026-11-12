@@ -25,6 +25,13 @@ const GATE_H = EYE / (GATE_FEET - GATE_EYE); // image height in metres that puts
 const STEP = 0.78; // metres per step, for the walking sway
 const HAZE = 130; // metres: the air thickens towards the horizon as 1 − e^(−d/HAZE), measured from the plate
 const HAZE_RGB = "170, 169, 169"; // the plate's horizon colour
+// each pillar's footprint, as fractions of the gate width (measured from the photo's alpha at the feet)
+const FEET_X: [number, number][] = [
+  [0.134, 0.286],
+  [0.685, 0.83],
+];
+const GATE_CX = 0.491; // the opening's centre
+const PILLAR_DEPTH = 0.9; // metres: the pillars are square in plan
 const PILLAR = 0.27; // each pillar's centre, as a fraction of the gate width from the opening's centre
 
 type Layout = {
@@ -134,6 +141,7 @@ export class GateWalk {
     // the sky and the far ground move with the head, too
     this.back.style.transform = `translate3d(${sway}px, ${bob}px, 0) scale(1.02)`;
     this.drawGround(L, camX, camZ, cx, hy);
+    this.drawContact(L, camX, d, cx, hy);
 
     // the gate, through the same camera: its feet sit on the ground line for its distance
     const s = (GATE_H * L.f) / d / L.baseH;
@@ -142,6 +150,45 @@ export class GateWalk {
     const top = feetY - GATE_FEET * gh;
     const left = cx + ((L.gateX - camX) * L.f) / d - (gh * GATE_ASPECT) / 2;
     this.gate.style.transform = `translate3d(${left}px, ${top}px, 0) scale(${s})`;
+  }
+
+  /**
+   * Contact shadows: where each pillar stands, the ground is darkest right at the stone and
+   * lightens over half a metre, drawn on the ground plane in perspective so it stays put.
+   */
+  private drawContact(L: Layout, camX: number, d: number, cx: number, hy: number) {
+    const ctx = this.ctx!;
+    const dpr = this.canvas.width / L.w;
+    const gateW = GATE_H * GATE_ASPECT; // metres
+    const project = (x: number, z: number): [number, number] => {
+      const dz = Math.max(0.05, z);
+      return [(cx + ((x - camX) * L.f) / dz) * dpr, (hy + (EYE * L.f) / dz) * dpr];
+    };
+    ctx.fillStyle = "rgb(28, 22, 18)";
+    for (const [x0f, x1f] of FEET_X) {
+      const x0 = L.gateX + (x0f - GATE_CX) * gateW;
+      const x1 = L.gateX + (x1f - GATE_CX) * gateW;
+      // wide and faint to tight and dark: a soft falloff without a blur filter
+      for (const [r, a] of [
+        [0.7, 0.07],
+        [0.45, 0.1],
+        [0.26, 0.14],
+        [0.13, 0.18],
+        [0.06, 0.26],
+        [0.02, 0.42],
+      ] as const) {
+        const near = d - r;
+        if (near <= 0.1) continue;
+        const pts = [project(x0 - r, near), project(x1 + r, near), project(x1 + r, d + PILLAR_DEPTH + r), project(x0 - r, d + PILLAR_DEPTH + r)];
+        ctx.globalAlpha = a;
+        ctx.beginPath();
+        ctx.moveTo(pts[0][0], pts[0][1]);
+        for (const [px, py] of pts.slice(1)) ctx.lineTo(px, py);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
   }
 
   private drawGround(L: Layout, camX: number, camZ: number, cx: number, hy: number) {

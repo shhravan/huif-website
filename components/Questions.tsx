@@ -13,6 +13,7 @@ export default function Questions() {
   return (
     <section className="questions" aria-labelledby="questions-title">
       <div className="frame">
+        <div className="questions__grid">
         <header className="questions__head">
           <h2 id="questions-title" className="head">{questions.heading}</h2>
           <p>{questions.intro}</p>
@@ -29,6 +30,7 @@ export default function Questions() {
             </li>
           ))}
         </ol>
+        </div>
       </div>
     </section>
   );
