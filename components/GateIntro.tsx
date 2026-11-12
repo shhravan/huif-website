@@ -108,7 +108,7 @@ export default function GateIntro() {
       </div>
 
       <div className="opening__statement">
-        <h2>{opening.statement}</h2>
+        <p className="opening__statement-text">{opening.statement}</p>
       </div>
     </section>
   );
