@@ -8,9 +8,6 @@ export const CONTACT_EMAIL: string | null = "harvardundergraduateindiaforum@gmai
 
 export const site = {
   name: "Harvard Undergraduate India Forum",
-  theme: "India Uncharted: A Nation of Multitudes",
-  where: "Mumbai",
-  when: "13–14 March 2027",
   nav: [
     { label: "About", href: "#about" },
     { label: "Programme", href: "#programme" },
@@ -195,7 +192,7 @@ export const questions = {
 export const closing = {
   heading: "Join the conversation in Mumbai",
   line: "13–14 March 2027",
-  action: "Email the team",
+  action: "Get in touch",
   pending: "Our contact address will be here shortly.",
 } as const;
 
