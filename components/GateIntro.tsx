@@ -20,7 +20,7 @@ const HORIZON = "50% 76%";
  * The opening ("title card"). First screen: the real gate to the right; the forum's name, the Theme,
  * city and dates, and "See the programme" in the sky to the left; the full logo top left.
  * Scrolling (pinned): the title fades, the camera turns to the gate, walks through it, and on
- * the other side the sky softens into the site's paper where the forum's statement appears.
+ * the other side the page scrolls on into Mumbai (Arrival).
  * From then on a slim bar (logo, navigation, Get in touch) stays at the top of the page.
  */
 export default function GateIntro() {
@@ -54,7 +54,7 @@ export default function GateIntro() {
             scrollTrigger: {
               trigger: root.current,
               start: "top top",
-              end: "+=300%",
+              end: "+=150%",
               scrub: 0.4,
               pin: true,
               anticipatePin: 1,
@@ -69,13 +69,9 @@ export default function GateIntro() {
             .to(q(".torana"), { scale: portrait ? 5 : 11, duration: 0.6, ease: "power2.in" }, 0.02)
             .to(q(".torana"), { autoAlpha: 0, duration: 0.08 }, 0.56)
             .to(q(".gate-scene__back"), { scale: 1.28, duration: 0.62, ease: "power1.in" }, 0)
-            // 5: the sky softens into the site's paper; the statement appears; the slim bar takes over.
-            .to(q(".gate-scene__back"), { yPercent: 18, duration: 0.2, ease: "power2.inOut" }, 0.58)
-            .to(q(".opening__paper"), { opacity: 1, duration: 0.18 }, 0.6)
-            .to(q(".site-header--photo"), { autoAlpha: 0, duration: 0.08 }, 0.6)
-            .fromTo(q(".opening__statement"), { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.14, ease: "power2.out" }, 0.72)
-            .to({}, { duration: 0.1 });
-          if (bar) tl.to(bar, { autoAlpha: 1, yPercent: 0, duration: 0.08, ease: "power2.out" }, 0.7);
+            // 5: through the gate; the slim bar takes over and the page scrolls on into Mumbai (Arrival).
+            .to(q(".site-header--photo"), { autoAlpha: 0, duration: 0.08 }, 0.56);
+          if (bar) tl.to(bar, { autoAlpha: 1, yPercent: 0, duration: 0.08, ease: "power2.out" }, 0.56);
         },
       );
     },
@@ -89,7 +85,6 @@ export default function GateIntro() {
         <Torana />
       </div>
       <div className="opening__scrim" aria-hidden="true" />
-      <div className="opening__paper" aria-hidden="true" />
 
       <SiteHeader variant="photo" />
 
@@ -103,10 +98,6 @@ export default function GateIntro() {
         <a className="button" href={opening.action.href}>
           {opening.action.label}
         </a>
-      </div>
-
-      <div className="opening__statement">
-        <p className="opening__statement-text">{opening.statement}</p>
       </div>
     </section>
   );

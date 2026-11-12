@@ -34,16 +34,16 @@ export default function GateOutro() {
           scrollTrigger: {
             trigger: root.current,
             start: "top top",
-            end: "+=220%",
+            end: "+=140%",
             scrub: 0.4,
             pin: true,
             anticipatePin: 1,
           },
         });
 
-        tl.fromTo(q(".torana"), { scale: 9, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.6, ease: "power2.out" }, 0)
+        tl.fromTo(q(".torana"), { scale: 3.2 }, { scale: 1, duration: 0.6, ease: "power2.out" }, 0)
           .fromTo(q(".gate-scene__back"), { scale: 1.28 }, { scale: 1, duration: 0.62, ease: "power1.out" }, 0)
-          .fromTo(q(".outro__cta"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.18, ease: "power2.out" }, 0.6)
+          .fromTo(q(".outro__cta"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.18, ease: "power2.out" }, 0.4)
           .to({}, { duration: 0.15 });
       });
 
@@ -62,9 +62,10 @@ export default function GateOutro() {
       </div>
       <div className="outro__cta">
         <h2 id="outro-title">{closing.heading}</h2>
+        <p className="outro__line">{closing.line}</p>
         {CONTACT_EMAIL ? (
           <a className="button" href={site.contact.href}>
-            {site.contact.label}
+            {CONTACT_EMAIL}
           </a>
         ) : (
           <p className="outro__note">{closing.pending}</p>
