@@ -61,7 +61,7 @@ export default function Programme() {
     <section id="programme" className="programme" aria-labelledby="programme-title">
       <div className="frame">
         <header className="programme__head" data-reveal>
-          <h2 id="programme-title">{programme.heading}</h2>
+          <h2 id="programme-title" className="head">{programme.heading}</h2>
           <p>{programme.intro}</p>
         </header>
         {programme.days.map((day) => (
