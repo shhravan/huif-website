@@ -18,6 +18,9 @@ export default function About() {
               <p key={p.slice(0, 24)}>{p}</p>
             ))}
           </div>
+          <p className="about__mumbai" data-reveal style={{ ["--i" as string]: 2 }}>
+            {about.mumbai}
+          </p>
           <dl className="about__facts">
             {about.facts.map((f, i) => (
               <div key={f.label} className="about__fact" data-reveal style={{ ["--i" as string]: i + 2 }}>

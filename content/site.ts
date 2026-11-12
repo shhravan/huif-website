@@ -38,6 +38,17 @@ export const context = {
   /** Read as one paragraph: the first part in full ink, the rest quieter. */
   lead: "India’s future is being shaped in boardrooms and classrooms, laboratories and hospitals, public institutions and communities,",
   rest: "by people whose experiences and ambitions often look very different from one another. No single perspective can capture the whole picture.",
+  /** Why now: the narrative brief's two reasons. */
+  reasons: [
+    {
+      lead: "India is changing in many directions at once.",
+      text: "A conversation about AI is also about jobs, education and governance. A conversation about healthcare is also about cost, public systems and who gets care. These questions rarely belong to one field.",
+    },
+    {
+      lead: "Students and young professionals belong in the room.",
+      text: "They usually meet the people shaping India through news and podcasts. Here they can hear the reasoning, ask the questions and challenge the answers in person.",
+    },
+  ],
 } as const;
 
 /** The Theme, from the narrative brief: what each half of it means. */
@@ -62,6 +73,7 @@ export const about = {
     "Under this year’s theme, India Uncharted: A Nation of Multitudes, we hope to explore the diverse perspectives and opportunities shaping India’s future.",
     "The Forum was born out of a shared desire among Indian international students at Harvard to remain meaningfully engaged with our nation amid profound change. As members of the Indian diaspora studying abroad, we see this gathering as an opportunity to contribute to India’s future through thoughtful conversations across disciplines, generations, and perspectives.",
   ],
+  mumbai: "India is the subject of the conversation. Mumbai is where it will unfold.",
   facts: [
     { label: "Where", value: "Mumbai" },
     { label: "When", value: "13–14 March 2027" },
@@ -213,7 +225,7 @@ export const questions = {
 
 export const closing = {
   heading: "Join the conversation in Mumbai",
-  line: "13–14 March 2027. Questions about the Forum? Write to us.",
+  line: "India’s future cannot be understood from one perspective. On 13–14 March 2027, explore it through many.",
   action: "Get in touch",
   pending: "Our contact address will be here shortly.",
 } as const;
