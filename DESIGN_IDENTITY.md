@@ -5,7 +5,7 @@ The decided look of the Launch page. Every section uses these values; nothing he
 ## Kept from the existing site
 
 - The Logo, top left, as it is now (`public/brand/logo-cream.webp` on photographs, `logo-marine.webp` on light grounds).
-- The Gate walk-through and its code (`components/GateIntro.tsx`, `GateOutro.tsx`, `Scene.tsx`, `Torana.tsx`), the content file `content/site.ts`, and the static export to GitHub Pages.
+- The Gate walk-through and its code (`components/GateIntro.tsx`, `Scene.tsx`, `Torana.tsx`), the content file `content/site.ts`, and the static export to GitHub Pages.
 
 ## Type
 
@@ -36,6 +36,6 @@ Classy through restraint: two colours, very large regular-weight type, one idea 
 
 Motion follows `better-ui`: buttons press to 0.96 over 150ms; sections enter once with opacity, 4px blur and 12px rise over 300ms, 100ms apart; nothing moves under reduced motion.
 
-## Open
+## Photographs
 
-- Your photographs, which may refine the dark-section colour.
+Two of the team's, full screen: the Gateway of India after the walk-through, and Mumbai at dusk behind the invitation. No captions or credits.
