@@ -9,10 +9,7 @@ export default function Context() {
           {context.heading}
         </h2>
         <p className="context__lead" data-reveal style={{ ["--i" as string]: 1 }}>
-          {context.paragraphs[0]}
-        </p>
-        <p className="context__close" data-reveal style={{ ["--i" as string]: 2 }}>
-          {context.paragraphs[1]}
+          {context.lead} <span>{context.rest}</span>
         </p>
       </div>
     </section>

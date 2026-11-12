@@ -7,6 +7,9 @@
  * frame on a canvas from the real paving texture, in true perspective (one textured row per
  * screen row) all the way to the horizon, hazing with distance as the plate does. The gate is projected through the
  * same camera, so its feet stay planted on the paving as you walk towards it and between its pillars.
+ *
+ * Optionally a "portal": a picture of India seen only through the gate's opening, which grows as you
+ * approach and opens to the whole screen as you pass through.
  */
 
 const PLATE_W = 2880;
@@ -22,7 +25,6 @@ const GATE_EYE = 0.753; // the photo's eye-level line
 const GATE_FEET = 0.915; // where the pillars meet the ground
 const GATE_H = EYE / (GATE_FEET - GATE_EYE); // image height in metres that puts the eye line at 1.6 m
 
-const STEP = 0.78; // metres per step, for the walking sway
 const HAZE = 130; // metres: the air thickens towards the horizon as 1 − e^(−d/HAZE), measured from the plate
 const HAZE_RGB = "170, 169, 169"; // the plate's horizon colour
 // each pillar's footprint, as fractions of the gate width (measured from the photo's alpha at the feet)
@@ -33,6 +35,17 @@ const FEET_X: [number, number][] = [
 const GATE_CX = 0.491; // the opening's centre
 const PILLAR_DEPTH = 0.9; // metres: the pillars are square in plan
 const PILLAR = 0.27; // each pillar's centre, as a fraction of the gate width from the opening's centre
+// the opening between the pillars and under the lowest lintel, as fractions of the image box
+const OPENING = { left: 0.286, right: 0.685, top: 0.353 };
+
+export type WalkOptions = {
+  /** where the gate first stands: 0 is the centre of the screen, 0.27 is right of centre */
+  offset: number;
+  /** the gate's first height, as a fraction of the screen height (desktop; phones fill the height) */
+  size: number;
+  /** a picture of India seen through the opening */
+  portal?: HTMLElement;
+};
 
 type Layout = {
   w: number;
@@ -60,6 +73,7 @@ export class GateWalk {
     private canvas: HTMLCanvasElement,
     private gate: HTMLElement,
     private textureUrl: string,
+    private options: WalkOptions = { offset: 0.27, size: 0.86 },
   ) {
     this.ctx = canvas.getContext("2d");
   }
@@ -98,9 +112,10 @@ export class GateWalk {
     const f = PLATE_F * scale;
     const hy = HORIZON * h;
     // the gate's first size on screen: tall on a phone; on a desktop, right of the title and clear of the navigation
-    const gateScreenH = portrait ? Math.min(0.98 * h, 1.92 * w) : Math.min(0.86 * h, 1.43 * w);
+    const { offset, size } = this.options;
+    const gateScreenH = portrait ? Math.min(0.98 * h, 1.92 * w) * (size / 0.86) : Math.min(size * h, 1.66 * size * w);
     const d0 = (GATE_H * f) / gateScreenH;
-    const gateX = portrait ? 0 : (0.27 * w * d0) / f;
+    const gateX = portrait ? 0 : (offset * w * d0) / f;
     // the walk ends where the pillars' centres reach the edges of the screen
     const pass = Math.min(d0 * 0.8, (GATE_H * f * 2 * PILLAR * GATE_ASPECT) / w);
     this.layoutState = { w, h, f, hy, gateX, d0, baseH: gateScreenH, pass };
@@ -117,7 +132,8 @@ export class GateWalk {
 
   /**
    * Draws the scene at walk progress p (0: standing back, title in view; 1: through the gate).
-   * The first fifth turns towards the gate; the rest is the walk.
+   * The first fifth turns towards the gate; the walk itself is one smooth ease, with no head sway.
+   * With a portal, India shows through the opening from mid-walk and opens to the whole screen at the end.
    */
   render(p: number) {
     const L = this.layoutState;
@@ -125,21 +141,14 @@ export class GateWalk {
     this.last = p;
 
     const turn = easeInOut(p / 0.22);
-    const walk = easeInOut((p - 0.06) / 0.94);
+    const walk = easeInOut((p - 0.04) / 0.86);
     const camX = L.gateX * turn;
     const camZ = (L.d0 - L.pass) * walk;
     const d = L.d0 - camZ; // distance from the eye to the gate
 
-    // a gentle sway with each step, only while walking
-    const phase = (camZ / STEP) * Math.PI;
-    const moving = Math.sin(Math.PI * clamp(walk * 1.15));
-    const bob = Math.abs(Math.sin(phase)) * -0.004 * L.h * moving;
-    const sway = Math.sin(phase) * 0.0025 * L.w * moving;
-    const hy = L.hy + bob;
-    const cx = L.w / 2 + sway;
+    const hy = L.hy;
+    const cx = L.w / 2;
 
-    // the sky and the far ground move with the head, too
-    this.back.style.transform = `translate3d(${sway}px, ${bob}px, 0) scale(1.02)`;
     this.drawGround(L, camX, camZ, cx, hy);
     this.drawContact(L, camX, d, cx, hy);
 
@@ -150,6 +159,21 @@ export class GateWalk {
     const top = feetY - GATE_FEET * gh;
     const left = cx + ((L.gateX - camX) * L.f) / d - (gh * GATE_ASPECT) / 2;
     this.gate.style.transform = `translate3d(${left}px, ${top}px, 0) scale(${s})`;
+
+    const portal = this.options.portal;
+    if (portal) {
+      const gw = gh * GATE_ASPECT;
+      const open = easeInOut((p - 0.84) / 0.16); // the opening grows to the whole screen
+      const lerp = (a: number, b: number) => a + (b - a) * open;
+      const t = lerp(top + OPENING.top * gh, 0);
+      const r = lerp(L.w - (left + OPENING.right * gw), 0);
+      const b = lerp(L.h - feetY, 0);
+      const l = lerp(left + OPENING.left * gw, 0);
+      portal.style.clipPath = `inset(${t}px ${r}px ${b}px ${l}px)`;
+      portal.style.opacity = String(easeInOut((p - 0.3) / 0.3));
+      const img = portal.firstElementChild as HTMLElement | null;
+      if (img) img.style.transform = `scale(${1.18 - 0.18 * easeInOut((p - 0.3) / 0.7)})`;
+    }
   }
 
   /**

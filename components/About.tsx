@@ -7,7 +7,7 @@ export default function About() {
     <section id="about" className="about" aria-labelledby="about-title">
       <div className="frame about__grid">
         <figure className="about__picture" data-reveal style={{ ["--i" as string]: 0 }}>
-          <Picture photo={photos.municipal} sizes="(max-width: 900px) 100vw, 42vw" />
+          <Picture photo={photos.taj} sizes="(max-width: 900px) 100vw, 42vw" />
         </figure>
         <div className="about__body">
           <h2 id="about-title" className="head" data-reveal>
