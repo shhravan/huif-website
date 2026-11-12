@@ -9,28 +9,32 @@ The decided look of the Launch page. Every section uses these values; nothing he
 
 ## Type
 
-- **Display:** Eczar, regular weight (400–500), never bold. Large, with tracking around -0.02em.
-- **Text:** Mukta, 400 for reading and 500 for buttons and navigation. Body text 17–20px.
-- Both faces are made by Indian type designers and cover Devanagari.
-- Sentence case everywhere. No small spaced capitals.
+- **Display:** Eczar 400, never bold. Five sizes only: 16, 19, 26, 64 and up to 120px. Display at 120px with −0.03em tracking, headings at 64px with −0.02em.
+- **Text:** Mukta 400 for reading, 500 for buttons and navigation. Body 17–19px.
+- Both faces are by Indian type designers and cover Devanagari.
+- Sentence case everywhere. Times use tabular figures.
 
 ## Colour
 
-Modelled on the restraint of linkventures.com: a light ground, near-black ink and dark sections, and one accent used almost only on the action.
+Two colours, stone and Marine, each with one muted step, modelled on the restraint of stellarmanagement.com and dwell.au. Components use only the semantic tokens in `app/globals.css`.
 
 | Role | Colour | Use |
 | --- | --- | --- |
-| Ground | `#f0efeb` | Most of the page |
-| Ink | `#111113` | Text on the ground; the dark sections' ground |
-| Ink on dark | `#f0efeb` | Text on dark sections |
-| Accent | `#042d62` Marine | Buttons only, plus one recurring detail at most |
-| Accent on dark | `#8fb0dd` | The same detail on dark sections |
+| Ground | `#f0efeb` stone | Light sections, the top bar |
+| Text | `#042d62` Marine | All text on stone; the button fill |
+| Muted text | `#4a5a72` | Labels and notes on stone (6.1:1) |
+| Inverse ground | `#042d62` Marine | Context and Programme |
+| Deep ground | `#021d42` | Footer |
+| Inverse text | `#f0efeb` | Text on Marine (11.7:1) |
+| Inverse muted | `#a7b4c8` | Notes on Marine (6.4:1) |
 
-Photographs carry the rest of the colour and are never tinted with the brand.
+On photographs and Marine, the button inverts to stone with a Marine label. Photographs carry every other colour.
 
 ## Feel
 
-Classy through restraint: regular-weight headlines, generous space between sections, quiet small text, one accent. No gradients, glows, shadows at rest or decorative labels.
+Classy through restraint: two colours, very large regular-weight type, one idea per screen, generous space. No gradients except the legibility shade on the opening photograph, no shadows, no dividers, no captions.
+
+Motion follows `better-ui`: buttons press to 0.96 over 150ms; sections enter once with opacity, 4px blur and 12px rise over 300ms, 100ms apart; nothing moves under reduced motion.
 
 ## Open
 

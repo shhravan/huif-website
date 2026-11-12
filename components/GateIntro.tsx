@@ -95,7 +95,7 @@ export default function GateIntro() {
           India Forum
         </h1>
         <p>{opening.line}</p>
-        <a className="button" href={opening.action.href}>
+        <a className="button button--light" href={opening.action.href}>
           {opening.action.label}
         </a>
       </div>

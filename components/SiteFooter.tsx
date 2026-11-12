@@ -5,7 +5,7 @@ export default function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="frame">
-        <p className="site-footer__name">{site.name}</p>
+        <p className="site-footer__name display">{site.name}</p>
         <div className="site-footer__row">
           <p className="site-footer__line">{footer.line}</p>
           <nav aria-label="Footer">
