@@ -27,8 +27,6 @@ export const opening = {
     { label: "When", value: "13–14 March 2027" },
     { label: "Where", value: "Mumbai" },
     { label: "Theme", value: "India Uncharted" },
-    { label: "Programme", value: "16 panels, 4 keynotes" },
-    { label: "Organised by", value: "Harvard undergraduates" },
   ],
 } as const;
 
@@ -94,7 +92,6 @@ export type Panel = { title: string; question?: string };
 
 export const programme = {
   heading: "Programme",
-  intro: "Choose a day to see both rooms side by side.",
   days: [
     {
       id: "day-1",
@@ -203,14 +200,13 @@ export const programme = {
   ],
 } as const satisfies {
   heading: string;
-  intro: string;
   days: readonly { id: string; label: string; date: string; slots: readonly Slot[] }[];
 };
 
 /** Every Panel, by day, in the order of the Schedule. Titles come from the Schedule (see BRIEF.md). */
 export const panels = {
   heading: "Sixteen panels, two days",
-  intro: "From democracy and the law to film, sport and healthcare. Select a panel to see its question, day and room.",
+  intro: "From democracy and the law to film, sport and healthcare. Select a title to see when it meets and the question it sets out to explore.",
 } as const;
 
 export const closing = {
@@ -221,6 +217,13 @@ export const closing = {
 } as const;
 
 export const footer = {
-  line: "India Uncharted · Mumbai, 13–14 March 2027",
+  /** The close, after the end of indiaconferenceharvard.com: an invitation, then the facts band. */
+  heading: "Follow along. Then be in the room.",
+  line: "Speakers, the programme and how to attend will be announced on Instagram first.",
   reach: "Reach us directly",
+  band: [
+    { value: "13–14 March", note: "2027 · Mumbai" },
+    { value: "16 panels", note: "4 keynotes, two rooms" },
+  ],
+  about: "The Harvard Undergraduate India Forum is a student-led gathering that brings students, professionals and leaders together to explore India’s present and future.",
 } as const;

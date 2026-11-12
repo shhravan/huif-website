@@ -23,8 +23,7 @@ Two colours, stone and Marine, each with one muted step, modelled on the restrai
 | Ground | `#f0efeb` stone | Light sections, the top bar |
 | Text | `#042d62` Marine | All text on stone; the button fill |
 | Muted text | `#4a5a72` | Labels and notes on stone (6.1:1) |
-| Inverse ground | `#042d62` Marine | Theme |
-| Deep ground | `#021d42` | Footer |
+| Inverse ground | `#042d62` Marine | Theme, the Sea Link panel, the footer band; one Marine everywhere |
 | Inverse text | `#f0efeb` | Text on Marine (11.7:1) |
 | Inverse muted | `#a7b4c8` | Notes on Marine (6.4:1) |
 
@@ -38,4 +37,4 @@ Motion follows `better-ui`: buttons press to 0.96 over 150ms; sections enter onc
 
 ## Photographs
 
-Two of the team's: the Taj Mahal Palace beside About; the carts, full width, above the Theme. After the Gate there is no photograph: the sky softens into the page and the story's first heading appears in Marine. No captions, credits or video.
+Two of the team's: the carts, full width, above the Theme; and the Sea Link at night, sampled into about 11,000 points and drawn as a slowly moving bridge beside About (still under reduced motion). After the Gate there is no photograph: the sky softens into the page and the story's first heading appears in Marine. No captions, credits or video.

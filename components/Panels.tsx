@@ -9,46 +9,29 @@ function clock(t: string) {
   return `${h % 12 === 0 ? 12 : h % 12}:${String(m).padStart(2, "0")} ${h < 12 ? "am" : "pm"}`; // taste-skill-ignore: a clock, not index numbering
 }
 
-type Entry = { title: string; question?: string; day: string; date: string; time: string; room: number };
+type Entry = { id: string; title: string; question?: string; when: string };
 
-/** Every Panel, read straight from the Schedule, with where and when it happens. */
-const entries = programme.days.map((day) => ({
-  day,
-  items: (day.slots as readonly Slot[]).flatMap((s): Entry[] =>
+/** Every Panel, read straight from the Schedule. */
+const entries: Entry[] = programme.days.flatMap((day) =>
+  (day.slots as readonly Slot[]).flatMap((s): Entry[] =>
     s.kind === "panels"
       ? s.rooms.map((p, i) => ({
+          id: `panel-${day.id}-${s.start.replace(":", "")}-${i + 1}`,
           title: p.title,
           question: "question" in p ? p.question : undefined,
-          day: day.label,
-          date: day.date,
-          time: `${clock(s.start)}–${clock(s.end)}`,
-          room: i + 1,
+          when: `${day.label}, ${day.date} · ${clock(s.start)} · Room ${i + 1}`,
         }))
       : [],
   ),
-}));
-
-function Detail({ e, title = true }: { e: Entry; title?: boolean }) {
-  return (
-    <>
-      <p className="panel-card__when">
-        {e.day} · {e.date} · {e.time} · Room {e.room}
-      </p>
-      {title && <p className="panel-card__title">{e.title}</p>}
-      {e.question && <p className="panel-card__question">{e.question}</p>}
-    </>
-  );
-}
+);
 
 /**
- * All sixteen panels as one large list, after the "eight tracks" section of indiaconferenceharvard.com:
- * select a title to see its central question, day, time and room. On wide screens the details sit in a
- * card beside the list; on phones they open under the selected title.
+ * The sixteen panels as one large typographic index, set in a slow stagger after the "hardest questions"
+ * list on indiaconferenceharvard.com. Each title opens to show where and when it is, and its central
+ * question where the team has published one. The calendar below carries the full timetable.
  */
 export default function Panels() {
-  const first = entries[0].items.find((e) => e.question) ?? entries[0].items[0];
-  const [active, setActive] = useState(first.title);
-  const current = entries.flatMap((d) => d.items).find((e) => e.title === active) ?? first;
+  const [open, setOpen] = useState<string | null>(entries.find((e) => e.question)?.id ?? null);
 
   return (
     <section id="panels" className="panels" aria-labelledby="panels-title">
@@ -61,41 +44,24 @@ export default function Panels() {
             {panels.intro}
           </p>
         </header>
-        <div className="panels__grid">
-          <aside className="panel-card" aria-live="polite">
-            <Detail e={current} />
-          </aside>
-          <div className="panels__days">
-            {entries.map(({ day, items }) => (
-              <div key={day.id} className="panels__day">
-                <p className="panels__label">
-                  {day.label} · {day.date}
-                </p>
-                <ul className="panels__list">
-                  {items.map((e) => (
-                    <li key={e.title}>
-                      <button
-                        type="button"
-                        className="panels__item"
-                        aria-pressed={e.title === active}
-                        onClick={() => setActive(e.title)}
-                        onMouseEnter={() => setActive(e.title)}
-                        onFocus={() => setActive(e.title)}
-                      >
-                        {e.title}
-                      </button>
-                      {e.title === active && (
-                        <div className="panels__inline">
-                          <Detail e={e} title={false} />
-                        </div>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
+        <ul className="panels__index">
+          {entries.map((e) => {
+            const isOpen = open === e.id;
+            return (
+              <li key={e.id} className="panels__entry">
+                <h3 className="panels__title">
+                  <button type="button" aria-expanded={isOpen} aria-controls={e.id} onClick={() => setOpen(isOpen ? null : e.id)}>
+                    {e.title}
+                  </button>
+                </h3>
+                <div id={e.id} className="panels__more" hidden={!isOpen}>
+                  <p className="panels__when">{e.when}</p>
+                  {e.question && <p className="panels__question">{e.question}</p>}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

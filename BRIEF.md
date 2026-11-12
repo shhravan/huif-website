@@ -23,14 +23,14 @@ One scrolling page, like indiaconferenceharvard.com, but carrying only what is c
 
 | # | Section | Claim | Proof on the page |
 | - | --- | --- | --- |
-| 1 | Opening | The Forum, its Theme, Mumbai, 13–14 March 2027 | The Gate and the title, with a facts strip (When, Where, Theme, Programme, Organised by), as on indiaconferenceharvard.com; the walk ends as the sky softens into the page |
+| 1 | Opening | The Forum, its Theme, Mumbai, 13–14 March 2027 | The Gate and the title, with a facts strip (When, Where, Theme), as on indiaconferenceharvard.com; the walk ends as the sky softens into the page |
 | 2 | Context | A country too complex for a single narrative; why now | Its heading, at the end of the walk; the brief's opening lines and its two reasons |
-| 3 | About | A forum to bring those perspectives together; why Mumbai | The About paragraphs from `docs/website-content.md`; the brief's Mumbai line; the Taj Mahal Palace |
+| 3 | About | A forum to bring those perspectives together; why Mumbai | The About paragraphs from `docs/website-content.md`; the brief's Mumbai line; the Bandra–Worli Sea Link drawn in moving points from the team's night photograph |
 | 4 | Theme | What "India Uncharted" and "A Nation of Multitudes" mean | The brief's theme notes; the photograph of people pulling carts |
-| 5 | Panels | Sixteen panels, two days | Every title from the Schedule as one large list; select one to see its central question, day, time and room |
-| 6 | Programme | The full Schedule | A calendar grid, one day at a time: hours down the side, both rooms side by side |
+| 5 | Panels | Sixteen panels, two days | Every title from the Schedule as a large staggered index; each opens in place to its day, time, room and central question |
+| 6 | Programme | The full Schedule | A calendar grid, one day at a time (centred tabs): hours down the side, both rooms side by side |
 | 7 | Close | Join the conversation in Mumbai | The Gate again, with "Get in touch" |
-| 8 | Footer | A designed close | Pages, Follow (Instagram @harvardu_indiaforum), Reach us directly, then the name at full width; the one required credit |
+| 8 | Footer | A designed close | "Follow along. Then be in the room." with Pages, Follow and Reach us; then a Marine band with the dates, the panel count, one line on the Forum and the name set across the full width |
 
 Photographs: two of the team's (the Taj Mahal Palace, the carts). No video.
 
