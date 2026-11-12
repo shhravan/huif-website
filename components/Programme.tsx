@@ -1,5 +1,4 @@
-import Picture from "./Picture";
-import { programme, photos, type Slot } from "@/content/site";
+import { programme, type Slot } from "@/content/site";
 
 /** "13:30" → "1:30 pm" */
 function clock(t: string) {
@@ -60,9 +59,6 @@ function SlotRow({ slot }: { slot: Slot }) {
 export default function Programme() {
   return (
     <section id="programme" className="programme" aria-labelledby="programme-title">
-      <div className="programme__band">
-        <Picture photo={photos.sealinkNight} sizes="100vw" />
-      </div>
       <div className="frame">
         <header className="programme__head" data-reveal>
           <h2 id="programme-title">{programme.heading}</h2>

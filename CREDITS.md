@@ -20,15 +20,4 @@ The credit line is also shown in the site footer, as the license requires.
 
 ## Photographs supplied by the organising team
 
-Supplied as free to use; sources and photographers to be added when known. Files in `public/photos/`.
-
-| File | Subject |
-| --- | --- |
-| `gateway-*` | Gateway of India, Mumbai |
-| `harbour-*` | Gateway of India and the Taj Mahal Palace from the harbour |
-| `municipal-*` | Brihanmumbai Municipal Corporation headquarters through an arch |
-| `balconies-*` | Carved stone balconies on a basalt facade, south Mumbai |
-| `carts-*` | People pulling carts along an embankment (black and white; location not known) |
-| `coastal-road-*` | Coastal road interchanges under construction, Mumbai |
-| `sealink-night-*` | Bandra–Worli Sea Link at night |
-| `dusk-*` | Mumbai skyline at dusk across the sea |
+Free to use; no credit required. Files in `public/photos/`.
