@@ -485,32 +485,34 @@ html.lenis body {
   line-height: 1.25;
 }
 
-/* ---------- About: picture and text, side by side ---------- */
+/* ---------- About: the Sea Link in points across the whole section, text in the sea ---------- */
 
 .about {
+  position: relative;
+  overflow: hidden;
   padding-block: var(--section);
-  background: var(--color-bg-surface);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
   scroll-margin-top: 72px;
 }
+/* components/SeaLink.tsx: still, the points spread from the pointer and spring back */
+.sealink {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .about__grid {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 32px;
-  align-items: center;
-}
-.about__picture {
-  grid-column: 1 / span 6;
-  margin: 0;
-  background: var(--color-bg-inverse);
-}
-/* the Sea Link in points (components/SeaLink.tsx), on Marine */
-.sealink {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1.47;
+  pointer-events: none;
 }
 .about__body {
   grid-column: 7 / span 6;
+  pointer-events: auto;
 }
 .about__text {
   margin-top: clamp(28px, 3vw, 44px);
@@ -946,7 +948,6 @@ html.lenis body {
 /* ---------- Narrow screens ---------- */
 
 @media (max-width: 900px) {
-  .about__picture,
   .about__body,
   .panels__head h2,
   .panels__head p,
@@ -961,8 +962,16 @@ html.lenis body {
   .site-footer__facts .site-footer__about {
     grid-column: 1 / -1;
   }
-  .about__picture {
-    order: 2;
+  /* phones: the bridge sits above the text, not behind it */
+  .about {
+    padding-top: 0;
+  }
+  .sealink {
+    position: relative;
+    inset: auto;
+    height: auto;
+    aspect-ratio: 1.15;
+    margin-bottom: clamp(32px, 6vw, 56px);
   }
 }
 

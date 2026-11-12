@@ -1,14 +1,12 @@
 import SeaLink from "./SeaLink";
 import { about } from "@/content/site";
 
-/** The response: what the Forum is, beside the Sea Link drawn in points. */
+/** The response: what the Forum is, over the Sea Link drawn in points across the whole section. */
 export default function About() {
   return (
     <section id="about" className="about" aria-labelledby="about-title">
+      <SeaLink label="The Bandra–Worli Sea Link in Mumbai at night, drawn in points of light" />
       <div className="frame about__grid">
-        <figure className="about__picture" data-reveal style={{ ["--i" as string]: 0 }}>
-          <SeaLink label="The Bandra–Worli Sea Link in Mumbai at night, drawn in points of light" />
-        </figure>
         <div className="about__body">
           <h2 id="about-title" className="head" data-reveal>
             {about.heading}

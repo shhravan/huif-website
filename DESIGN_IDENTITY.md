@@ -37,4 +37,4 @@ Motion follows `better-ui`: buttons press to 0.96 over 150ms; sections enter onc
 
 ## Photographs
 
-Two of the team's: the carts, full width, above the Theme; and the Sea Link at night, sampled into about 11,000 points and drawn as a slowly moving bridge beside About (still under reduced motion). After the Gate there is no photograph: the sky softens into the page and the story's first heading appears in Marine. No captions, credits or video.
+Two of the team's: the carts, full width, above the Theme; and the Sea Link at night, sampled into about 21,000 points drawn crisp at device pixels across the whole About section. It is still; under the pointer the points spread and spring back (no movement under reduced motion). Points behind the text are drawn faint. After the Gate there is no photograph: the sky softens into the page and the story's first heading appears in Marine. No captions, credits or video.
