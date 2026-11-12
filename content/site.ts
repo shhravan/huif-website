@@ -25,12 +25,33 @@ export const opening = {
   /** First screen, under the name. */
   line: "India Uncharted · Mumbai, 13–14 March 2027",
   action: { label: "See the programme", href: "#programme" },
-  /** Shown after walking through the Gate. */
+} as const;
+
+/**
+ * Photographs, supplied by the team. `alt` describes the picture; `caption` names only what is certain.
+ * Files are in public/photos as <name>-<width>.webp.
+ */
+export const photos = {
+  gateway: { name: "gateway", w: [1000, 2000], ratio: 2000 / 1586, alt: "Crowds in front of the Gateway of India, Mumbai, in late-afternoon light", caption: "Gateway of India, Mumbai" },
+  harbour: { name: "harbour", w: [1000, 2000], ratio: 2000 / 1500, alt: "The Gateway of India and the Taj Mahal Palace seen from boats in the harbour", caption: "Apollo Bunder, from the harbour" },
+  municipal: { name: "municipal", w: [1000, 2000], ratio: 2000 / 1500, alt: "The domed headquarters of the Brihanmumbai Municipal Corporation, seen through a stone arch", caption: "Municipal Corporation headquarters, Mumbai" },
+  balconies: { name: "balconies", w: [700, 1000], ratio: 1000 / 1500, alt: "A row of carved stone balconies on a dark basalt facade", caption: "Stone and basalt, south Mumbai" },
+  carts: { name: "carts", w: [1000, 1920], ratio: 1920 / 1238, alt: "Black-and-white photograph of people pulling carts in a line along an embankment, reflected in water", caption: "" },
+  coastalRoad: { name: "coastal-road", w: [1000, 2000], ratio: 2000 / 1333, alt: "Aerial view of new road interchanges curving over the sea towards the Mumbai skyline", caption: "Building the coastal road, Mumbai" },
+  sealinkNight: { name: "sealink-night", w: [1000, 2000], ratio: 2000 / 1123, alt: "The Bandra–Worli Sea Link lit at night above dark water", caption: "Bandra–Worli Sea Link at night" },
+  dusk: { name: "dusk", w: [1000, 1920], ratio: 1920 / 1080, alt: "The Mumbai skyline at dusk across the sea, windows lit against an orange sky", caption: "" },
+} as const;
+
+export type Photo = (typeof photos)[keyof typeof photos];
+
+/** After the walk-through: arriving in Mumbai. */
+export const arrival = {
   statement: "India Uncharted: A Nation of Multitudes",
+  line: "Mumbai, 13–14 March 2027",
 } as const;
 
 export const about = {
-  heading: "About the Forum",
+  heading: "A country of many stories",
   paragraphs: [
     "Under this year’s theme, India Uncharted: A Nation of Multitudes, we hope to explore the diverse perspectives and opportunities shaping India’s future.",
     "The Forum was born out of a shared desire among Indian international students at Harvard to remain meaningfully engaged with our nation amid profound change. As members of the Indian diaspora studying abroad, we see this gathering as an opportunity to contribute to India’s future through thoughtful conversations across disciplines, generations, and perspectives.",
@@ -53,7 +74,7 @@ export type Panel = { title: string; question?: string };
 
 export const programme = {
   heading: "Programme",
-  intro: "Two days, two rooms. Each panel sets out to explore one question.",
+  intro: "Two days, two rooms, sixteen panels and four keynotes.",
   days: [
     {
       id: "day-1",
@@ -166,8 +187,21 @@ export const programme = {
   days: readonly { id: string; label: string; date: string; slots: readonly Slot[] }[];
 };
 
+export const questions = {
+  heading: "The questions",
+  intro: "Each panel sets out to explore one question. These are five of them.",
+  items: [
+    { panel: "Building the India of Tomorrow", when: "Day 1 · 12:00 pm" },
+    { panel: "Law, Institutions & a Changing India", when: "Day 1 · 10:30 am" },
+    { panel: "Women Reshaping India’s Workforce", when: "Day 1 · 4:30 pm" },
+    { panel: "Literature", when: "Day 2 · 1:30 pm" },
+    { panel: "India’s Energy Transition", when: "Day 2 · 4:30 pm" },
+  ],
+} as const;
+
 export const closing = {
-  heading: "Questions? Write to us.",
+  heading: "Join the conversation in Mumbai",
+  line: "Questions about the Forum? Write to us.",
   pending: "Our contact address will be here shortly.",
 } as const;
 
