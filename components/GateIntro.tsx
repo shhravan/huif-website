@@ -7,44 +7,53 @@ import { useGSAP } from "@gsap/react";
 import Torana from "./Torana";
 import SiteHeader from "./SiteHeader";
 import { ScenePlate } from "./Scene";
+import { GateWalk } from "@/lib/walk";
+import { asset } from "@/lib/asset";
 import { site, opening } from "@/content/site";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-// Centre of the walk-through opening in the gate image (see Torana.tsx).
-const OPENING = "49.1% 62.8%";
-// Horizon point of the landscape photo (see Scene.tsx).
-const HORIZON = "50% 76%";
-
 /**
- * The opening ("title card"). First screen: the real gate to the right; the forum's name, the Theme,
- * city and dates, and "See the programme" in the sky to the left; the full logo top left.
- * Scrolling (pinned): the title fades, the camera turns to the gate, walks through it, and on
- * the other side the page scrolls on into Mumbai (Arrival).
- * From then on a slim bar (logo, navigation, Get in touch) stays at the top of the page.
+ * The opening ("title card"). First screen: the real gate standing on the paving to the right;
+ * the forum's name, the Theme, city and dates, and "See the programme" in the sky to the left.
+ * Scrolling (pinned): the title fades, you turn towards the gate and walk through it, the ground
+ * passing under you (lib/walk.ts). From then on a slim bar (logo, navigation, Get in touch)
+ * stays at the top of the page.
  */
 export default function GateIntro() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
+      const el = root.current;
+      if (!el) return;
       const q = gsap.utils.selector(root);
       const bar = document.querySelector(".site-header--bar");
-      gsap.set(q(".torana"), { transformOrigin: OPENING });
-      gsap.set(q(".gate-scene__back"), { transformOrigin: HORIZON });
+      const [back] = q(".gate-scene__back") as HTMLElement[];
+      const [canvas] = q(".gate-scene__ground") as HTMLCanvasElement[];
+      const [gate] = q(".gate-scene__gate") as HTMLElement[];
+
+      const small = window.matchMedia("(max-width: 860px)").matches;
+      const walk = new GateWalk(el, back, canvas, gate, asset(small ? "/scene/paving-1024.webp" : "/scene/paving-2048.webp"));
+      let ready = false;
+      walk.load().then(() => {
+        ready = true;
+        ScrollTrigger.refresh();
+      });
+      const onResize = () => ready && walk.layout();
+      window.addEventListener("resize", onResize);
 
       const mm = gsap.matchMedia();
-
       mm.add(
         {
           motion: "(prefers-reduced-motion: no-preference)",
           reduce: "(prefers-reduced-motion: reduce)",
-          portrait: "(orientation: portrait)",
         },
         (ctx) => {
-          const { motion, portrait } = ctx.conditions as { motion: boolean; portrait: boolean };
+          const { motion } = ctx.conditions as { motion: boolean };
           if (!motion) {
             if (bar) gsap.set(bar, { autoAlpha: 1 });
+            walk.render(0);
             return;
           }
           if (bar) gsap.set(bar, { autoAlpha: 0, yPercent: -100 });
@@ -52,28 +61,28 @@ export default function GateIntro() {
           const tl = gsap.timeline({
             defaults: { ease: "none" },
             scrollTrigger: {
-              trigger: root.current,
+              trigger: el,
               start: "top top",
-              end: "+=150%",
-              scrub: 0.4,
+              end: "+=220%",
+              scrub: 0.6,
               pin: true,
               anticipatePin: 1,
             },
+            onUpdate: () => walk.render(tl.progress()),
           });
 
-          // 1→2: the title steps aside and the camera turns to face the gate.
-          tl.to(q(".opening__title"), { autoAlpha: 0, y: 40, duration: 0.16, ease: "power1.in" }, 0)
-            .to(q(".opening__scrim"), { opacity: 0, duration: 0.22 }, 0)
-            .to(q(".gate-scene__gate"), { left: "50%", duration: 0.24, ease: "power1.inOut" }, 0)
-            // 2→4: approach and pass between the pillars.
-            .to(q(".torana"), { scale: portrait ? 5 : 11, duration: 0.6, ease: "power2.in" }, 0.02)
-            .to(q(".torana"), { autoAlpha: 0, duration: 0.08 }, 0.56)
-            .to(q(".gate-scene__back"), { scale: 1.28, duration: 0.62, ease: "power1.in" }, 0)
-            // 5: through the gate; the slim bar takes over and the page scrolls on into Mumbai (Arrival).
-            .to(q(".site-header--photo"), { autoAlpha: 0, duration: 0.08 }, 0.56);
-          if (bar) tl.to(bar, { autoAlpha: 1, yPercent: 0, duration: 0.08, ease: "power2.out" }, 0.56);
+          // the walk itself runs on the timeline's progress, from 0 to 1
+          tl.to({}, { duration: 1 }, 0)
+            // the title steps aside as you turn towards the gate
+            .to(q(".opening__title"), { autoAlpha: 0, y: 40, duration: 0.12, ease: "power1.in" }, 0)
+            .to(q(".opening__scrim"), { opacity: 0, duration: 0.18 }, 0)
+            // halfway through the gate the slim bar takes over
+            .to(q(".site-header--photo"), { autoAlpha: 0, duration: 0.06 }, 0.82);
+          if (bar) tl.to(bar, { autoAlpha: 1, yPercent: 0, duration: 0.06, ease: "power2.out" }, 0.84);
         },
       );
+
+      return () => window.removeEventListener("resize", onResize);
     },
     { scope: root },
   );
@@ -81,6 +90,7 @@ export default function GateIntro() {
   return (
     <section ref={root} className="gate-scene opening" aria-label={site.name}>
       <ScenePlate />
+      <canvas className="gate-scene__ground" aria-hidden="true" />
       <div className="gate-scene__gate">
         <Torana />
       </div>
