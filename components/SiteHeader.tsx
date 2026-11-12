@@ -1,19 +1,33 @@
-const NAV = ["About", "Programme", "Speakers", "Get involved", "Attend"];
+import { asset } from "@/lib/asset";
+import { site } from "@/content/site";
 
-/** Top bar. "HUIF" is a stand-in until the real logo arrives. */
-export default function SiteHeader() {
+/**
+ * The top of the site.
+ * - `variant="photo"`: on the opening screen, directly on the photograph, in cream.
+ * - `variant="bar"`: the slim pale bar that appears after the walk-through and stays
+ *   while reading the rest of the site, with "Register interest" always in reach.
+ */
+export default function SiteHeader({ variant }: { variant: "photo" | "bar" }) {
+  const logo = asset(variant === "photo" ? "/brand/logo-cream.webp" : "/brand/logo-marine.webp");
   return (
-    <header className="site-header">
-      <a className="site-header__mark" href="#top" aria-label="Harvard Undergraduate India Forum, home">
-        HUIF
+    <header className={`site-header site-header--${variant}`}>
+      <a className="site-header__logo" href="#top">
+        <img src={logo} alt={`${site.name}, home`} width={480} height={437} />
       </a>
-      <nav aria-label="Main">
+      <nav aria-label={variant === "bar" ? "Main" : "Main (opening)"}>
         <ul className="site-header__nav">
-          {NAV.map((n) => (
-            <li key={n}>
-              <a href={`#${n.toLowerCase().replace(/\s+/g, "-")}`}>{n}</a>
+          {site.nav.map((n) => (
+            <li key={n.label}>
+              <a href={n.href}>{n.label}</a>
             </li>
           ))}
+          {variant === "bar" && (
+            <li>
+              <a className="button-line" href={site.register.href}>
+                {site.register.label}
+              </a>
+            </li>
+          )}
         </ul>
       </nav>
     </header>

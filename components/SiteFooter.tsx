@@ -17,8 +17,7 @@ export default function SiteFooter() {
         </div>
         <div className="site-footer__cols">
           <div>
-            <p className="site-footer__label">Resources</p>
-            <ul>
+            <ul className="site-footer__nav">
               {LINKS.map((l) => (
                 <li key={l}>
                   <a href={`#${l.toLowerCase().replace(/\s+/g, "-")}`}>{l}</a>

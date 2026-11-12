@@ -34,14 +34,13 @@ export default function GateOutro() {
             trigger: root.current,
             start: "top top",
             end: "+=220%",
-            scrub: 0.8,
+            scrub: 0.4,
             pin: true,
             anticipatePin: 1,
           },
         });
 
         tl.fromTo(q(".torana"), { scale: 9, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.6, ease: "power2.out" }, 0)
-          .fromTo(q(".torana"), { filter: "blur(5px)" }, { filter: "blur(0px)", duration: 0.14 }, 0.02)
           .fromTo(q(".scene__back"), { scale: 1.28 }, { scale: 1, duration: 0.62, ease: "power1.out" }, 0)
           .fromTo(q(".outro__cta"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.18, ease: "power2.out" }, 0.6)
           .to({}, { duration: 0.15 });
@@ -67,7 +66,6 @@ export default function GateOutro() {
           <span aria-hidden="true">→</span>
         </a>
       </div>
-      <div className="grain" aria-hidden="true" />
     </section>
   );
 }
