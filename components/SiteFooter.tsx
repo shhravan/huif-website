@@ -1,46 +1,34 @@
-const LINKS = ["About", "Programme", "Speakers", "Get involved", "Attend"];
+import { site, footer } from "@/content/site";
 
+/** The close of the page: the name at full width, the facts, the navigation and the image credits. */
 export default function SiteFooter() {
   return (
     <footer className="site-footer">
-      <div className="site-footer__inner">
-        <div className="site-footer__brand">
-          <p className="site-footer__name">Harvard Undergraduate India Forum</p>
-          <p className="site-footer__line">The first Harvard forum in India. 13–14 March.</p>
-          <form className="site-footer__form">
-            <label htmlFor="footer-email">Stay updated</label>
-            <div className="site-footer__field">
-              <input id="footer-email" type="email" placeholder="you@college.edu" autoComplete="email" />
-              <button type="button">Sign up</button>
-            </div>
-          </form>
-        </div>
-        <div className="site-footer__cols">
-          <div>
+      <div className="frame">
+        <p className="site-footer__name">{site.name}</p>
+        <div className="site-footer__row">
+          <p className="site-footer__line">{footer.line}</p>
+          <nav aria-label="Footer">
             <ul className="site-footer__nav">
-              {LINKS.map((l) => (
-                <li key={l}>
-                  <a href={`#${l.toLowerCase().replace(/\s+/g, "-")}`}>{l}</a>
+              {site.nav.map((n) => (
+                <li key={n.label}>
+                  <a href={n.href}>{n.label}</a>
                 </li>
               ))}
+              <li>
+                <a href={site.contact.href}>{site.contact.label}</a>
+              </li>
             </ul>
-          </div>
-          <div>
-            <p className="site-footer__label">Follow</p>
-            <ul>
-              <li><a href="#">Instagram →</a></li>
-              <li><a href="#">LinkedIn →</a></li>
-            </ul>
-          </div>
+          </nav>
         </div>
+        <p className="site-footer__credit">
+          Gateway photograph: “Front View of Gate”, Sanchi, by Photo Dharma,{" "}
+          <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>, via{" "}
+          <a href="https://commons.wikimedia.org/wiki/File:001_Front_View_of_Gate_(33682987101).jpg">Wikimedia Commons</a>.
+          Background removed, perspective and colour adjusted. Sky and paving from{" "}
+          <a href="https://polyhaven.com">Poly Haven</a> (CC0).
+        </p>
       </div>
-      <p className="site-footer__credit">
-        Gateway photograph: “Front View of Gate”, Sanchi, by Photo Dharma,{" "}
-        <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>, via{" "}
-        <a href="https://commons.wikimedia.org/wiki/File:001_Front_View_of_Gate_(33682987101).jpg">Wikimedia Commons</a>.
-        Background removed, perspective and colour adjusted. Sky and paving from{" "}
-        <a href="https://polyhaven.com">Poly Haven</a> (CC0).
-      </p>
     </footer>
   );
 }

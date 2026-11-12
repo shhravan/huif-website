@@ -3,9 +3,9 @@ import { site } from "@/content/site";
 
 /**
  * The top of the site.
- * - `variant="photo"`: on the opening screen, directly on the photograph, in cream.
- * - `variant="bar"`: the slim pale bar that appears after the walk-through and stays
- *   while reading the rest of the site, with "Register interest" always in reach.
+ * - `variant="photo"`: on the opening screen, directly on the photograph, in the paper colour.
+ * - `variant="bar"`: the slim bar that appears after the walk-through and stays while reading,
+ *   with "Get in touch" always in reach.
  */
 export default function SiteHeader({ variant }: { variant: "photo" | "bar" }) {
   const logo = asset(variant === "photo" ? "/brand/logo-cream.webp" : "/brand/logo-marine.webp");
@@ -21,13 +21,11 @@ export default function SiteHeader({ variant }: { variant: "photo" | "bar" }) {
               <a href={n.href}>{n.label}</a>
             </li>
           ))}
-          {variant === "bar" && (
-            <li>
-              <a className="button-line" href={site.register.href}>
-                {site.register.label}
-              </a>
-            </li>
-          )}
+          <li>
+            <a className="button button--small" href={site.contact.href}>
+              {site.contact.label}
+            </a>
+          </li>
         </ul>
       </nav>
     </header>

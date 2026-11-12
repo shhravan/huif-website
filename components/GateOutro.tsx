@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Torana from "./Torana";
 import { ScenePlate } from "./Scene";
+import { site, closing, CONTACT_EMAIL } from "@/content/site";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -14,8 +15,8 @@ const HORIZON = "50% 76%";
 
 /**
  * End of the site: the gate comes back as if you are walking out backwards, in the
- * same morning light. You start inside the opening and the full gate settles into view,
- * with the "Become a Part" call to action in the sky above it.
+ * same daylight. You start inside the opening and the full gate settles into view,
+ * with "Get in touch" in the sky above it.
  */
 export default function GateOutro() {
   const root = useRef<HTMLElement>(null);
@@ -24,7 +25,7 @@ export default function GateOutro() {
     () => {
       const q = gsap.utils.selector(root);
       gsap.set(q(".torana"), { transformOrigin: OPENING });
-      gsap.set(q(".scene__back"), { transformOrigin: HORIZON });
+      gsap.set(q(".gate-scene__back"), { transformOrigin: HORIZON });
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
@@ -41,7 +42,7 @@ export default function GateOutro() {
         });
 
         tl.fromTo(q(".torana"), { scale: 9, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.6, ease: "power2.out" }, 0)
-          .fromTo(q(".scene__back"), { scale: 1.28 }, { scale: 1, duration: 0.62, ease: "power1.out" }, 0)
+          .fromTo(q(".gate-scene__back"), { scale: 1.28 }, { scale: 1, duration: 0.62, ease: "power1.out" }, 0)
           .fromTo(q(".outro__cta"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.18, ease: "power2.out" }, 0.6)
           .to({}, { duration: 0.15 });
       });
@@ -54,17 +55,20 @@ export default function GateOutro() {
   );
 
   return (
-    <section ref={root} className="scene outro" id="get-involved" aria-labelledby="outro-title">
+    <section ref={root} className="gate-scene outro" id="contact" aria-labelledby="outro-title">
       <ScenePlate />
-      <div className="scene__gate">
+      <div className="gate-scene__gate">
         <Torana />
       </div>
       <div className="outro__cta">
-        <h2 id="outro-title">Be part of the first Harvard forum in India</h2>
-        <a className="button" href="#get-involved">
-          Become a Part
-          <span aria-hidden="true">→</span>
-        </a>
+        <h2 id="outro-title">{closing.heading}</h2>
+        {CONTACT_EMAIL ? (
+          <a className="button" href={site.contact.href}>
+            {site.contact.label}
+          </a>
+        ) : (
+          <p className="outro__note">{closing.pending}</p>
+        )}
       </div>
     </section>
   );
