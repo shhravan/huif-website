@@ -6,11 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "perf": "node scripts/perf-check.js"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "gsap": "^3.13.0",
+    "lenis": "1.1.20",
     "next": "^15.5.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
