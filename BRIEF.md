@@ -24,8 +24,10 @@ One scrolling page, like indiaconferenceharvard.com, but carrying only what is c
 | # | Section | Claim | Proof on the page |
 | - | --- | --- | --- |
 | 1 | Opening | The Forum, its Theme, Mumbai, 13–14 March 2027 | The Gate, the name and dates in large type, a "See the programme" button |
-| 2 | About | Why the Forum exists | The About paragraph and Theme sentence from `docs/website-content.md` |
-| 3 | Programme | Two days, two rooms, sixteen conversations | The Schedule, with each Panel's central question under it where one exists |
+| 1b | Arrival | Through the gate, into Mumbai | The Gateway of India, full screen, with the Theme |
+| 2 | About | Why the Forum exists, and where | The About paragraphs beside a picture of many people; the facts; three pictures of Mumbai |
+| 2b | Questions | The questions are the Forum's identity | The five central questions, set large |
+| 3 | Programme | Two days, two rooms, sixteen conversations | The Schedule as a timetable, rooms named once per day |
 | 4 | Exit | Questions? Write to us | The Gate again, with "Get in touch" |
 | 5 | Footer | A designed close | The name, contact email, image credits |
 
@@ -46,7 +48,7 @@ All copy lives in one content file, separate from layout. Each section is built,
 ## Open items
 
 - The Day 1 closing slot reads "Closing keynote / Networking social", as in the Schedule; confirm whether these are one event or two.
-- Photographs from the team, beyond the Gate.
+- Sources and photographers for the team's photographs (see `CREDITS.md`).
 - "Choose your room" (pick one panel per slot and see your own two days) as the page's one interactive element.
 
 ## Later phase
