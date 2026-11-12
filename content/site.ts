@@ -10,6 +10,7 @@ export const site = {
   name: "Harvard Undergraduate India Forum",
   nav: [
     { label: "About", href: "#about" },
+    { label: "Panels", href: "#panels" },
     { label: "Programme", href: "#programme" },
   ],
   instagram: { label: "Instagram", handle: "@harvardu_indiaforum", href: "https://www.instagram.com/harvardu_indiaforum" },
@@ -20,9 +21,15 @@ export const site = {
 } as const;
 
 export const opening = {
-  /** First screen, under the name. */
-  line: "India Uncharted · Mumbai, 13–14 March 2027",
   action: { label: "See the programme", href: "#programme" },
+  /** The facts strip under the title. */
+  facts: [
+    { label: "When", value: "13–14 March 2027" },
+    { label: "Where", value: "Mumbai" },
+    { label: "Theme", value: "India Uncharted" },
+    { label: "Programme", value: "16 panels, 4 keynotes" },
+    { label: "Organised by", value: "Harvard undergraduates" },
+  ],
 } as const;
 
 /** The team's photographs. Files are in public/photos as <name>-<width>.webp. */
@@ -75,12 +82,6 @@ export const about = {
     "The Forum was born out of a shared desire among Indian international students at Harvard to remain meaningfully engaged with our nation amid profound change. As members of the Indian diaspora studying abroad, we see this gathering as an opportunity to contribute to India’s future through thoughtful conversations across disciplines, generations, and perspectives.",
   ],
   mumbai: "India is the subject of the conversation. Mumbai is where it will unfold.",
-  facts: [
-    { label: "Where", value: "Mumbai" },
-    { label: "When", value: "13–14 March 2027" },
-    { label: "Programme", value: "16 panels, 4 keynotes" },
-    { label: "Format", value: "Two days, two rooms" },
-  ],
 } as const;
 
 /** A slot in the Schedule. Times are 24-hour "HH:MM"; the page formats them. */
@@ -209,19 +210,7 @@ export const programme = {
 /** Every Panel, by day, in the order of the Schedule. Titles come from the Schedule (see BRIEF.md). */
 export const panels = {
   heading: "Sixteen panels, two days",
-  intro: "From democracy and the law to film, sport and healthcare, in two rooms over two days.",
-} as const;
-
-export const questions = {
-  heading: "The questions",
-  intro: "Each panel explores one question. Here are five of them.",
-  items: [
-    { panel: "Building the India of Tomorrow", when: "Day 1 · 12:00 pm" },
-    { panel: "Law, Institutions & a Changing India", when: "Day 1 · 10:30 am" },
-    { panel: "Women Reshaping India’s Workforce", when: "Day 1 · 4:30 pm" },
-    { panel: "Literature", when: "Day 2 · 1:30 pm" },
-    { panel: "India’s Energy Transition", when: "Day 2 · 4:30 pm" },
-  ],
+  intro: "From democracy and the law to film, sport and healthcare. Select a panel to see its question, day and room.",
 } as const;
 
 export const closing = {

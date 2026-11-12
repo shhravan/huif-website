@@ -117,12 +117,17 @@ export default function GateIntro() {
           <br />
           India Forum
         </h1>
-        <div className="opening__row">
-          <p>{opening.line}</p>
-          <a className="button button--light" href={opening.action.href}>
-            {opening.action.label}
-          </a>
-        </div>
+        <dl className="opening__facts">
+          {opening.facts.map((f) => (
+            <div key={f.label}>
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <a className="button button--light" href={opening.action.href}>
+          {opening.action.label}
+        </a>
       </div>
     </section>
   );
