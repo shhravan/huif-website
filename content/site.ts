@@ -26,7 +26,6 @@ export const opening = {
 
 /** The team's photographs. Files are in public/photos as <name>-<width>.webp. */
 export const photos = {
-  coastal: { name: "coastal", w: [1200, 2000], ratio: 2000 / 1333, alt: "Aerial view of Mumbai's coastal road curving over the sea towards the city" },
   taj: { name: "taj", w: [800, 1066], ratio: 1066 / 1333, alt: "The Taj Mahal Palace in Mumbai in late-afternoon light, pigeons in flight" },
   carts: { name: "carts", w: [1200, 1920], ratio: 1920 / 1238, alt: "Black-and-white photograph of people pulling carts in a line along an embankment, reflected in the water" },
 } as const;

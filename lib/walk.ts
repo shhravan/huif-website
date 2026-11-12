@@ -8,7 +8,7 @@
  * screen row) all the way to the horizon, hazing with distance as the plate does. The gate is projected through the
  * same camera, so its feet stay planted on the paving as you walk towards it and between its pillars.
  *
- * Optionally a "portal": a picture of India seen only through the gate's opening, which grows as you
+ * Optionally a "portal": the next section seen only through the gate's opening, which grows as you
  * approach and opens to the whole screen as you pass through.
  */
 
@@ -43,7 +43,7 @@ export type WalkOptions = {
   offset: number;
   /** the gate's first height, as a fraction of the screen height (desktop; phones fill the height) */
   size: number;
-  /** a picture of India seen through the opening */
+  /** the next section, seen through the opening */
   portal?: HTMLElement;
 };
 
@@ -133,7 +133,7 @@ export class GateWalk {
   /**
    * Draws the scene at walk progress p (0: standing back, title in view; 1: through the gate).
    * The first fifth turns towards the gate; the walk itself is one smooth ease, with no head sway.
-   * With a portal, India shows through the opening from mid-walk and opens to the whole screen at the end.
+   * With a portal, the story shows through the opening late in the walk and opens to the whole screen at the end.
    */
   render(p: number) {
     const L = this.layoutState;
@@ -163,16 +163,16 @@ export class GateWalk {
     const portal = this.options.portal;
     if (portal) {
       const gw = gh * GATE_ASPECT;
-      const open = easeInOut((p - 0.84) / 0.16); // the opening grows to the whole screen
+      const open = easeInOut((p - 0.74) / 0.16); // the opening grows to the whole screen
       const lerp = (a: number, b: number) => a + (b - a) * open;
       const t = lerp(top + OPENING.top * gh, 0);
       const r = lerp(L.w - (left + OPENING.right * gw), 0);
       const b = lerp(L.h - feetY, 0);
       const l = lerp(left + OPENING.left * gw, 0);
       portal.style.clipPath = `inset(${t}px ${r}px ${b}px ${l}px)`;
-      portal.style.opacity = String(easeInOut((p - 0.3) / 0.3));
-      const img = portal.firstElementChild as HTMLElement | null;
-      if (img) img.style.transform = `scale(${1.18 - 0.18 * easeInOut((p - 0.3) / 0.7)})`;
+      const shown = easeInOut((p - 0.56) / 0.18);
+      portal.style.opacity = String(shown);
+      portal.style.visibility = shown > 0 ? "visible" : "hidden";
     }
   }
 

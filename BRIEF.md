@@ -23,8 +23,8 @@ One scrolling page, but carrying only what is confirmed.
 
 | # | Section | Claim | Proof on the page |
 | - | --- | --- | --- |
-| 1 | Opening | The Forum, its Theme, Mumbai, 13–14 March 2027 | The Gate; walking through it opens onto Mumbai's coastal road |
-| 2 | Context | A country too complex for a single narrative | The narrative brief's opening lines |
+| 1 | Opening | The Forum, its Theme, Mumbai, 13–14 March 2027 | The Gate; late in the walk the story shows through its opening and grows to the whole screen |
+| 2 | Context | A country too complex for a single narrative | Its heading, seen through the Gate; then the narrative brief's opening lines |
 | 3 | About | A forum to bring those perspectives together | The About paragraphs from `docs/website-content.md`; the facts; the Taj Mahal Palace |
 | 4 | Theme | What "India Uncharted" and "A Nation of Multitudes" mean | The brief's theme notes; the photograph of people pulling carts |
 | 5 | Panels | Sixteen panels, two days | Every Panel title from the Schedule |
@@ -33,7 +33,7 @@ One scrolling page, but carrying only what is confirmed.
 | 8 | Close | Join the conversation in Mumbai | The Gate again, with "Get in touch" |
 | 9 | Footer | A designed close | The name, "Reach us directly" with the email, navigation, the one required credit |
 
-Photographs: three of the team's (the coastal road through the Gate, the Taj Mahal Palace, the carts). No video.
+Photographs: two of the team's (the Taj Mahal Palace, the carts). No video.
 
 Photographs: two of the team's (the Municipal Corporation beside About; Mumbai at dusk, full screen). No captions or credits for the team's photographs.
 

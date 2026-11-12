@@ -38,4 +38,4 @@ Motion follows `better-ui`: buttons press to 0.96 over 150ms; sections enter onc
 
 ## Photographs
 
-Three of the team's: Mumbai's coastal road, seen through the Gate and opening to the whole screen; the Taj Mahal Palace beside About; the carts, full width, above the Theme. No captions, credits or video.
+Two of the team's: the Taj Mahal Palace beside About; the carts, full width, above the Theme. Through the Gate there is no photograph: the story itself, Marine with its first heading, shows through the opening. No captions, credits or video.
