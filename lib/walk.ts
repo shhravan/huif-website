@@ -5,7 +5,7 @@
  * of view, eye 1.6 m above the ground, horizon at 76% of the frame, one paving texture per 4.6 m
  * (scripts/render_plate.py). This module uses that same camera. The near ground is drawn every
  * frame on a canvas from the real paving texture, in true perspective (one textured row per
- * screen row), and fades into the plate's own hazy distance. The gate is projected through the
+ * screen row) all the way to the horizon, hazing with distance as the plate does. The gate is projected through the
  * same camera, so its feet stay planted on the paving as you walk towards it and between its pillars.
  */
 
@@ -23,6 +23,8 @@ const GATE_FEET = 0.915; // where the pillars meet the ground
 const GATE_H = EYE / (GATE_FEET - GATE_EYE); // image height in metres that puts the eye line at 1.6 m
 
 const STEP = 0.78; // metres per step, for the walking sway
+const HAZE = 130; // metres: the air thickens towards the horizon as 1 − e^(−d/HAZE), measured from the plate
+const HAZE_RGB = "170, 169, 169"; // the plate's horizon colour
 const PILLAR = 0.27; // each pillar's centre, as a fraction of the gate width from the opening's centre
 
 type Layout = {
@@ -88,10 +90,10 @@ export class GateWalk {
     const scale = Math.max(w / PLATE_W, h / PLATE_H); // the plate is shown with object-fit: cover
     const f = PLATE_F * scale;
     const hy = HORIZON * h;
-    // the gate's first size on screen, as before: tall on a phone, right of the title on a desktop
-    const gateScreenH = portrait ? Math.min(0.98 * h, 1.92 * w) : Math.min(0.918 * h, 1.53 * w);
+    // the gate's first size on screen: tall on a phone; on a desktop, right of the title and clear of the navigation
+    const gateScreenH = portrait ? Math.min(0.98 * h, 1.92 * w) : Math.min(0.86 * h, 1.43 * w);
     const d0 = (GATE_H * f) / gateScreenH;
-    const gateX = portrait ? 0 : (0.24 * w * d0) / f;
+    const gateX = portrait ? 0 : (0.27 * w * d0) / f;
     // the walk ends where the pillars' centres reach the edges of the screen
     const pass = Math.min(d0 * 0.8, (GATE_H * f * 2 * PILLAR * GATE_ASPECT) / w);
     this.layoutState = { w, h, f, hy, gateX, d0, baseH: gateScreenH, pass };
@@ -156,9 +158,6 @@ export class GateWalk {
     const start = Math.ceil(hyD + 1);
     for (let y = start; y < this.canvas.height; y++) {
       const dist = (f * EYE) / (y - hyD); // metres to this row of ground
-      // near ground is solid; from 9 m it hands over to the plate's own hazy distance
-      const alpha = clamp((17 - dist) / 8);
-      if (alpha <= 0) continue;
       // pick the mip whose texels are about one device pixel wide at this distance
       const texPerPx = (dist * this.mips[0].k) / f;
       const level = Math.min(this.mips.length - 1, Math.max(0, Math.floor(Math.log2(texPerPx))));
@@ -167,10 +166,11 @@ export class GateWalk {
       const tx = cxD - (camX * f) / dist;
       const v = (camZ + dist) * k;
       pattern.setTransform(new DOMMatrix([sx, 0, 0, 1, tx, y - v]));
-      ctx.globalAlpha = alpha;
       ctx.fillStyle = pattern;
       ctx.fillRect(0, y, W, 1);
+      // air between the eye and this row of ground
+      ctx.fillStyle = `rgba(${HAZE_RGB}, ${1 - Math.exp(-dist / HAZE)})`;
+      ctx.fillRect(0, y, W, 1);
     }
-    ctx.globalAlpha = 1;
   }
 }
