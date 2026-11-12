@@ -230,22 +230,22 @@ html.lenis body {
 
 /* ---------- Opening ---------- */
 
-/* desktop: the gate sits right of centre so the title has room; it turns to the centre on scroll */
+/* desktop: the gate sits well right of centre so the title has the sky to itself; it turns to the centre on scroll */
 @media (orientation: landscape) {
   .opening .scene__gate {
-    left: 63%;
+    left: 71%;
   }
 }
 
-/* darkens the left and the foreground just enough for cream type */
+/* deepens the sky's own blue behind the title (as a polariser would), fading out well above the
+   horizon, instead of laying a black wash over the photo */
 .opening__scrim {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(8, 14, 26, 0.36) 0%, rgba(8, 14, 26, 0.14) 40%, rgba(8, 14, 26, 0) 62%),
-    linear-gradient(0deg, rgba(8, 14, 26, 0.3) 0%, rgba(8, 14, 26, 0) 45%);
+  /* plain transparency, no blend mode or mask: those made the browser recompute every frame */
+  background: radial-gradient(ellipse 62% 58% at 0% 38%, rgb(30 56 102 / 0.62) 0%, rgb(30 56 102 / 0.36) 45%, rgb(30 56 102 / 0) 100%);
 }
 
 /* after the walk-through the sky softens into the site's paper */
@@ -259,12 +259,11 @@ html.lenis body {
 }
 
 .opening__title {
-  text-shadow: 0 1px 18px rgba(8, 14, 26, 0.35);
   position: absolute;
   left: 6vw;
-  bottom: calc(13vh + env(safe-area-inset-bottom, 0px));
+  top: 30vh;
   z-index: 3;
-  max-width: 60vw;
+  max-width: 52vw;
   color: var(--ageless);
 }
 
@@ -272,7 +271,7 @@ html.lenis body {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(2.75rem, 5.4vw, 5.5rem);
+  font-size: clamp(2.6rem, 4.6vw, 5rem);
   line-height: 1;
   letter-spacing: -0.01em;
 }
@@ -325,14 +324,17 @@ html.lenis body {
   .opening .scene__gate {
     --gate-h: min(98vh, 192vw);
   }
+  /* phone: the title sits low over the paving, so the stone is put in soft shade, in its own colour */
   .opening__scrim {
-    background: linear-gradient(0deg, rgba(8, 14, 26, 0.55) 0%, rgba(8, 14, 26, 0.22) 40%, rgba(8, 14, 26, 0) 62%);
+    background: linear-gradient(0deg, rgb(70 52 40 / 0.74) 0%, rgb(70 52 40 / 0.36) 38%, rgb(70 52 40 / 0) 60%);
   }
   .opening__title {
     left: max(20px, env(safe-area-inset-left, 0px));
     right: max(20px, env(safe-area-inset-right, 0px));
+    top: auto;
     bottom: calc(12vh + env(safe-area-inset-bottom, 0px));
     max-width: none;
+    text-shadow: 0 1px 14px rgb(40 28 20 / 0.45);
   }
   .opening__cue {
     left: max(20px, env(safe-area-inset-left, 0px));
