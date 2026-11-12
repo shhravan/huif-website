@@ -1,5 +1,6 @@
 import GateIntro from "@/components/GateIntro";
 import SiteHeader from "@/components/SiteHeader";
+import SmoothScroll from "@/components/SmoothScroll";
 import GateOutro from "@/components/GateOutro";
 import SiteFooter from "@/components/SiteFooter";
 
@@ -25,6 +26,7 @@ const SECTIONS = [
 export default function Home() {
   return (
     <main id="top">
+      <SmoothScroll />
       <SiteHeader variant="bar" />
       <GateIntro />
       {SECTIONS.map((s) => (
