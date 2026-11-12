@@ -24,12 +24,12 @@ One scrolling page, like indiaconferenceharvard.com, but carrying only what is c
 | # | Section | Claim | Proof on the page |
 | - | --- | --- | --- |
 | 1 | Opening | The Forum, its Theme, Mumbai, 13–14 March 2027 | The Gate; late in the walk the story shows through its opening and grows to the whole screen |
-| 2 | Context | A country too complex for a single narrative | Its heading, seen through the Gate; then the narrative brief's opening lines |
-| 3 | About | A forum to bring those perspectives together | The About paragraphs from `docs/website-content.md`; the facts; the Taj Mahal Palace |
+| 2 | Context | A country too complex for a single narrative; why now | Its heading, seen through the Gate; the brief's opening lines and its two reasons (a changing India; young people in the room) |
+| 3 | About | A forum to bring those perspectives together; why Mumbai | The About paragraphs from `docs/website-content.md`; the brief's Mumbai line; the facts; the Taj Mahal Palace |
 | 4 | Theme | What "India Uncharted" and "A Nation of Multitudes" mean | The brief's theme notes; the photograph of people pulling carts |
 | 5 | Panels | Sixteen panels, two days | Every Panel title from the Schedule |
 | 6 | Questions | The questions are the Forum's identity | Five central questions |
-| 7 | Programme | The full Schedule | Day tabs; three layouts to choose from with `?programme=a`, `b` or `c` |
+| 7 | Programme | The full Schedule | Day tabs; five structures to choose from with `?__variant=timetable`, `calendar`, `agenda`, `overview` or `editorial` (picker shown only with the parameter) |
 | 8 | Close | Join the conversation in Mumbai | The Gate again, with "Get in touch" |
 | 9 | Footer | A designed close | The name, "Reach us directly" with the email, navigation, the one required credit |
 

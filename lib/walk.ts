@@ -35,8 +35,9 @@ const FEET_X: [number, number][] = [
 const GATE_CX = 0.491; // the opening's centre
 const PILLAR_DEPTH = 0.9; // metres: the pillars are square in plan
 const PILLAR = 0.27; // each pillar's centre, as a fraction of the gate width from the opening's centre
-// the opening between the pillars and under the lowest lintel, as fractions of the image box
-const OPENING = { left: 0.286, right: 0.685, top: 0.353 };
+// the story is drawn behind the gate, from pillar centre to pillar centre and from inside the lowest
+// lintel down to the feet, so the carved stone itself frames it and no straight edge shows
+const OPENING = { left: 0.236, right: 0.747, top: 0.345 };
 
 export type WalkOptions = {
   /** where the gate first stands: 0 is the centre of the screen, 0.27 is right of centre */
@@ -141,9 +142,11 @@ export class GateWalk {
     this.last = p;
 
     const turn = easeInOut(p / 0.22);
-    const walk = easeInOut((p - 0.04) / 0.86);
+    const walk = easeInOut((p - 0.04) / 0.82);
     const camX = L.gateX * turn;
-    const camZ = (L.d0 - L.pass) * walk;
+    // after the doorway has opened, keep walking: the pillars slide out past the edges of the screen
+    const through = easeInOut((p - 0.86) / 0.14);
+    const camZ = (L.d0 - L.pass) * walk + (L.pass - 0.12) * through;
     const d = L.d0 - camZ; // distance from the eye to the gate
 
     const hy = L.hy;
@@ -163,16 +166,19 @@ export class GateWalk {
     const portal = this.options.portal;
     if (portal) {
       const gw = gh * GATE_ASPECT;
-      const open = easeInOut((p - 0.74) / 0.16); // the opening grows to the whole screen
+      const open = easeInOut((p - 0.7) / 0.18); // the opening grows to the whole screen
       const lerp = (a: number, b: number) => a + (b - a) * open;
       const t = lerp(top + OPENING.top * gh, 0);
       const r = lerp(L.w - (left + OPENING.right * gw), 0);
       const b = lerp(L.h - feetY, 0);
       const l = lerp(left + OPENING.left * gw, 0);
       portal.style.clipPath = `inset(${t}px ${r}px ${b}px ${l}px)`;
-      const shown = easeInOut((p - 0.56) / 0.18);
+      // the Marine field fades in first; the words follow once it is solid
+      const shown = easeInOut((p - 0.46) / 0.24);
       portal.style.opacity = String(shown);
       portal.style.visibility = shown > 0 ? "visible" : "hidden";
+      const words = portal.firstElementChild as HTMLElement | null;
+      if (words) words.style.opacity = String(easeInOut((p - 0.66) / 0.14));
     }
   }
 
