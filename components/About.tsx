@@ -21,14 +21,6 @@ export default function About() {
           <p className="about__mumbai" data-reveal style={{ ["--i" as string]: 2 }}>
             {about.mumbai}
           </p>
-          <dl className="about__facts">
-            {about.facts.map((f, i) => (
-              <div key={f.label} className="about__fact" data-reveal style={{ ["--i" as string]: i + 2 }}>
-                <dt>{f.label}</dt>
-                <dd>{f.value}</dd>
-              </div>
-            ))}
-          </dl>
         </div>
       </div>
     </section>

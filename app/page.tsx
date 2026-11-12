@@ -6,13 +6,12 @@ import Context from "@/components/Context";
 import About from "@/components/About";
 import Theme from "@/components/Theme";
 import Panels from "@/components/Panels";
-import Questions from "@/components/Questions";
 import Programme from "@/components/Programme";
 import GateOutro from "@/components/GateOutro";
 import SiteFooter from "@/components/SiteFooter";
 
 // The Launch page tells the narrative brief's story (see BRIEF.md): through the Gate into India,
-// the context, the Forum, the Theme, the Panels and their questions, the Programme, and back out through the Gate.
+// the context, the Forum, the Theme, the Panels (select one for its question), the Programme, and back out through the Gate.
 export default function Home() {
   return (
     <main id="top">
@@ -24,7 +23,6 @@ export default function Home() {
       <About />
       <Theme />
       <Panels />
-      <Questions />
       <Programme />
       <GateOutro />
       <SiteFooter />
