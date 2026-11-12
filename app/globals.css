@@ -254,13 +254,21 @@ html.lenis body {
   opacity: 0;
   clip-path: inset(50%);
   pointer-events: none;
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
 }
-.gate-scene__india img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 60%;
-  will-change: transform;
+/* the heading sits where the Context section continues it, low in the frame */
+.gate-scene__story {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(48px, 12svh, 140px);
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.gate-scene__story h2 {
+  max-width: 24ch;
 }
 
 /* ---------- Header ---------- */
@@ -412,7 +420,7 @@ html.lenis body {
 /* ---------- Context: the one centred moment, on Marine ---------- */
 
 .context {
-  padding-block: var(--section);
+  padding-block: clamp(8px, 2vw, 24px) var(--section);
   background: var(--color-bg-inverse);
   color: var(--color-text-inverse);
 }
@@ -427,7 +435,7 @@ html.lenis body {
 }
 .context__lead {
   max-width: 40ch;
-  margin: clamp(48px, 5vw, 80px) 0 0;
+  margin: 0;
   font-family: var(--font-display);
   font-size: var(--text-lead);
   line-height: 1.4;
