@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Harvard Undergraduate India Forum",
-  description: "The first Harvard forum held in India.",
+  description: "India Uncharted: A Nation of Multitudes. Mumbai, 13–14 March 2027.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Eczar:wght@400;500&family=Mukta:wght@400;500;600&display=swap"
         />
       </head>
       <body>{children}</body>

@@ -11,9 +11,8 @@ export function ScenePlate() {
   const big = asset("/scene/day-2880.webp");
   const small = asset("/scene/day-1600.webp");
   return (
-    <div className="scene__back" aria-hidden="true">
-      <img className="scene__plate" src={big} srcSet={`${small} 1600w, ${big} 2880w`} sizes="100vw" alt="" draggable={false} />
-      <div className="scene__haze" />
+    <div className="gate-scene__back" aria-hidden="true">
+      <img className="gate-scene__plate" src={big} srcSet={`${small} 1600w, ${big} 2880w`} sizes="100vw" alt="" draggable={false} />
     </div>
   );
 }
