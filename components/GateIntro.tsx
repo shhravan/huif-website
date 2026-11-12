@@ -99,15 +99,17 @@ export default function GateIntro() {
       <SiteHeader variant="photo" />
 
       <div className="opening__title">
-        <h1>
+        <h1 className="display">
           Harvard Undergraduate
           <br />
           India Forum
         </h1>
-        <p>{opening.line}</p>
-        <a className="button button--light" href={opening.action.href}>
-          {opening.action.label}
-        </a>
+        <div className="opening__row">
+          <p>{opening.line}</p>
+          <a className="button button--light" href={opening.action.href}>
+            {opening.action.label}
+          </a>
+        </div>
       </div>
     </section>
   );

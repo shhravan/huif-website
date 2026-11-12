@@ -103,6 +103,12 @@ p {
   line-height: 0.98;
   letter-spacing: -0.03em;
 }
+/* on wide screens every display line, the opening title included, shares one size */
+@media (min-width: 901px) {
+  .display {
+    font-size: min(var(--text-display), 6.2vw);
+  }
+}
 .head {
   font-size: var(--text-head);
   line-height: 1.05;
@@ -325,42 +331,41 @@ html.lenis body {
 
 /* ---------- Opening ---------- */
 
-/* desktop: the gate sits right of centre so the title has the sky to itself; it turns to the centre on scroll */
+/* desktop: the gate stands right of centre so the title has the left of the frame; you turn to it as you walk */
 @media (orientation: landscape) {
   .opening .gate-scene__gate {
-    left: 74%;
+    left: 77%;
+    --gate-h: min(86svh, 143vw);
   }
 }
 
-/* a soft shade behind the title only: the one gradient the house rules allow (a legibility scrim) */
+/* a soft neutral shade rising from the ground, under the title: the one gradient the house rules allow */
 .opening__scrim {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: radial-gradient(ellipse 62% 58% at 0% 42%, rgb(17 17 19 / 0.48) 0%, rgb(17 17 19 / 0.26) 45%, rgb(17 17 19 / 0) 100%); /* legibility scrim over the photograph */
+  background: linear-gradient(0deg, rgb(17 17 19 / 0.62) 0%, rgb(17 17 19 / 0.3) 30%, rgb(17 17 19 / 0) 58%); /* legibility scrim over the photograph */
 }
 
+/* the title is anchored to the bottom-left of the frame, like a title card */
 .opening__title {
   position: absolute;
   left: var(--margin);
-  top: 28vh;
+  right: var(--margin);
+  bottom: clamp(32px, 6svh, 64px);
   z-index: 3;
-  max-width: 56vw;
   color: var(--color-text-inverse);
 }
-
-.opening__title h1 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: min(clamp(2.5rem, 0.9rem + 3.9vw, 4.5rem), 8vw);
-  line-height: 1;
-  letter-spacing: -0.025em;
+.opening__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 32px;
+  margin-top: clamp(20px, 2.4vw, 32px);
 }
-
-.opening__title p {
-  margin: 24px 0 32px;
+.opening__row p {
+  margin: 0;
   font-size: var(--text-lead);
   line-height: 1.3;
 }
@@ -369,18 +374,11 @@ html.lenis body {
   .opening .gate-scene__gate {
     --gate-h: min(98svh, 192vw);
   }
-  /* phone: the title sits low over the paving, so the stone is put in soft shade */
-  .opening__scrim {
-    background: linear-gradient(0deg, rgb(17 17 19 / 0.78) 0%, rgb(17 17 19 / 0.42) 42%, rgb(17 17 19 / 0) 64%); /* legibility scrim over the photograph */
+  .opening__row {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  .opening__title {
-    top: auto;
-    right: var(--margin);
-    bottom: calc(7svh + env(safe-area-inset-bottom, 0px));
-    max-width: none;
-  }
-  .opening__title p {
-    margin: 14px 0 22px;
+  .opening__row p {
     font-size: 1.125rem;
   }
 }
