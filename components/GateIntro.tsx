@@ -17,7 +17,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  * The opening ("title card"). First screen: the real gate standing on the paving to the right;
  * the forum's name, the Theme, city and dates, and "See the programme" in the sky to the left.
  * Scrolling (pinned): the title fades, you turn towards the gate and walk through it, the ground
- * passing under you (lib/walk.ts); through the opening you see the story, which grows to the whole screen. From then on a slim bar (logo, navigation, Get in touch)
+ * passing under you (lib/walk.ts); between the pillars the sky softens into the page and the story begins. From then on a slim bar (logo, navigation, Get in touch)
  * stays at the top of the page.
  */
 export default function GateIntro() {
@@ -32,13 +32,11 @@ export default function GateIntro() {
       const [back] = q(".gate-scene__back") as HTMLElement[];
       const [canvas] = q(".gate-scene__ground") as HTMLCanvasElement[];
       const [gate] = q(".gate-scene__gate") as HTMLElement[];
-      const [portal] = q(".gate-scene__india") as HTMLElement[];
 
       const small = window.matchMedia("(max-width: 860px)").matches;
       const walk = new GateWalk(el, back, canvas, gate, asset(small ? "/scene/paving-1024.webp" : "/scene/paving-2048.webp"), {
         offset: 0.27,
         size: 0.86,
-        portal,
       });
       let ready = false;
       walk.load().then(() => {
@@ -81,9 +79,12 @@ export default function GateIntro() {
             // the title steps aside as you turn towards the gate
             .to(q(".opening__title"), { autoAlpha: 0, y: 40, duration: 0.12, ease: "power1.in" }, 0)
             .to(q(".opening__scrim"), { autoAlpha: 0, duration: 0.18 }, 0)
-            // halfway through the gate the slim bar takes over
-            .to(q(".site-header--photo"), { autoAlpha: 0, duration: 0.06 }, 0.82);
-          if (bar) tl.to(bar, { autoAlpha: 1, yPercent: 0, duration: 0.06, ease: "power2.out" }, 0.84);
+            // as the sky softens, the slim bar takes over
+            .to(q(".site-header--photo"), { autoAlpha: 0, duration: 0.06 }, 0.66)
+            // as you pass between the pillars the sky softens into the page, and the story begins
+            .to(q(".opening__paper"), { autoAlpha: 1, duration: 0.2, ease: "power1.inOut" }, 0.66)
+            .fromTo(q(".opening__story"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.14, ease: "power2.out" }, 0.8);
+          if (bar) tl.to(bar, { autoAlpha: 1, yPercent: 0, duration: 0.06, ease: "power2.out" }, 0.72);
         },
       );
 
@@ -99,15 +100,14 @@ export default function GateIntro() {
       <div className="gate-scene__gate">
         <Torana />
       </div>
-      {/* the story, seen through the gate; this heading is the Context section's title */}
-      <div className="gate-scene__india">
-        <div className="frame gate-scene__story">
-          <h2 id="context-title" className="display">
-            {context.heading}
-          </h2>
-        </div>
-      </div>
       <div className="opening__scrim" aria-hidden="true" />
+      <div className="opening__paper" aria-hidden="true" />
+      {/* the story begins here; this heading is the Context section's title */}
+      <div className="frame opening__story">
+        <h2 id="context-title" className="display">
+          {context.heading}
+        </h2>
+      </div>
 
       <SiteHeader variant="photo" />
 

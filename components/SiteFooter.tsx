@@ -26,6 +26,11 @@ export default function SiteFooter() {
               <li>
                 <a href={site.contact.href}>{site.contact.label}</a>
               </li>
+              <li>
+                <a href={site.instagram.href} rel="noopener">
+                  {site.instagram.label} <span aria-hidden="true">↗</span>
+                </a>
+              </li>
             </ul>
           </nav>
         </div>
