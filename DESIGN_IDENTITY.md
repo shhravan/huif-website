@@ -38,4 +38,4 @@ Motion follows `better-ui`: buttons press to 0.96 over 150ms; sections enter onc
 
 ## Photographs
 
-Two of the team's: the Municipal Corporation through an arch beside About, and Mumbai at dusk, full screen, behind the invitation. No captions or credits.
+Three of the team's: Mumbai's coastal road, seen through the Gate and opening to the whole screen; the Taj Mahal Palace beside About; the carts, full width, above the Theme. No captions, credits or video.
