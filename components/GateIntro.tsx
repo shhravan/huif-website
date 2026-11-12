@@ -8,9 +8,8 @@ import Torana from "./Torana";
 import SiteHeader from "./SiteHeader";
 import { ScenePlate } from "./Scene";
 import { GateWalk } from "@/lib/walk";
-import Picture from "./Picture";
 import { asset } from "@/lib/asset";
-import { site, opening, photos } from "@/content/site";
+import { site, opening, context } from "@/content/site";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -18,7 +17,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  * The opening ("title card"). First screen: the real gate standing on the paving to the right;
  * the forum's name, the Theme, city and dates, and "See the programme" in the sky to the left.
  * Scrolling (pinned): the title fades, you turn towards the gate and walk through it, the ground
- * passing under you (lib/walk.ts), and India opens through the gate to the whole screen. From then on a slim bar (logo, navigation, Get in touch)
+ * passing under you (lib/walk.ts); through the opening you see the story, which grows to the whole screen. From then on a slim bar (logo, navigation, Get in touch)
  * stays at the top of the page.
  */
 export default function GateIntro() {
@@ -70,7 +69,7 @@ export default function GateIntro() {
               trigger: el,
               start: "top top",
               end: "+=260%",
-              scrub: 1.2,
+              scrub: 0.8,
               pin: true,
               anticipatePin: 1,
             },
@@ -79,15 +78,11 @@ export default function GateIntro() {
 
           // the walk itself runs on the timeline's progress, from 0 to 1
           tl.to({}, { duration: 1 }, 0)
+            // the title steps aside as you turn towards the gate
+            .to(q(".opening__title"), { autoAlpha: 0, y: 40, duration: 0.12, ease: "power1.in" }, 0)
+            .to(q(".opening__scrim"), { autoAlpha: 0, duration: 0.18 }, 0)
             // halfway through the gate the slim bar takes over
             .to(q(".site-header--photo"), { autoAlpha: 0, duration: 0.06 }, 0.82);
-
-          // the title steps aside as you turn towards the gate; tied to the scroll directly, with no
-          // smoothing lag, so it is back in full the moment you return to the top
-          gsap
-            .timeline({ scrollTrigger: { trigger: el, start: "top top", end: "+=30%", scrub: true } })
-            .to(q(".opening__title"), { autoAlpha: 0, y: 40, ease: "power1.in" }, 0)
-            .to(q(".opening__scrim"), { opacity: 0, ease: "none" }, 0);
           if (bar) tl.to(bar, { autoAlpha: 1, yPercent: 0, duration: 0.06, ease: "power2.out" }, 0.84);
         },
       );
@@ -104,8 +99,13 @@ export default function GateIntro() {
       <div className="gate-scene__gate">
         <Torana />
       </div>
-      <div className="gate-scene__india" aria-hidden="true">
-        <Picture photo={photos.coastal} sizes="100vw" priority />
+      {/* the story, seen through the gate; this heading is the Context section's title */}
+      <div className="gate-scene__india">
+        <div className="frame gate-scene__story">
+          <h2 id="context-title" className="display">
+            {context.heading}
+          </h2>
+        </div>
       </div>
       <div className="opening__scrim" aria-hidden="true" />
 
