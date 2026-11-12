@@ -43,6 +43,15 @@ a {
   color: inherit;
 }
 
+/* Lenis smooth scrolling */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
 /* ---------- Scene: real sky and paving + gate ---------- */
 
 .scene {
@@ -80,12 +89,6 @@ a {
   bottom: calc(var(--horizon) - 8vh);
   height: 22vh;
   background: radial-gradient(60% 50% at 50% 55%, rgba(236, 226, 220, 0.22), rgba(236, 226, 220, 0));
-  animation: haze 24s ease-in-out infinite alternate;
-}
-
-@keyframes haze {
-  from { transform: translateX(-2%); opacity: 0.75; }
-  to { transform: translateX(2%); opacity: 1; }
 }
 
 .scene__gate {
@@ -112,22 +115,6 @@ a {
   height: 100%;
   object-fit: contain;
   user-select: none;
-}
-
-.grain {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-  opacity: 0.07;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .scene__haze {
-    animation: none;
-  }
 }
 
 /* ---------- Header ---------- */
@@ -257,8 +244,8 @@ a {
   z-index: 2;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(8, 14, 26, 0.55) 0%, rgba(8, 14, 26, 0.22) 40%, rgba(8, 14, 26, 0) 62%),
-    linear-gradient(0deg, rgba(8, 14, 26, 0.5) 0%, rgba(8, 14, 26, 0) 45%);
+    linear-gradient(90deg, rgba(8, 14, 26, 0.36) 0%, rgba(8, 14, 26, 0.14) 40%, rgba(8, 14, 26, 0) 62%),
+    linear-gradient(0deg, rgba(8, 14, 26, 0.3) 0%, rgba(8, 14, 26, 0) 45%);
 }
 
 /* after the walk-through the sky softens into the site's paper */
@@ -272,6 +259,7 @@ a {
 }
 
 .opening__title {
+  text-shadow: 0 1px 18px rgba(8, 14, 26, 0.35);
   position: absolute;
   left: 6vw;
   bottom: calc(13vh + env(safe-area-inset-bottom, 0px));
@@ -338,7 +326,7 @@ a {
     --gate-h: min(98vh, 192vw);
   }
   .opening__scrim {
-    background: linear-gradient(0deg, rgba(8, 14, 26, 0.75) 0%, rgba(8, 14, 26, 0.35) 40%, rgba(8, 14, 26, 0) 62%);
+    background: linear-gradient(0deg, rgba(8, 14, 26, 0.55) 0%, rgba(8, 14, 26, 0.22) 40%, rgba(8, 14, 26, 0) 62%);
   }
   .opening__title {
     left: max(20px, env(safe-area-inset-left, 0px));

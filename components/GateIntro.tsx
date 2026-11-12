@@ -56,7 +56,7 @@ export default function GateIntro() {
               trigger: root.current,
               start: "top top",
               end: "+=300%",
-              scrub: 0.8,
+              scrub: 0.4,
               pin: true,
               anticipatePin: 1,
             },
@@ -69,7 +69,6 @@ export default function GateIntro() {
             .to(q(".scene__gate"), { left: "50%", duration: 0.24, ease: "power1.inOut" }, 0)
             // 2→4: approach and pass between the pillars.
             .to(q(".torana"), { scale: portrait ? 5 : 11, duration: 0.6, ease: "power2.in" }, 0.02)
-            .to(q(".torana"), { filter: "blur(4px)", duration: 0.1 }, 0.5)
             .to(q(".torana"), { autoAlpha: 0, duration: 0.08 }, 0.56)
             .to(q(".scene__back"), { scale: 1.28, duration: 0.62, ease: "power1.in" }, 0)
             // 5: the sky softens into the site's paper; the statement appears; the slim bar takes over.
@@ -111,7 +110,6 @@ export default function GateIntro() {
       <div className="opening__statement">
         <h2>{opening.statement}</h2>
       </div>
-      <div className="grain" aria-hidden="true" />
     </section>
   );
 }
