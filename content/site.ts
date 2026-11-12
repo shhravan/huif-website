@@ -24,10 +24,11 @@ export const opening = {
   action: { label: "See the programme", href: "#programme" },
 } as const;
 
-/** The team's photographs, used full screen. Files are in public/photos as <name>-<width>.webp. */
+/** The team's photographs. Files are in public/photos as <name>-<width>.webp. */
 export const photos = {
-  municipal: { name: "municipal", w: [800, 1200], ratio: 1200 / 1500, alt: "The domed Municipal Corporation headquarters in Mumbai, seen through a carved stone arch" },
-  dusk: { name: "dusk", w: [1200, 1920], ratio: 1920 / 1080, alt: "The Mumbai skyline at dusk across the sea" },
+  coastal: { name: "coastal", w: [1200, 2000], ratio: 2000 / 1333, alt: "Aerial view of Mumbai's coastal road curving over the sea towards the city" },
+  taj: { name: "taj", w: [800, 1066], ratio: 1066 / 1333, alt: "The Taj Mahal Palace in Mumbai in late-afternoon light, pigeons in flight" },
+  carts: { name: "carts", w: [1200, 1920], ratio: 1920 / 1238, alt: "Black-and-white photograph of people pulling carts in a line along an embankment, reflected in the water" },
 } as const;
 
 export type Photo = (typeof photos)[keyof typeof photos];
@@ -35,10 +36,25 @@ export type Photo = (typeof photos)[keyof typeof photos];
 /** The story, in the order of the narrative brief: the context, the response, the invitation. */
 export const context = {
   heading: "A country too complex for a single narrative",
-  paragraphs: [
-    "India’s future is being shaped across boardrooms and classrooms, laboratories and hospitals, public institutions and communities, and through the work of people whose experiences and ambitions often look very different from one another.",
-    "No single perspective can capture the whole picture.",
+  /** Read as one paragraph: the first part in full ink, the rest quieter. */
+  lead: "India’s future is being shaped in boardrooms and classrooms, laboratories and hospitals, public institutions and communities,",
+  rest: "by people whose experiences and ambitions often look very different from one another. No single perspective can capture the whole picture.",
+} as const;
+
+/** The Theme, from the narrative brief: what each half of it means. */
+export const theme = {
+  heading: "India Uncharted: A Nation of Multitudes",
+  parts: [
+    {
+      lead: "India Uncharted.",
+      text: "Look past the familiar headlines about growth, technology and influence. Ask what those changes mean in practice, how they differ from one community to the next, and which parts of the country’s future deserve more attention.",
+    },
+    {
+      lead: "A Nation of Multitudes.",
+      text: "India cannot be understood through one experience, one geography, one generation or one set of priorities. Its languages, identities, economies and ambitions differ, even within a single field.",
+    },
   ],
+  close: "Not every conversation will end in agreement. The aim is better questions, and a clearer sense of why the answers differ.",
 } as const;
 
 export const about = {
@@ -178,6 +194,12 @@ export const programme = {
   days: readonly { id: string; label: string; date: string; slots: readonly Slot[] }[];
 };
 
+/** Every Panel, by day, in the order of the Schedule. Titles come from the Schedule (see BRIEF.md). */
+export const panels = {
+  heading: "Sixteen panels, two days",
+  intro: "From democracy and the law to film, sport and healthcare, in two rooms over two days.",
+} as const;
+
 export const questions = {
   heading: "The questions",
   intro: "Each panel explores one question. Here are five of them.",
@@ -192,11 +214,12 @@ export const questions = {
 
 export const closing = {
   heading: "Join the conversation in Mumbai",
-  line: "13–14 March 2027",
+  line: "13–14 March 2027. Questions about the Forum? Write to us.",
   action: "Get in touch",
   pending: "Our contact address will be here shortly.",
 } as const;
 
 export const footer = {
   line: "India Uncharted · Mumbai, 13–14 March 2027",
+  reach: "Reach us directly",
 } as const;

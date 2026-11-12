@@ -24,6 +24,8 @@
   --color-accent-solid-hover: var(--marine-950);
   --color-accent-on-solid: var(--stone-50);
   --color-accent-light-hover: #ffffff;
+  --color-bg-surface: #e4e3dd; /* one tone step from stone: tabs, keynote rows */
+  --color-bg-surface-hover: #d9d8d1;
   --color-photo-fallback: #8d9bb6; /* behind photographs while they load */
 
   --font-display: "Eczar", "Iowan Old Style", Georgia, serif;
@@ -243,6 +245,24 @@ html.lenis body {
   user-select: none;
 }
 
+/* India, seen through the gate's opening; lib/walk.ts sets its clip and opacity each frame */
+.gate-scene__india {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  opacity: 0;
+  clip-path: inset(50%);
+  pointer-events: none;
+}
+.gate-scene__india img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 60%;
+  will-change: transform;
+}
+
 /* ---------- Header ---------- */
 
 .site-header {
@@ -406,15 +426,14 @@ html.lenis body {
   max-width: 24ch;
 }
 .context__lead {
-  max-width: 34ch;
+  max-width: 40ch;
   margin: clamp(48px, 5vw, 80px) 0 0;
   font-family: var(--font-display);
   font-size: var(--text-lead);
   line-height: 1.4;
   text-wrap: balance;
 }
-.context__close {
-  margin: 28px 0 0;
+.context__lead span {
   color: var(--color-text-inverse-muted);
 }
 
@@ -520,21 +539,105 @@ html.lenis body {
   color: var(--color-text-inverse-muted);
 }
 
-/* ---------- Programme: the printed timetable, on Marine ---------- */
+/* ---------- Theme: the picture of many, then the two halves of the Theme ---------- */
 
-.programme {
-  padding-block: var(--section);
+.theme {
+  padding-bottom: var(--section);
   background: var(--color-bg-inverse);
   color: var(--color-text-inverse);
   scroll-margin-top: 72px;
 }
+.theme__band img {
+  display: block;
+  width: 100%;
+  height: clamp(280px, 46vw, 680px);
+  object-fit: cover;
+  object-position: 50% 45%;
+}
+.theme__title {
+  max-width: 18ch;
+  padding-top: clamp(72px, 8vw, 128px);
+}
+.theme__parts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px clamp(32px, 5vw, 80px);
+  margin-top: clamp(48px, 5vw, 80px);
+}
+.theme__parts p {
+  margin: 0;
+  max-width: 52ch;
+  color: var(--color-text-inverse-muted);
+  font-size: var(--text-lead);
+  line-height: 1.45;
+}
+.theme__parts strong {
+  color: var(--color-text-inverse);
+  font-weight: 400;
+  font-family: var(--font-display);
+}
+.theme__close {
+  margin: clamp(48px, 5vw, 80px) 0 0;
+  max-width: 52ch;
+}
 
+/* ---------- Panels: every title, as a wall of words ---------- */
+
+.panels {
+  padding-block: var(--section);
+  scroll-margin-top: 72px;
+}
+.panels__head {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px 32px;
+  align-items: end;
+  margin-bottom: clamp(56px, 6vw, 96px);
+}
+.panels__head h2 {
+  grid-column: 1 / span 6;
+}
+.panels__head p {
+  grid-column: 8 / span 5;
+  margin: 0;
+  color: var(--color-text-muted);
+}
+.panels__day + .panels__day {
+  margin-top: clamp(48px, 5vw, 80px);
+}
+.panels__label {
+  margin: 0 0 16px;
+  color: var(--color-text-muted);
+}
+.panels__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em 0.9em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.1rem + 2.2vw, 3.25rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.panels__list li:not(:last-child)::after {
+  content: " /";
+  color: var(--color-text-muted);
+}
+
+/* ---------- Programme: on stone, one day at a time ---------- */
+
+.programme {
+  padding-block: var(--section);
+  scroll-margin-top: 72px;
+}
 .programme__head {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 24px 32px;
   align-items: end;
-  margin-bottom: clamp(72px, 8vw, 128px);
+  margin-bottom: clamp(48px, 5vw, 72px);
 }
 .programme__head h2 {
   grid-column: 1 / span 6;
@@ -542,29 +645,55 @@ html.lenis body {
 .programme__head p {
   grid-column: 8 / span 5;
   margin: 0;
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-muted);
 }
 
-.day + .day {
-  margin-top: clamp(96px, 10vw, 160px);
-}
-
-.day__head {
+/* day tabs: a filled Marine block for the selected day, stone for the other */
+.tabs {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 4px 24px;
+  gap: 8px;
+  margin-bottom: clamp(32px, 4vw, 56px);
 }
-.day__title {
-  margin: 0;
+.tabs__tab {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 200px;
+  padding: 16px 24px 18px;
+  border: 1px solid transparent; /* taste-skill-ignore: keeps an edge in forced-colours mode */
+  background: var(--color-bg-surface);
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition-property: background-color, color, scale;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
 }
-.day__date {
-  margin: 0;
-  color: var(--color-text-inverse-muted);
+.tabs__tab:active {
+  scale: 0.96;
+}
+.tabs__tab[aria-selected="true"] {
+  background: var(--color-accent-solid);
+  color: var(--color-accent-on-solid);
+}
+@media (hover: hover) {
+  .tabs__tab[aria-selected="false"]:hover {
+    background: var(--color-bg-surface-hover);
+  }
+}
+.tabs__label {
+  font-family: var(--font-display);
+  font-size: var(--text-lead);
+  line-height: 1.1;
+}
+.tabs__date {
+  font-size: var(--text-small);
+  opacity: 0.85;
 }
 
-/* the time rail and two rooms share one grid */
 .day__rooms,
 .slot {
   display: grid;
@@ -572,34 +701,38 @@ html.lenis body {
   gap: 12px 40px;
 }
 .day__rooms {
-  padding: 32px 0 8px;
+  padding: 0 24px 12px;
 }
 .day__rooms p {
   margin: 0;
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-muted);
 }
-
 .day__slots {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-
 .slot {
-  padding: 22px 0;
+  padding: 22px 24px;
 }
-
+/* keynotes on a step of tone; meals quieter still */
+.slot--keynote {
+  background: var(--color-bg-surface);
+}
+.slot--break .slot__title {
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+}
 .slot__time {
   margin: 0;
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-muted);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
-
 .slot__room--wide {
   grid-column: 2 / -1;
 }
-
 .slot__title {
   margin: 0;
   font-family: var(--font-display);
@@ -608,65 +741,79 @@ html.lenis body {
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
-
-.slot__detail {
-  margin: 6px 0 0;
-  color: var(--color-text-inverse-muted);
-}
-
-/* rooms are named once per day on wide screens; on phones each panel says its room */
+.slot__detail,
 .slot__where {
-  display: none;
   margin: 6px 0 0;
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-muted);
   font-size: var(--text-small);
 }
 
-.slot__plain {
-  margin: 0;
-  color: var(--color-text-inverse-muted);
-}
-.slot__plain span::before {
-  content: " · ";
+/* a: the rooms are named once, above the columns */
+.programme--a .slot__where {
+  display: none;
 }
 
-/* ---------- The invitation: Mumbai at dusk ---------- */
+/* b: agenda, one column */
+.programme--b .slot {
+  grid-template-columns: 2fr 10fr;
+}
+.programme--b .slot--panels .slot__room:nth-of-type(2) {
+  grid-column: 2;
+}
 
-.invitation {
-  position: relative;
-  height: 100svh;
-  min-height: 600px;
-  overflow: hidden;
-  background: var(--color-bg-inverse);
-  color: var(--color-text);
+/* c: both days side by side */
+.programme__both {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px;
 }
-.invitation__photo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 70%;
+.programme--c .day__title {
+  margin: 0 0 20px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-head);
+  line-height: 1;
 }
-/* the words sit in the clear evening sky, above the skyline */
-.invitation__text {
+.programme--c .day__title span {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+}
+.programme--c .slot {
+  grid-template-columns: 1fr;
+  gap: 6px;
+  padding: 16px 18px;
+}
+.programme--c .slot__room--wide {
+  grid-column: auto;
+}
+.programme--c .slot__title {
+  font-size: var(--text-body);
+  font-family: var(--font-display);
+}
+
+/* ---------- The close: the gate again, with Get in touch ---------- */
+
+.outro .gate-scene__gate {
+  --gate-h: min(60svh, 100vw);
+}
+.outro__text {
   position: absolute;
   left: 0;
   right: 0;
-  top: clamp(88px, 11svh, 120px);
-}
-.invitation__text h2 {
-  max-width: 18ch;
-}
-.invitation__row {
+  top: clamp(104px, 15svh, 160px);
+  z-index: 3;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  gap: 16px 28px;
-  margin-top: 28px;
+  text-align: center;
+  color: var(--color-text);
 }
-.invitation__row p {
-  margin: 0;
+.outro__text p {
+  margin: 14px 0 24px;
+  font-size: var(--text-lead);
 }
 
 /* ---------- Footer ---------- */
@@ -679,6 +826,28 @@ html.lenis body {
 
 .site-footer__name {
   max-width: 22ch;
+}
+
+.site-footer__reach {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  align-items: baseline;
+  margin: clamp(40px, 4vw, 56px) 0 0;
+  font-size: var(--text-lead);
+}
+.site-footer__reach span {
+  color: var(--color-text-inverse-muted);
+  font-size: var(--text-body);
+}
+.site-footer__reach a {
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+@media (hover: hover) {
+  .site-footer__reach a:hover {
+    text-decoration: underline;
+  }
 }
 
 .site-footer__row {
@@ -723,6 +892,8 @@ html.lenis body {
 @media (max-width: 900px) {
   .about__picture,
   .about__body,
+  .panels__head h2,
+  .panels__head p,
   .questions__head,
   .questions__list,
   .programme__head h2,
@@ -743,10 +914,22 @@ html.lenis body {
 }
 
 @media (max-width: 640px) {
-  .slot {
+  .theme__parts,
+  .programme__both {
+    grid-template-columns: 1fr;
+  }
+  .tabs__tab {
+    min-width: 0;
+    flex: 1;
+  }
+  .slot,
+  .programme--b .slot {
     grid-template-columns: 1fr;
     gap: 12px;
-    padding: 24px 0;
+    padding: 22px 16px;
+  }
+  .programme--b .slot--panels .slot__room:nth-of-type(2) {
+    grid-column: auto;
   }
   .day__rooms {
     display: none;
@@ -754,7 +937,7 @@ html.lenis body {
   .slot__room--wide {
     grid-column: auto;
   }
-  .slot__where {
+  .programme--a .slot__where {
     display: block;
   }
 

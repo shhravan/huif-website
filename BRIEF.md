@@ -23,13 +23,17 @@ One scrolling page, like indiaconferenceharvard.com, but carrying only what is c
 
 | # | Section | Claim | Proof on the page |
 | - | --- | --- | --- |
-| 1 | Opening | The Forum, its Theme, Mumbai, 13–14 March 2027 | The Gate, the name and dates in large type, a "See the programme" button |
-| 3 | Context | A country too complex for a single narrative | The narrative brief's opening lines |
-| 4 | About | A forum to bring those perspectives together | The About paragraphs from `docs/website-content.md`; the facts |
-| 5 | Questions | The questions are the Forum's identity | Five central questions, set as a ledger |
-| 6 | Programme | Two days, two rooms, sixteen conversations | The Schedule as a timetable |
-| 7 | Invitation | Join the conversation in Mumbai | Mumbai at dusk, the dates and the email address |
-| 8 | Footer | A designed close | The name, the facts, navigation, the one required credit |
+| 1 | Opening | The Forum, its Theme, Mumbai, 13–14 March 2027 | The Gate; walking through it opens onto Mumbai's coastal road |
+| 2 | Context | A country too complex for a single narrative | The narrative brief's opening lines |
+| 3 | About | A forum to bring those perspectives together | The About paragraphs from `docs/website-content.md`; the facts; the Taj Mahal Palace |
+| 4 | Theme | What "India Uncharted" and "A Nation of Multitudes" mean | The brief's theme notes; the photograph of people pulling carts |
+| 5 | Panels | Sixteen panels, two days | Every Panel title from the Schedule |
+| 6 | Questions | The questions are the Forum's identity | Five central questions |
+| 7 | Programme | The full Schedule | Day tabs; three layouts to choose from with `?programme=a`, `b` or `c` |
+| 8 | Close | Join the conversation in Mumbai | The Gate again, with "Get in touch" |
+| 9 | Footer | A designed close | The name, "Reach us directly" with the email, navigation, the one required credit |
+
+Photographs: three of the team's (the coastal road through the Gate, the Taj Mahal Palace, the carts). No video.
 
 Photographs: two of the team's (the Municipal Corporation beside About; Mumbai at dusk, full screen). No captions or credits for the team's photographs.
 

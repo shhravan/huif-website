@@ -1,4 +1,4 @@
-import { site, footer } from "@/content/site";
+import { site, footer, CONTACT_EMAIL } from "@/content/site";
 
 /** The close of the page: the name at full width, the facts and the navigation. The one credit is the one its licence requires. */
 export default function SiteFooter() {
@@ -6,6 +6,14 @@ export default function SiteFooter() {
     <footer className="site-footer">
       <div className="frame">
         <p className="site-footer__name display">{site.name}</p>
+        {CONTACT_EMAIL && (
+          <p className="site-footer__reach">
+            <span>{footer.reach}</span>
+            <a href={site.contact.href}>
+              {CONTACT_EMAIL} <span aria-hidden="true">→</span>
+            </a>
+          </p>
+        )}
         <div className="site-footer__row">
           <p className="site-footer__line">{footer.line}</p>
           <nav aria-label="Footer">
