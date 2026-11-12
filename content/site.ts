@@ -92,7 +92,7 @@ export type Panel = { title: string; question?: string };
 
 export const programme = {
   heading: "Programme",
-  intro: "Two days, two rooms, sixteen panels and four keynotes.",
+  intro: "All times are Mumbai time (IST). Choose a day to see both rooms side by side.",
   days: [
     {
       id: "day-1",
