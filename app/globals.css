@@ -23,6 +23,7 @@
   --color-accent-solid: var(--marine-900);
   --color-accent-solid-hover: var(--marine-950);
   --color-accent-on-solid: var(--stone-50);
+  --color-accent-light-hover: #ffffff;
   --color-photo-fallback: #8d9bb6; /* behind photographs while they load */
 
   --font-display: "Eczar", "Iowan Old Style", Georgia, serif;
@@ -157,7 +158,7 @@ html.lenis body {
 }
 @media (hover: hover) {
   .button--light:hover {
-    background: #ffffff;
+    background: var(--color-accent-light-hover);
   }
 }
 
@@ -199,6 +200,27 @@ html.lenis body {
   /* put the gate photo's eye-level line (75.3% down) on the landscape's horizon */
   bottom: calc(var(--horizon) - 0.2466 * var(--gate-h));
   translate: -50% 0;
+}
+
+/* the near ground, drawn each frame from the paving texture in true perspective (lib/walk.ts) */
+.gate-scene__ground {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* once the walk is running, the gate is placed by the camera, not by CSS */
+.gate-scene.is-walk-ready .gate-scene__gate,
+.opening.is-walk-ready .gate-scene__gate {
+  left: 0;
+  top: 0;
+  bottom: auto;
+  translate: none;
+  transform-origin: 0 0;
+  will-change: transform;
 }
 
 .torana {
@@ -487,8 +509,8 @@ html.lenis body {
   grid-column: 1 / span 7;
   margin: 0;
   font-family: var(--font-display);
-  font-size: 1.5rem;
-  line-height: 1.32;
+  font-size: var(--text-lead);
+  line-height: 1.35;
 }
 .questions__meta {
   grid-column: 9 / span 4;
@@ -585,8 +607,8 @@ html.lenis body {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(1.375rem, 1.1rem + 0.8vw, 1.875rem);
-  line-height: 1.2;
+  font-size: var(--text-lead);
+  line-height: 1.25;
   letter-spacing: -0.01em;
 }
 
@@ -739,9 +761,7 @@ html.lenis body {
   .slot__where {
     display: block;
   }
-  .questions__q {
-    font-size: 1.25rem;
-  }
+
 }
 
 /* ---------- Motion: entrances ----------
