@@ -19,6 +19,5 @@ export const opening = {
   line: "The first Harvard forum held in India.",
   cue: "Scroll to enter",
   /** After walking through the gate. */
-  statementEyebrow: "Two days · [City], India",
   statement: "A conversation on where India is headed, convened by Harvard undergraduates.",
 } as const;
