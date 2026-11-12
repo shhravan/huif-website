@@ -428,10 +428,24 @@ html.lenis body {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), (max-height: 600px) {
   .site-header--bar {
     visibility: visible;
   }
+  .site-header--photo {
+    visibility: hidden;
+  }
+}
+
+/* Short screens use an unpinned opening so all facts and the action remain reachable. */
+@media (max-height: 600px) {
+  .opening,
+  .outro {
+    min-height: 640px;
+  }
+}
+.context__heading {
+  margin-bottom: 40px;
 }
 
 /* ---------- Context: the one centred moment, on Marine ---------- */
@@ -752,7 +766,7 @@ html.lenis body {
   position: relative;
   display: grid;
   grid-template-columns: 72px 1fr;
-  grid-template-rows: repeat(var(--rows), 22px);
+  grid-template-rows: repeat(var(--rows), minmax(22px, auto));
 }
 .cal__hour {
   grid-column: 1;
@@ -775,7 +789,7 @@ html.lenis body {
 .cal__block {
   margin: 0 0 6px;
   padding: 12px 16px;
-  overflow: hidden;
+  min-height: min-content;
   background: var(--color-bg-surface);
 }
 .cal__block h4 {
@@ -815,7 +829,9 @@ html.lenis body {
   color: var(--color-text-muted);
 }
 
-.sr-only {
+.sr-only,
+.walk-animated .context__heading {
+  margin: 0;
   position: absolute;
   width: 1px;
   height: 1px;
@@ -884,6 +900,7 @@ html.lenis body {
   list-style: none;
 }
 .site-footer__col a {
+  overflow-wrap: anywhere;
   text-decoration: none;
 }
 @media (hover: hover) {
@@ -905,6 +922,13 @@ html.lenis body {
 /* ---------- Narrow screens ---------- */
 
 @media (max-width: 900px) {
+  .about__grid,
+  .panels__head,
+  .panels__grid,
+  .programme__head,
+  .site-footer__top {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .about__picture,
   .about__body,
   .panels__head h2,
@@ -947,7 +971,7 @@ html.lenis body {
   }
   .cal__grid {
     grid-template-columns: 44px 1fr;
-    grid-template-rows: repeat(var(--rows), 30px);
+    grid-template-rows: repeat(var(--rows), minmax(30px, auto));
   }
   .cal__head {
     grid-template-columns: 44px 1fr 1fr;

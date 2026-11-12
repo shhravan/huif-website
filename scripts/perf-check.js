@@ -6,7 +6,7 @@ const url = process.argv[2] || 'http://localhost:3200/';
 const label = process.argv[3] || 'baseline';
 const extraCSS = process.argv[4] || '';
 (async () => {
-  const b = await chromium.launch();
+  const b = await chromium.launch({ executablePath: process.env.BROWSER_PATH || undefined });
   const ctx = await b.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 });
   const p = await ctx.newPage();
   await p.goto(url, { waitUntil: 'networkidle' });
@@ -28,4 +28,5 @@ const extraCSS = process.argv[4] || '';
   const red = pct(0.95) > 25 || slow > 0.10;
   console.log(`${red ? 'RED  ' : 'GREEN'} ${label.padEnd(22)} frames=${f.length} p50=${pct(0.5).toFixed(1)}ms p95=${pct(0.95).toFixed(1)}ms slow(>25ms)=${(slow * 100).toFixed(0)}%`);
   await b.close();
+  process.exitCode = red ? 1 : 0;
 })();

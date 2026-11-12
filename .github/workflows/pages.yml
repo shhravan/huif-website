@@ -2,7 +2,7 @@ name: Deploy preview to GitHub Pages
 
 on:
   push:
-    branches: [claude/amazing-keller-8tk9px, main]
+    branches: [claude/amazing-keller-8tk9px, claude/zen-maxwell-7q6usi, main]
   workflow_dispatch:
 
 permissions:
@@ -25,6 +25,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run lint
       - run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}

@@ -4,8 +4,7 @@
  * The scene plate (public/scene/day-*.webp) was rendered with a level camera: 60° vertical field
  * of view, eye 1.6 m above the ground, horizon at 76% of the frame, one paving texture per 4.6 m
  * (scripts/render_plate.py). This module uses that same camera. The near ground is drawn every
- * frame on a canvas from the real paving texture, in true perspective (one textured row per
- * screen row) all the way to the horizon, hazing with distance as the plate does. The gate is projected through the
+ * frame on a canvas from the real paving texture, in true perspective (short textured strips) all the way to the horizon, hazing with distance as the plate does. The gate is projected through the
  * same camera, so its feet stay planted on the paving as you walk towards it and between its pillars.
  *
  * Optionally a "portal": the next section seen only through the gate's opening, which grows as you
@@ -121,7 +120,8 @@ export class GateWalk {
     const pass = Math.min(d0 * 0.8, (GATE_H * f * 2 * PILLAR * GATE_ASPECT) / w);
     this.layoutState = { w, h, f, hy, gateX, d0, baseH: gateScreenH, pass };
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // The textured ground is a background plane; cap its raster work independently of the sharp gate image.
+    const dpr = Math.min(1, 960 / w);
     this.canvas.width = Math.round(w * dpr);
     this.canvas.height = Math.round(h * dpr);
     this.gate.style.height = `${gateScreenH}px`;
@@ -233,7 +233,9 @@ export class GateWalk {
     const cxD = cx * dpr;
     const W = this.canvas.width;
     const start = Math.ceil(hyD + 1);
-    for (let y = start; y < this.canvas.height; y++) {
+    // Two raster rows share a projection to bound per-frame work on high-density screens.
+    const strip = 2;
+    for (let y = start; y < this.canvas.height; y += strip) {
       const dist = (f * EYE) / (y - hyD); // metres to this row of ground
       // pick the mip whose texels are about one device pixel wide at this distance
       const texPerPx = (dist * this.mips[0].k) / f;
@@ -244,10 +246,10 @@ export class GateWalk {
       const v = (camZ + dist) * k;
       pattern.setTransform(new DOMMatrix([sx, 0, 0, 1, tx, y - v]));
       ctx.fillStyle = pattern;
-      ctx.fillRect(0, y, W, 1);
+      ctx.fillRect(0, y, W, strip);
       // air between the eye and this row of ground
       ctx.fillStyle = `rgba(${HAZE_RGB}, ${1 - Math.exp(-dist / HAZE)})`;
-      ctx.fillRect(0, y, W, 1);
+      ctx.fillRect(0, y, W, strip);
     }
   }
 }

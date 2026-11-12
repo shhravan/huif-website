@@ -1,13 +1,13 @@
 import { context } from "@/content/site";
 
 /**
- * The context, on Marine. Its heading is seen through the gate at the end of the walk (GateIntro),
- * so this section carries on from it with the paragraph.
+ * The context heading appears through the animated gate, or here when motion is disabled.
  */
 export default function Context() {
   return (
     <section className="context" aria-labelledby="context-title">
       <div className="frame context__inner">
+        <h2 id="context-title" className="display context__heading">{context.heading}</h2>
         <p className="context__lead" data-reveal>
           {context.lead} <span>{context.rest}</span>
         </p>

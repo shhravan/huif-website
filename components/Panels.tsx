@@ -79,8 +79,6 @@ export default function Panels() {
                         className="panels__item"
                         aria-pressed={e.title === active}
                         onClick={() => setActive(e.title)}
-                        onMouseEnter={() => setActive(e.title)}
-                        onFocus={() => setActive(e.title)}
                       >
                         {e.title}
                       </button>

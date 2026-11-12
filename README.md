@@ -24,11 +24,40 @@ Brand colours and fonts (EB Garamond, Source Sans 3) are CSS variables at the to
 
 ## Preview on GitHub Pages
 
-`.github/workflows/pages.yml` builds a static export and deploys it to GitHub Pages on every push to this branch. To turn it on (one time):
+`.github/workflows/pages.yml` builds a static export and deploys it to GitHub Pages on pushes to `main`, `claude/zen-maxwell-7q6usi`, or `claude/amazing-keller-8tk9px`. To turn it on (one time):
 
 1. The repo must be public (GitHub Pages on private repos needs a paid plan).
 2. Settings → Pages → Build and deployment → Source: **GitHub Actions**.
-3. Settings → Environments → `github-pages` → Deployment branches: add `claude/amazing-keller-8tk9px` (by default only the default branch may deploy).
+3. Settings → Environments → `github-pages` → Deployment branches: add `claude/zen-maxwell-7q6usi` (or `claude/amazing-keller-8tk9px` when deploying that branch) (by default only the default branch may deploy).
 4. Re-run the "Deploy preview to GitHub Pages" workflow from the Actions tab.
 
 The site will be at `https://<owner>.github.io/huif-website/`.
+
+## Checks
+
+```bash
+npm ci
+npm run lint
+npm run typecheck
+NEXT_PUBLIC_BASE_PATH=/huif-website npm run build
+npx playwright install chromium
+```
+
+Serve the exported site at the same base path before running the browser checks:
+
+```bash
+mkdir -p /tmp/huif-preview
+ln -s "$PWD/out" /tmp/huif-preview/huif-website
+python -m http.server 3200 --directory /tmp/huif-preview
+```
+
+In another terminal:
+
+```bash
+npm run test:site -- http://localhost:3200/huif-website/
+npm run perf -- http://localhost:3200/huif-website/
+```
+
+Set `BROWSER_PATH` to use an existing Chromium executable. The performance check uses
+4× CPU throttling and exits unsuccessfully if p95 exceeds 25ms or more than 10% of
+frames exceed 25ms; compare results on the same machine.

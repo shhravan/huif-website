@@ -49,8 +49,8 @@ export default function GateIntro() {
       const mm = gsap.matchMedia();
       mm.add(
         {
-          motion: "(prefers-reduced-motion: no-preference)",
-          reduce: "(prefers-reduced-motion: reduce)",
+          motion: "(prefers-reduced-motion: no-preference) and (min-height: 601px)",
+          reduce: "(prefers-reduced-motion: reduce), (max-height: 600px)",
         },
         (ctx) => {
           const { motion } = ctx.conditions as { motion: boolean };
@@ -59,6 +59,7 @@ export default function GateIntro() {
             walk.render(0);
             return;
           }
+          document.documentElement.classList.add("walk-animated");
           if (bar) gsap.set(bar, { autoAlpha: 0, yPercent: -100 });
 
           const tl = gsap.timeline({
@@ -85,10 +86,14 @@ export default function GateIntro() {
             .to(q(".opening__paper"), { autoAlpha: 1, duration: 0.2, ease: "power1.inOut" }, 0.66)
             .fromTo(q(".opening__story"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.14, ease: "power2.out" }, 0.8);
           if (bar) tl.to(bar, { autoAlpha: 1, yPercent: 0, duration: 0.06, ease: "power2.out" }, 0.72);
+          return () => document.documentElement.classList.remove("walk-animated");
         },
       );
 
-      return () => window.removeEventListener("resize", onResize);
+      return () => {
+        mm.revert();
+        window.removeEventListener("resize", onResize);
+      };
     },
     { scope: root },
   );
@@ -103,8 +108,8 @@ export default function GateIntro() {
       <div className="opening__scrim" aria-hidden="true" />
       <div className="opening__paper" aria-hidden="true" />
       {/* the story begins here; this heading is the Context section's title */}
-      <div className="frame opening__story">
-        <h2 id="context-title" className="display">
+      <div className="frame opening__story" aria-hidden="true">
+        <h2 className="display">
           {context.heading}
         </h2>
       </div>

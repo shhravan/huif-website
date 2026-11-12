@@ -6,20 +6,34 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "perf": "node scripts/perf-check.js"
+    "lint": "eslint .",
+    "perf": "node scripts/perf-check.js",
+    "typecheck": "tsc --noEmit",
+    "test:site": "node scripts/site-check.js"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "gsap": "^3.13.0",
     "lenis": "1.1.20",
-    "next": "^15.5.4",
+    "next": "^15.5.29",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.7",
     "@types/node": "^22.18.0",
     "@types/react": "^19.1.12",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^15.5.29",
+    "playwright": "^1.65.0",
     "typescript": "^5.9.2"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "^8.5.32"
+    },
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "^11.0.1"
+    }
   }
 }
