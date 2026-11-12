@@ -45,7 +45,6 @@ All copy lives in one content file, separate from layout. Each section is built,
 
 ## Open items
 
-- Contact email for "Get in touch": set `CONTACT_EMAIL` in `content/site.ts`. Until then the closing section says the address is coming.
 - The Day 1 closing slot reads "Closing keynote / Networking social", as in the Schedule; confirm whether these are one event or two.
 - Photographs from the team, beyond the Gate.
 - "Choose your room" (pick one panel per slot and see your own two days) as the page's one interactive element.
