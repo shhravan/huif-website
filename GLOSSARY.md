@@ -12,7 +12,7 @@ _Avoid_: Harvard India Forum (the older wordmark), HUIF in public copy
 Short internal name for the forum, used in code, file names and team conversation, not in visitor-facing headlines.
 
 **Logo**:
-The forum's own line-art mark: the torana drawing with the wordmark set between its pillars. It is the only identity mark the site uses.
+The forum's own line-art mark: the torana drawing with the wordmark set between its pillars. It is final and used exactly as it is, lettering included. It is the only identity mark the site uses.
 _Avoid_: Harvard shield, Veritas, crest
 
 **Gate**:
