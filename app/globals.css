@@ -249,31 +249,6 @@ html.lenis body {
 }
 
 /* India, seen through the gate's opening; lib/walk.ts sets its clip and opacity each frame */
-/* behind the gate (z-index 1, the gate is 2), in front of the sky and the ground */
-.gate-scene__india {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  overflow: hidden;
-  opacity: 0;
-  clip-path: inset(50%);
-  pointer-events: none;
-  background: var(--color-bg-inverse);
-  color: var(--color-text-inverse);
-}
-/* the heading sits where the Context section continues it, low in the frame */
-.gate-scene__story {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: clamp(48px, 12svh, 140px);
-  display: flex;
-  justify-content: center;
-  text-align: center;
-}
-.gate-scene__story h2 {
-  max-width: 24ch;
-}
 
 /* ---------- Header ---------- */
 
@@ -380,6 +355,33 @@ html.lenis body {
   background: linear-gradient(0deg, rgb(17 17 19 / 0.62) 0%, rgb(17 17 19 / 0.3) 30%, rgb(17 17 19 / 0) 58%); /* legibility scrim over the photograph */
 }
 
+/* after the walk: the sky softens into the page, as in the first version of the opening */
+.opening__paper {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgb(240 239 235 / 0.55) 0%, rgb(240 239 235 / 0.92) 30%, var(--color-bg) 60%); /* the sky softening into the page */
+}
+.opening__story {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(48px, 12svh, 140px);
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  color: var(--color-text);
+  opacity: 0;
+  visibility: hidden;
+}
+.opening__story h2 {
+  max-width: 24ch;
+}
+
 /* the title is anchored to the bottom-left of the frame, like a title card */
 .opening__title {
   position: absolute;
@@ -425,8 +427,8 @@ html.lenis body {
 
 .context {
   padding-block: clamp(8px, 2vw, 24px) var(--section);
-  background: var(--color-bg-inverse);
-  color: var(--color-text-inverse);
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 .context__inner {
   display: flex;
@@ -446,7 +448,7 @@ html.lenis body {
   text-wrap: balance;
 }
 .context__lead span {
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-muted);
 }
 /* why now: two reasons, a lead-in in full ink, the rest quieter */
 .context__reasons {
@@ -459,12 +461,12 @@ html.lenis body {
 .context__reasons p {
   margin: 0;
   max-width: 48ch;
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-muted);
 }
 .context__reasons strong {
   display: block;
   margin-bottom: 10px;
-  color: var(--color-text-inverse);
+  color: var(--color-text);
   font-family: var(--font-display);
   font-weight: 400;
   font-size: var(--text-lead);
@@ -475,6 +477,7 @@ html.lenis body {
 
 .about {
   padding-block: var(--section);
+  background: var(--color-bg-surface);
   scroll-margin-top: 72px;
 }
 .about__grid {
@@ -691,6 +694,7 @@ html.lenis body {
 /* day tabs: a filled Marine block for the selected day, stone for the other */
 .tabs {
   display: flex;
+  justify-content: center;
   gap: 8px;
   margin-bottom: clamp(32px, 4vw, 56px);
 }
