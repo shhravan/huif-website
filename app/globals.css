@@ -90,7 +90,7 @@ html.lenis body {
   right: -10%;
   bottom: calc(var(--horizon) - 8vh);
   height: 22vh;
-  background: radial-gradient(60% 50% at 50% 55%, rgba(236, 226, 220, 0.22), rgba(236, 226, 220, 0));
+  background: radial-gradient(60% 50% at 50% 55%, rgb(232 228 224 / 0.22), rgb(232 228 224 / 0));
 }
 
 .scene__gate {
@@ -164,7 +164,6 @@ html.lenis body {
   padding-right: max(44px, env(safe-area-inset-right, 0px));
   padding-left: max(44px, env(safe-area-inset-left, 0px));
   color: var(--ageless);
-  text-shadow: 0 1px 10px rgb(20 34 60 / 0.35);
 }
 .site-header--photo .site-header__logo img {
   height: 104px;
@@ -237,15 +236,14 @@ html.lenis body {
   }
 }
 
-/* deepens the sky's own blue behind the title (as a polariser would), fading out well above the
-   horizon, instead of laying a black wash over the photo */
+/* a soft, neutral shade behind the title in the sky only (a legibility scrim), anchored at the upper left */
 .opening__scrim {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
   /* plain transparency, no blend mode or mask: those made the browser recompute every frame */
-  background: radial-gradient(ellipse 62% 58% at 0% 38%, rgb(30 56 102 / 0.62) 0%, rgb(30 56 102 / 0.36) 45%, rgb(30 56 102 / 0) 100%);
+  background: radial-gradient(ellipse 62% 58% at 0% 38%, rgb(20 26 34 / 0.5) 0%, rgb(20 26 34 / 0.28) 45%, rgb(20 26 34 / 0) 100%);
 }
 
 /* after the walk-through the sky softens into the site's paper */
@@ -293,7 +291,6 @@ html.lenis body {
   color: var(--ageless);
   font-size: 1rem;
   font-weight: 500;
-  text-shadow: 0 1px 10px rgb(20 34 60 / 0.35);
 }
 
 .opening__statement {
@@ -310,12 +307,13 @@ html.lenis body {
 }
 
 
-.opening__statement h2 {
-  margin: 0;
+.opening__statement-text {
+  max-width: 30ch;
+  margin: 0 auto;
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(2.4rem, 4.6vw, 4.5rem);
-  line-height: 1.08;
+  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+  line-height: 1.25;
   text-wrap: balance;
 }
 
@@ -323,9 +321,12 @@ html.lenis body {
   .opening .scene__gate {
     --gate-h: min(98vh, 192vw);
   }
-  /* phone: the title sits low over the paving, so the stone is put in soft shade, in its own colour */
+  /* phone: the title sits low over the paving, so the stone is put in soft neutral shade */
   .opening__scrim {
-    background: linear-gradient(0deg, rgb(70 52 40 / 0.74) 0%, rgb(70 52 40 / 0.36) 38%, rgb(70 52 40 / 0) 60%);
+    background: linear-gradient(0deg, rgb(52 46 40 / 0.8) 0%, rgb(52 46 40 / 0.44) 40%, rgb(52 46 40 / 0) 62%);
+  }
+  .opening__title h1 {
+    font-size: min(8.4vw, 2.6rem);
   }
   .opening__title {
     left: max(20px, env(safe-area-inset-left, 0px));
@@ -333,7 +334,6 @@ html.lenis body {
     top: auto;
     bottom: calc(12vh + env(safe-area-inset-bottom, 0px));
     max-width: none;
-    text-shadow: 0 1px 14px rgb(40 28 20 / 0.45);
   }
   .opening__cue {
     left: max(20px, env(safe-area-inset-left, 0px));
