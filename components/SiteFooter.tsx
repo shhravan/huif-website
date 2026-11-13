@@ -1,8 +1,10 @@
+import FooterLight from "./FooterLight";
 import { site, footer, CONTACT_EMAIL } from "@/content/site";
 
 /**
  * The close of the page, after the end of indiaconferenceharvard.com (not copied point for point):
- * an invitation with the pages and where to follow, then a Marine band with the facts, a line on what
+ * an invitation with the pages and where to follow, then a Marine band (with a still light in its top-right
+ * corner, FooterLight) holding the facts, a line on what
  * the Forum is and the name set across the full width. The one credit is the one its licence requires.
  */
 export default function SiteFooter() {
@@ -52,6 +54,7 @@ export default function SiteFooter() {
       </div>
 
       <div className="site-footer__band">
+        <FooterLight />
         <div className="frame">
           <div className="site-footer__facts">
             {footer.band.map((b) => (
