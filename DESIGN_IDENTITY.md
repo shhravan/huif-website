@@ -24,7 +24,7 @@ Two colours, stone and Marine, each with one muted step, modelled on the restrai
 | Text | `#042d62` Marine | All text on stone; the button fill |
 | Muted text | `#4a5a72` | Labels and notes on stone (6.1:1) |
 | Inverse ground | `#042d62` Marine | About (the Sea Link), Theme, Programme, the footer; one Marine everywhere |
-| Inverse surface | `#173d6d` | Programme blocks and the unselected day tab, one step up from Marine |
+| Inverse surface | `#173d6d` | The unselected day tab on the Programme, one step up from Marine; sessions are stone boxes with Marine text |
 | Inverse text | `#f0efeb` | Text on Marine (11.7:1) |
 | Inverse muted | `#a7b4c8` | Notes on Marine (6.4:1) |
 

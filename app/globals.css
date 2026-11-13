@@ -29,7 +29,7 @@
   --color-accent-solid-inverse: var(--stone-50);
   --color-accent-solid-inverse-hover: var(--white);
   --color-accent-on-solid-inverse: var(--marine-900);
-  --color-bg-inverse-surface: var(--marine-800); /* programme blocks and the other day's tab */
+  --color-bg-inverse-surface: var(--marine-800); /* the other day's tab */
   --color-bg-inverse-surface-hover: var(--marine-750);
   --color-photo-fallback: #8d9bb6; /* behind photographs while they load */
 
@@ -767,7 +767,8 @@ html.lenis body {
   position: relative;
   display: grid;
   grid-template-columns: 72px 1fr;
-  grid-template-rows: repeat(var(--rows), 22px);
+  /* to scale where text fits; a row grows only when a long title needs it */
+  grid-template-rows: repeat(var(--rows), minmax(20px, auto));
 }
 .cal__hour {
   grid-column: 1;
@@ -787,11 +788,13 @@ html.lenis body {
   padding: 0;
   list-style: none;
 }
+/* every session is a stone box with Marine text; keynotes span both rooms and set their title a step larger */
 .cal__block {
   margin: 0 0 6px;
-  padding: 12px 16px;
+  padding: 12px 18px;
   overflow: hidden;
-  background: var(--color-bg-inverse-surface);
+  background: var(--color-accent-solid-inverse);
+  color: var(--color-accent-on-solid-inverse);
 }
 .cal__block h4 {
   margin: 4px 0 0;
@@ -800,29 +803,37 @@ html.lenis body {
   font-size: var(--text-lead);
   line-height: 1.2;
 }
-.cal__detail {
-  margin: 4px 0 0;
-  font-size: var(--text-small);
-  color: var(--color-text-inverse-muted);
-}
-.cal__block--keynote .cal__detail {
-  color: var(--color-text-muted);
-}
+.cal__detail,
 .cal__time {
   margin: 0;
   font-size: var(--text-small);
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-muted);
   font-variant-numeric: tabular-nums;
 }
-.cal__block--keynote {
-  background: var(--color-accent-solid-inverse);
-  color: var(--color-accent-on-solid-inverse);
+.cal__detail {
+  margin-top: 4px;
 }
-.cal__block--keynote .cal__time {
-  color: var(--color-text-muted);
+.cal__block--keynote h4 {
+  font-size: clamp(1.5rem, 1.2rem + 0.8vw, 1.875rem);
+  line-height: 1.1;
 }
+
+/* breaks are not boxes: plain text on Marine */
 .cal__block--break {
   background: transparent;
+  color: var(--color-text-inverse);
+}
+.cal__block--break .cal__time,
+.cal__block--break .cal__detail {
+  color: var(--color-text-inverse-muted);
+}
+/* a break reads as one line: "Lunch · Sponsor Q&A" */
+.cal__block--break h4,
+.cal__block--break .cal__detail {
+  display: inline;
+}
+.cal__block--break .cal__detail::before {
+  content: " · ";
 }
 .cal__block--break h4 {
   font-family: var(--font-body);
@@ -1071,7 +1082,7 @@ html.lenis body {
   }
   .cal__grid {
     grid-template-columns: 44px 1fr;
-    grid-template-rows: repeat(var(--rows), 30px);
+    grid-template-rows: repeat(var(--rows), minmax(30px, auto));
   }
   .cal__head {
     grid-template-columns: 44px 1fr 1fr;
