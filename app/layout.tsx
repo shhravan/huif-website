@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SkipLink from "@/components/SkipLink";
 
 /** Where the site is published, so share previews get full addresses (the Pages workflow sets the base path). */
 const SITE_URL = `https://shhravan.github.io${process.env.NEXT_PUBLIC_BASE_PATH || ""}/`;
@@ -23,7 +24,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Eczar:wght@400;500&family=Mukta:wght@400;500;600&display=swap"
         />
       </head>
-      <body>{children}</body>
+      <body id="top">
+        <SkipLink />
+        {children}
+      </body>
     </html>
   );
 }

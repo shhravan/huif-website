@@ -36,14 +36,17 @@
   --font-display: "Eczar", "Iowan Old Style", Georgia, serif;
   --font-body: "Mukta", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* five sizes, each with its line-height and tracking */
+  /* seven sizes (16 / 19 / 22 / 29 / 45 / 64 / 89 at 1440px); only the footer wordmark and two phone labels set their own */
   --text-small: 1rem;
   --text-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
-  --text-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  --text-lead: clamp(1.125rem, 1.05rem + 0.35vw, 1.375rem);
+  --text-sub: clamp(1.375rem, 1.1rem + 0.8vw, 1.875rem);
+  --text-title: clamp(1.625rem, 1rem + 2vw, 2.75rem);
   --text-head: clamp(2.25rem, 1.4rem + 2.9vw, 4rem);
   --text-display: clamp(2.625rem, 0.9rem + 5.6vw, 7.5rem);
 
   --margin: clamp(20px, 4vw, 56px);
+  --gap: clamp(12px, 2.2vw, 32px); /* column gap of the 12-column grids; 11 gaps must fit 280px at 320px wide */
   --section: clamp(72px, 7vw, 120px);
 }
 
@@ -57,6 +60,31 @@ html,
 body {
   margin: 0;
   padding: 0;
+}
+/* anchored sections and focused elements stop below the fixed bar */
+html {
+  scroll-padding-top: 80px;
+}
+/* the first thing a keyboard reaches; on screen only while focused */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: var(--margin);
+  z-index: 100;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--color-accent-solid);
+  color: var(--color-accent-on-solid);
+  font-weight: 500;
+  text-decoration: none;
+  translate: 0 -200%;
+}
+.skip-link:focus-visible {
+  translate: 0 0;
+  outline-color: var(--color-accent-solid);
+}
+[tabindex="-1"]:focus {
+  outline: none;
 }
 
 html {
@@ -106,7 +134,7 @@ p {
   text-wrap: balance;
 }
 .display {
-  font-size: min(var(--text-display), 8vw);
+  font-size: min(var(--text-display), 11vw);
   line-height: 0.98;
   letter-spacing: -0.03em;
 }
@@ -159,6 +187,13 @@ html.lenis body {
 }
 .button:not(:disabled):active {
   scale: 0.96;
+}
+/* the ring takes the fill's colour, not the label's, so it shows against the ground around the button */
+.button:focus-visible {
+  outline-color: var(--color-accent-solid);
+}
+.button--light:focus-visible {
+  outline-color: var(--color-accent-solid-inverse);
 }
 .button--small {
   min-height: 44px;
@@ -302,7 +337,7 @@ html.lenis body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 4;
+  z-index: 5;
   padding: calc(22px + env(safe-area-inset-top, 0px)) var(--margin) 0;
   color: var(--color-text-inverse);
 }
@@ -395,7 +430,7 @@ html.lenis body {
 /* the first paragraph sits with the heading, set large enough that the settled page is full, not blank */
 .opening__story .context__lead {
   max-width: 44ch;
-  font-size: clamp(1.25rem, 0.95rem + 1.2vw, 2rem);
+  font-size: var(--text-sub);
   line-height: 1.35;
 }
 
@@ -448,13 +483,17 @@ html.lenis body {
     margin: 18px 0 22px;
   }
   .opening__facts dd {
-    font-size: 1.125rem;
+    font-size: var(--text-lead);
   }
 }
 
+/* with reduced motion the bar is there from the start, so the opening's own header steps aside (and leaves the tab order) */
 @media (prefers-reduced-motion: reduce) {
   .site-header--bar {
     visibility: visible;
+  }
+  .site-header--photo {
+    visibility: hidden;
   }
 }
 
@@ -518,7 +557,6 @@ html.lenis body {
   padding-block: var(--section);
   background: var(--color-bg-inverse);
   color: var(--color-text-inverse);
-  scroll-margin-top: 72px;
 }
 /* components/SeaLink.tsx: still, the points spread from the pointer and spring back */
 .sealink {
@@ -532,7 +570,7 @@ html.lenis body {
   position: relative;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 32px;
+  gap: var(--gap);
   pointer-events: none;
 }
 /* the text sits in the open sea on the right, clear of the bridge; the heading, above the deck,
@@ -572,7 +610,6 @@ html.lenis body {
   padding-bottom: 0;
   background: var(--color-bg);
   color: var(--color-text);
-  scroll-margin-top: 72px;
 }
 .theme__title {
   max-width: 18ch;
@@ -601,12 +638,11 @@ html.lenis body {
 
 .panels {
   padding-block: var(--section);
-  scroll-margin-top: 72px;
 }
 .panels__head {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 16px 32px;
+  gap: 16px var(--gap);
   align-items: end;
   margin-bottom: clamp(56px, 6vw, 96px);
 }
@@ -622,7 +658,7 @@ html.lenis body {
 .panels__body {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 32px;
+  gap: var(--gap);
   align-items: start;
 }
 .panels__box {
@@ -677,7 +713,7 @@ img[src*="sealinkday"] {
 .panels__name {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 1rem + 1.5vw, 2.5rem);
+  font-size: var(--text-title);
   line-height: 1.1;
   letter-spacing: -0.015em;
   text-wrap: balance;
@@ -729,7 +765,7 @@ img[src*="sealinkday"] {
   letter-spacing: 0.02em;
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(1.875rem, 1.2rem + 1.8vw, 3rem);
+  font-size: var(--text-title);
   line-height: 1.1;
 }
 .strand__line {
@@ -755,7 +791,7 @@ img[src*="sealinkday"] {
 }
 .strand__title {
   font-family: var(--font-display);
-  font-size: clamp(1.625rem, 1rem + 1.5vw, 2.5rem);
+  font-size: var(--text-sub);
   line-height: 1.12;
   letter-spacing: -0.015em;
   text-decoration-line: underline;
@@ -820,12 +856,11 @@ img[src*="sealinkday"] {
   padding-block: var(--section);
   background: var(--color-bg-inverse);
   color: var(--color-text-inverse);
-  scroll-margin-top: 72px;
 }
 .programme__head {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 24px 32px;
+  gap: 24px var(--gap);
   align-items: end;
   margin-bottom: clamp(48px, 5vw, 72px);
 }
@@ -876,10 +911,14 @@ img[src*="sealinkday"] {
   transition-timing-function: ease-out;
 }
 .tabs__tab:active {
-  scale: 0.97;
+  scale: 0.96;
 }
 .tabs__tab[aria-selected="true"] {
   color: var(--color-accent-on-solid-inverse);
+}
+/* the chosen day's ring sits inside its stone marker, where Marine shows */
+.tabs__tab[aria-selected="true"]:focus-visible {
+  outline-offset: -6px;
 }
 @media (hover: hover) {
   .tabs__tab[aria-selected="false"]:hover {
@@ -921,7 +960,7 @@ img[src*="sealinkday"] {
   grid-column: 1;
   margin: -0.7em 0 0;
   color: var(--color-text-inverse);
-  font-size: 1rem;
+  font-size: var(--text-small);
   font-weight: 500;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
@@ -946,7 +985,7 @@ img[src*="sealinkday"] {
   background: var(--color-accent-solid-inverse);
   color: var(--color-accent-on-solid-inverse);
 }
-.cal__block h4 {
+.cal__block h3 {
   margin: 4px 0 0;
   font-family: var(--font-display);
   font-weight: 400;
@@ -963,8 +1002,8 @@ img[src*="sealinkday"] {
 .cal__detail {
   margin-top: 4px;
 }
-.cal__block--keynote h4 {
-  font-size: clamp(1.5rem, 1.2rem + 0.8vw, 1.875rem);
+.cal__block--keynote h3 {
+  font-size: var(--text-sub);
   line-height: 1.1;
 }
 
@@ -978,14 +1017,14 @@ img[src*="sealinkday"] {
   color: var(--color-text-inverse-muted);
 }
 /* a break reads as one line: "Lunch: Sponsor Q&A" */
-.cal__block--break h4,
+.cal__block--break h3,
 .cal__block--break .cal__detail {
   display: inline;
 }
 .cal__block--break .cal__detail::before {
   content: ": ";
 }
-.cal__block--break h4 {
+.cal__block--break h3 {
   font-family: var(--font-body);
   font-size: var(--text-body);
   color: var(--color-text-inverse-muted);
@@ -1069,7 +1108,7 @@ img[src*="sealinkday"] {
 .site-footer__top {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 40px 32px;
+  gap: 40px var(--gap);
   align-items: start;
 }
 .site-footer__lead {
@@ -1079,7 +1118,7 @@ img[src*="sealinkday"] {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem);
+  font-size: var(--text-title);
   line-height: 1.1;
   letter-spacing: -0.015em;
   text-wrap: balance;
@@ -1139,6 +1178,12 @@ img[src*="sealinkday"] {
 .site-footer__email svg {
   flex: none;
 }
+@media (max-width: 359px) {
+  .site-footer__col .site-footer__email {
+    align-items: flex-start;
+    white-space: normal;
+  }
+}
 @media (hover: hover) {
   .site-footer__col a:hover {
     text-decoration: underline;
@@ -1166,7 +1211,7 @@ img[src*="sealinkday"] {
   background: transparent;
   color: var(--color-text-inverse);
   font: inherit;
-  font-size: 16px;
+  font-size: var(--text-small);
 }
 .updates input::placeholder {
   color: var(--color-text-inverse-muted);
@@ -1231,7 +1276,7 @@ img[src*="sealinkday"] {
     grid-column: span 6;
   }
   .site-footer__col .site-footer__email {
-    font-size: 0.9375rem;
+    font-size: 0.9375rem; /* keeps the address on one line at phone width */
   }
   /* phones: the bridge sits above the text, not behind it */
   .about {
@@ -1269,17 +1314,17 @@ img[src*="sealinkday"] {
   }
   .cal__head p {
     padding-left: 12px;
-    font-size: 1.0625rem;
+    font-size: var(--text-body);
   }
   .cal__hour {
-    font-size: 0.8125rem;
+    font-size: 0.8125rem; /* hour labels fit a 44px column */
   }
   .cal__block {
     padding: 10px 12px;
     border-radius: 10px;
   }
-  .cal__block h4 {
-    font-size: 1rem;
+  .cal__block h3 {
+    font-size: var(--text-small);
   }
 
 }
@@ -1330,7 +1375,7 @@ img[src*="sealinkday"] {
 .panel-page__top {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 32px;
+  gap: var(--gap);
   align-items: end;
 }
 .panel-page__text {
@@ -1340,7 +1385,7 @@ img[src*="sealinkday"] {
   margin: 24px 0 0;
   max-width: 30ch;
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 1rem + 1.2vw, 2.25rem);
+  font-size: var(--text-title);
   line-height: 1.18;
   text-wrap: pretty;
 }
@@ -1387,7 +1432,7 @@ img[src*="sealinkday"] {
   margin: 0;
   max-width: 28ch;
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 1rem + 2vw, 3rem);
+  font-size: var(--text-sub);
   line-height: 1.1;
   letter-spacing: -0.015em;
 }
@@ -1433,7 +1478,7 @@ img[src*="sealinkday"] {
 }
 .panel-page__other {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 1rem + 1.4vw, 2.5rem);
+  font-size: var(--text-sub);
   line-height: 1.12;
   text-decoration-line: underline;
   text-decoration-color: transparent;
@@ -1466,7 +1511,7 @@ img[src*="sealinkday"] {
 .partners__section {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 24px 32px;
+  gap: 24px var(--gap);
   padding-block: clamp(72px, 7vw, 120px);
 }
 .partners__section > h2 {
@@ -1486,7 +1531,7 @@ img[src*="sealinkday"] {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(1.375rem, 1rem + 0.9vw, 1.875rem);
+  font-size: var(--text-sub);
   line-height: 1.15;
 }
 .partners__list p {
@@ -1530,7 +1575,7 @@ img[src*="sealinkday"] {
 }
 
 /* a panel's title in the calendar opens its page */
-.cal__block h4 a {
+.cal__block h3 a {
   color: inherit;
   text-decoration-line: underline;
   text-decoration-color: transparent;
@@ -1538,8 +1583,8 @@ img[src*="sealinkday"] {
   text-underline-offset: 0.12em;
   transition: text-decoration-color 200ms ease-out;
 }
-.cal__block h4 a:hover,
-.cal__block h4 a:focus-visible {
+.cal__block h3 a:hover,
+.cal__block h3 a:focus-visible {
   text-decoration-color: currentColor;
 }
 
@@ -1563,11 +1608,11 @@ img[src*="sealinkday"] {
     margin: 0;
     padding: 14px 16px;
   }
-  .cal__block h4 {
-    font-size: 1.125rem;
+  .cal__block h3 {
+    font-size: var(--text-lead);
   }
-  .cal__block--keynote h4 {
-    font-size: 1.375rem;
+  .cal__block--keynote h3 {
+    font-size: var(--text-sub);
   }
   .sr-only.cal__room {
     position: static;
@@ -1609,11 +1654,15 @@ img[src*="sealinkday"] {
     text-decoration: underline;
     text-underline-offset: 0.2em;
   }
+  /* the open menu covers the page below the bar, so its links never run into the page's own text */
   .site-header__menu nav {
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
+    height: calc(100dvh - 100%);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     padding: 8px var(--margin) 24px;
     background: var(--color-bg);
   }
@@ -1626,7 +1675,7 @@ img[src*="sealinkday"] {
     display: block;
     padding: 10px 0;
     font-family: var(--font-display);
-    font-size: 1.75rem;
+    font-size: var(--text-title);
     line-height: 1.2;
     text-decoration: none;
   }

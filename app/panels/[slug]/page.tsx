@@ -37,7 +37,7 @@ export default async function PanelPage({ params }: { params: Promise<{ slug: st
   return (
     <>
       <SiteHeader variant="bar" home={false} />
-      <main className="page">
+      <main id="content" tabIndex={-1} className="page">
         <div className="frame">
           <p className="page__back">
             <a href={navHref("#panels", false)}>{panelPage.back}</a>

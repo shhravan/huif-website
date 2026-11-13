@@ -87,19 +87,9 @@ export default function GateIntro() {
       </div>
       <div className="opening__scrim" aria-hidden="true" />
       <div className="opening__paper" aria-hidden="true" />
-      {/* the story begins here: the Context section's title and first paragraph, centred on the page as it settles */}
-      <div className="frame opening__story">
-        <h2 id={ids.contextTitle} className="display">
-          {context.heading}
-        </h2>
-        <p className="context__lead">
-          {context.lead} <span>{context.rest}</span>
-        </p>
-      </div>
-
       <SiteHeader variant="photo" />
 
-      <div className="opening__title">
+      <div id="content" tabIndex={-1} className="opening__title">
         <h1 className="display">
           Harvard Undergraduate
           <br />
@@ -117,6 +107,16 @@ export default function GateIntro() {
         <a className="button button--light" href={opening.action.href}>
           {opening.action.label}
         </a>
+      </div>
+
+      {/* after the title in reading order (it appears only once the title has gone): the Context section's title and first paragraph, centred on the page as it settles */}
+      <div className="frame opening__story">
+        <h2 id={ids.contextTitle} className="display">
+          {context.heading}
+        </h2>
+        <p className="context__lead">
+          {context.lead} <span>{context.rest}</span>
+        </p>
       </div>
     </section>
   );
