@@ -13,8 +13,9 @@ import { site, closing, CONTACT_EMAIL } from "@/content/site";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 /**
- * The close: the Sanchi gate again, standing to the right as in the opening, the words beside it in the sky.
- * The same camera and ground as the opening (lib/walk.ts). On tall screens the gate is small, under the words.
+ * The close: the opening's walk in reverse. Held on screen, you start inside the gate and walk backwards out of it
+ * (the same camera and ground, lib/walk.ts) until it stands to the right; then the words appear beside it in the sky.
+ * On tall screens the gate ends small, under the words.
  */
 export default function GateOutro() {
   const root = useRef<HTMLElement>(null);
@@ -28,32 +29,37 @@ export default function GateOutro() {
       const [canvas] = q(".gate-scene__ground") as HTMLCanvasElement[];
       const [gate] = q(".gate-scene__gate") as HTMLElement[];
       const small = window.matchMedia("(max-width: 860px)").matches;
-      // wide screens: the gate stands right of the words, as in the opening; tall screens: small, under them
+      // the opening's walk, run backwards: wide screens end with the gate right of the words; tall screens, small under them
       const walk = new GateWalk(el, back, canvas, gate, asset(small ? "/scene/paving-1024.webp" : "/scene/paving-2048.webp"), {
         offset: 0.25,
         size: window.innerHeight > window.innerWidth ? 0.3 : 0.56,
-        still: true,
       });
-      // a short step back from the gate as the section scrolls into view, the gate keeping its place
-      const state = { p: 0.18 };
+      const state = { p: 0 };
       let ready = false;
       walk.load().then(() => {
         ready = true;
         walk.render(state.p);
+        ScrollTrigger.refresh();
       });
       const onResize = () => ready && walk.layout();
       window.addEventListener("resize", onResize);
 
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.to(state, {
-          p: 0,
-          ease: "none",
-          scrollTrigger: { trigger: el, start: "top bottom", end: "top top", scrub: 1.2 },
+        // held on screen: you start inside the gate's opening and walk backwards out of it, turning away
+        // until it stands to one side; only then do the words appear, so nothing ever sits on the moving gate
+        state.p = 0.88; // the pillars just inside the edges of the screen
+        if (ready) walk.render(state.p);
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: { trigger: el, start: "top top", end: "+=200%", scrub: 0.8, pin: true, anticipatePin: 1 },
           onUpdate: () => {
             if (ready) walk.render(state.p);
           },
         });
+        tl.to(state, { p: 0, duration: 0.78 }, 0)
+          .fromTo(q(".outro__text"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.14, ease: "power2.out" }, 0.8)
+          .to({}, { duration: 0.06 });
       });
       mm.add("(prefers-reduced-motion: reduce)", () => {
         state.p = 0;
