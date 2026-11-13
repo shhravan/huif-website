@@ -44,7 +44,7 @@ export default function GateIntro() {
             walk.render(0);
             return;
           }
-          if (bar) gsap.set(bar, { autoAlpha: 0, yPercent: -100 });
+          if (bar) gsap.set(bar, { autoAlpha: 0 });
 
           const tl = gsap.timeline({
             defaults: { ease: "none" },
@@ -64,12 +64,28 @@ export default function GateIntro() {
             // the title steps aside as you turn towards the gate
             .to(q(".opening__title"), { autoAlpha: 0, y: 40, duration: 0.12, ease: "power1.in" }, 0)
             .to(q(".opening__scrim"), { autoAlpha: 0, duration: 0.18 }, 0)
-            // as the sky softens, the slim bar takes over
-            .to(q(".site-header--photo"), { autoAlpha: 0, duration: 0.06 }, 0.66)
             // as you pass between the pillars the sky softens into the page, and the story begins
             .to(q(".opening__paper"), { autoAlpha: 1, duration: 0.26, ease: "sine.inOut" }, 0.62)
             .fromTo(q(".opening__story"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.2, ease: "sine.out" }, 0.68);
-          if (bar) tl.to(bar, { autoAlpha: 1, yPercent: 0, duration: 0.06, ease: "power2.out" }, 0.72);
+          // as the sky softens, the slim bar takes over from the opening's header, and hands back on the way up.
+          // One switch on the scroll position itself (not the eased timeline), so one header is always showing.
+          const photo = q(".site-header--photo");
+          const show = (pastGate: boolean, instant = false) => {
+            const v = { duration: instant ? 0 : 0.2, ease: "power1.out", overwrite: true };
+            gsap.to(bar, { autoAlpha: pastGate ? 1 : 0, ...v });
+            gsap.to(photo, { autoAlpha: pastGate ? 0 : 1, ...v });
+          };
+          const walkST = tl.scrollTrigger!;
+          if (bar)
+            ScrollTrigger.create({
+              // 70% of the way through the walk, measured on the walk's own trigger (a trigger on the pinned
+              // section itself would be placed after the whole pin)
+              start: () => walkST.start + (walkST.end - walkST.start) * 0.7,
+              end: "max",
+              onEnter: () => show(true),
+              onLeaveBack: () => show(false),
+              onRefresh: (self) => show(self.scroll() >= self.start, true),
+            });
         },
       );
 
