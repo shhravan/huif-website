@@ -6,8 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Torana from "./Torana";
 import { ScenePlate } from "./Scene";
-import { GateWalk } from "@/lib/walk";
-import { asset } from "@/lib/asset";
+import { mountGateWalk } from "@/lib/walk";
 import { site, closing, CONTACT_EMAIL } from "@/content/site";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -25,36 +24,22 @@ export default function GateOutro() {
       const el = root.current;
       if (!el) return;
       const q = gsap.utils.selector(root);
-      const [back] = q(".gate-scene__back") as HTMLElement[];
-      const [canvas] = q(".gate-scene__ground") as HTMLCanvasElement[];
-      const [gate] = q(".gate-scene__gate") as HTMLElement[];
-      const small = window.matchMedia("(max-width: 860px)").matches;
       // the opening's walk, run backwards: wide screens end with the gate right of the words; tall screens, small under them
-      const walk = new GateWalk(el, back, canvas, gate, asset(small ? "/scene/paving-1024.webp" : "/scene/paving-2048.webp"), {
-        offset: 0.25,
-        size: window.innerHeight > window.innerWidth ? 0.3 : 0.56,
-      });
+      const { walk, loaded, dispose } = mountGateWalk(el, { offset: 0.25, size: window.innerHeight > window.innerWidth ? 0.3 : 0.56 });
+      loaded.then(() => ScrollTrigger.refresh());
       const state = { p: 0 };
-      let ready = false;
-      walk.load().then(() => {
-        ready = true;
-        walk.render(state.p);
-        ScrollTrigger.refresh();
-      });
-      const onResize = () => ready && walk.layout();
-      window.addEventListener("resize", onResize);
 
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         // held on screen: you start inside the gate's opening and walk backwards out of it, turning away
         // until it stands to one side; only then do the words appear, so nothing ever sits on the moving gate
         state.p = 0.88; // the pillars just inside the edges of the screen
-        if (ready) walk.render(state.p);
+        walk.render(state.p);
         const tl = gsap.timeline({
           defaults: { ease: "none" },
           scrollTrigger: { trigger: el, start: "top top", end: "+=200%", scrub: 0.8, pin: true, anticipatePin: 1 },
           onUpdate: () => {
-            if (ready) walk.render(state.p);
+            walk.render(state.p);
           },
         });
         tl.to(state, { p: 0, duration: 0.78 }, 0)
@@ -63,10 +48,10 @@ export default function GateOutro() {
       });
       mm.add("(prefers-reduced-motion: reduce)", () => {
         state.p = 0;
-        if (ready) walk.render(state.p);
+        walk.render(state.p);
       });
 
-      return () => window.removeEventListener("resize", onResize);
+      return dispose;
     },
     { scope: root },
   );

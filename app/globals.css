@@ -620,7 +620,7 @@ html.lenis body {
   margin: 0;
   color: var(--color-text-muted);
 }
-/* one large index, set in a slow stagger; each title opens in place */
+/* one large index, flush left; each title opens in place */
 .panels__index {
   margin: 0;
   padding: 0;
@@ -628,15 +628,6 @@ html.lenis body {
 }
 .panels__entry {
   padding: 6px 0;
-}
-.panels__entry:nth-child(4n + 2) {
-  padding-left: 8%;
-}
-.panels__entry:nth-child(4n + 3) {
-  padding-left: 16%;
-}
-.panels__entry:nth-child(4n + 4) {
-  padding-left: 8%;
 }
 .panels__title {
   margin: 0;
@@ -887,9 +878,6 @@ html.lenis body {
 
 /* ---------- The close: the gate again, with Get in touch ---------- */
 
-.outro .gate-scene__gate {
-  --gate-h: min(60svh, 100vw);
-}
 .outro__text {
   position: absolute;
   left: 0;
@@ -1020,7 +1008,7 @@ html.lenis body {
 }
 .updates input::placeholder {
   color: var(--color-text-inverse-muted);
-  opacity: 0.8;
+  opacity: 1; /* Firefox dims placeholders by default */
 }
 .updates input:focus-visible {
   outline: 2px solid var(--color-text-inverse);
@@ -1099,9 +1087,6 @@ html.lenis body {
 @media (max-width: 640px) {
   .site-footer__col:last-child {
     grid-column: 1 / -1;
-  }
-  .panels__entry:nth-child(n) {
-    padding-left: 0;
   }
   .theme__parts,
   .context__reasons {
