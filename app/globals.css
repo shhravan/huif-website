@@ -658,8 +658,8 @@ img[src*="sealinkday"] {
 .panels__strand {
   margin: 0 0 12px;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: var(--text-small);
+  letter-spacing: 0.04em;
+  font-size: var(--text-lead);
   font-weight: 500;
 }
 .panels__question {
@@ -686,14 +686,14 @@ img[src*="sealinkday"] {
 .strand__name {
   margin: 0;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: var(--text-lead);
-  line-height: 1.2;
+  font-size: clamp(1.875rem, 1.2rem + 1.8vw, 3rem);
+  line-height: 1.1;
 }
 .strand__line {
-  margin: 4px 0 20px;
+  margin: 8px 0 20px;
   max-width: 44ch;
   color: var(--color-text-muted);
 }
