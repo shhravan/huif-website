@@ -38,10 +38,11 @@ function blocksFor(slots: readonly Slot[]): Block[] {
 /** A calendar grid: the day's hours down the side, each block placed and sized by its real times. */
 function Calendar({ day }: { day: Day }) {
   const slots: readonly Slot[] = day.slots;
-  const start = Math.floor(minutes(slots[0].start) / 60) * 60;
+  // the grid starts at the first slot's half hour, so a day never opens on an empty row
+  const start = Math.floor(minutes(slots[0].start) / 30) * 30;
   const end = Math.ceil(minutes(slots[slots.length - 1].end) / 30) * 30;
   const hours: number[] = [];
-  for (let m = start; m < end; m += 60) hours.push(m);
+  for (let m = Math.ceil(start / 60) * 60; m < end; m += 60) hours.push(m);
   const row = (t: string) => (minutes(t) - start) / 15 + 1; // one grid row per quarter hour
 
   return (
@@ -67,12 +68,14 @@ function Calendar({ day }: { day: Day }) {
               className={`cal__block cal__block--${b.slot.kind}`}
               style={{ gridRowStart: row(b.slot.start), gridRowEnd: row(b.slot.end), gridColumn: b.column === "both" ? "1 / -1" : b.column }}
             >
+              {/* one line of details above the title: the time, and for a keynote what it is */}
               <p className="cal__time">
                 <time dateTime={b.slot.start}>{range(b.slot.start, b.slot.end)}</time>
                 {b.room && <span className="sr-only">, Room {b.room}</span>}
+                {b.detail && b.slot.kind === "keynote" && <span> · {b.detail}</span>}
               </p>
               <h4>{b.title}</h4>
-              {b.detail && <p className="cal__detail">{b.detail}</p>}
+              {b.detail && b.slot.kind !== "keynote" && <p className="cal__detail">{b.detail}</p>}
             </li>
           ))}
         </ol>
