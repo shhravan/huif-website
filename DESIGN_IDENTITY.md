@@ -23,7 +23,8 @@ Two colours, stone and Marine, each with one muted step, modelled on the restrai
 | Ground | `#f0efeb` stone | Light sections, the top bar |
 | Text | `#042d62` Marine | All text on stone; the button fill |
 | Muted text | `#4a5a72` | Labels and notes on stone (6.1:1) |
-| Inverse ground | `#042d62` Marine | Theme, the Sea Link panel, the footer band; one Marine everywhere |
+| Inverse ground | `#042d62` Marine | About (the Sea Link), Theme, Programme, the footer; one Marine everywhere |
+| Inverse surface | `#173d6d` | Programme blocks and the unselected day tab, one step up from Marine |
 | Inverse text | `#f0efeb` | Text on Marine (11.7:1) |
 | Inverse muted | `#a7b4c8` | Notes on Marine (6.4:1) |
 
@@ -31,7 +32,7 @@ On photographs and Marine, the button inverts to stone with a Marine label. Phot
 
 ## Feel
 
-Classy through restraint: two colours, very large regular-weight type, one idea per screen, generous space. Each section has its own composition: the centred statement (Context), picture beside text (About), a sticky heading beside a ledger (Questions), the timetable (Programme), a full-screen photograph (Invitation). No gradients except the legibility shade on the opening photograph, no shadows, no dividers, no captions.
+Classy through restraint: two colours, very large regular-weight type, one idea per screen, generous space. Sections alternate stone and Marine (Context stone, About Marine, Theme Marine after the carts photograph, Panels stone, Programme Marine, then the footer). Each section has its own composition: the centred statement (Context), picture beside text (About), a sticky heading beside a ledger (Questions), the timetable (Programme), a full-screen photograph (Invitation). No gradients except the legibility shade on the opening photograph, no shadows, no dividers, no captions.
 
 Motion follows `better-ui`: buttons press to 0.96 over 150ms; sections enter once with opacity, 4px blur and 12px rise over 300ms, 100ms apart; nothing moves under reduced motion.
 

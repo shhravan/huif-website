@@ -23,8 +23,8 @@
   --color-accent-solid-hover: var(--marine-950);
   --color-accent-on-solid: var(--stone-50);
   --color-accent-light-hover: #ffffff;
-  --color-bg-surface: #e4e3dd; /* one tone step from stone: tabs, keynote rows */
-  --color-bg-surface-hover: #d9d8d1;
+  --color-bg-inverse-surface: #173d6d; /* one tone step from Marine: programme blocks and the other day's tab */
+  --color-bg-inverse-surface-hover: #254875;
   --color-photo-fallback: #8d9bb6; /* behind photographs while they load */
 
   --font-display: "Eczar", "Iowan Old Style", Georgia, serif;
@@ -667,10 +667,12 @@ html.lenis body {
   line-height: 1.4;
 }
 
-/* ---------- Programme: a calendar on stone, one day at a time ---------- */
+/* ---------- Programme: a calendar on Marine, one day at a time ---------- */
 
 .programme {
   padding-block: var(--section);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
   scroll-margin-top: 72px;
 }
 .programme__head {
@@ -685,7 +687,7 @@ html.lenis body {
   text-align: center;
 }
 
-/* day tabs: a filled Marine block for the selected day, stone for the other */
+/* day tabs: a stone block for the selected day, a step lighter than Marine for the other */
 .tabs {
   display: flex;
   justify-content: center;
@@ -700,8 +702,8 @@ html.lenis body {
   min-width: 200px;
   padding: 16px 24px 18px;
   border: 1px solid transparent; /* taste-skill-ignore: keeps an edge in forced-colours mode */
-  background: var(--color-bg-surface);
-  color: var(--color-text);
+  background: var(--color-bg-inverse-surface);
+  color: var(--color-text-inverse);
   font: inherit;
   text-align: left;
   cursor: pointer;
@@ -714,12 +716,12 @@ html.lenis body {
   scale: 0.96;
 }
 .tabs__tab[aria-selected="true"] {
-  background: var(--color-accent-solid);
-  color: var(--color-accent-on-solid);
+  background: var(--color-text-inverse);
+  color: var(--color-text);
 }
 @media (hover: hover) {
   .tabs__tab[aria-selected="false"]:hover {
-    background: var(--color-bg-surface-hover);
+    background: var(--color-bg-inverse-surface-hover);
   }
 }
 .tabs__label {
@@ -741,7 +743,7 @@ html.lenis body {
 }
 .cal__head p {
   margin: 0;
-  color: var(--color-text-muted);
+  color: var(--color-text-inverse-muted);
   text-align: center;
 }
 .cal__grid {
@@ -753,7 +755,7 @@ html.lenis body {
 .cal__hour {
   grid-column: 1;
   margin: -0.7em 0 0;
-  color: var(--color-text-muted);
+  color: var(--color-text-inverse-muted);
   font-size: var(--text-small);
   font-variant-numeric: tabular-nums;
 }
@@ -772,7 +774,7 @@ html.lenis body {
   margin: 0 0 6px;
   padding: 12px 16px;
   overflow: hidden;
-  background: var(--color-bg-surface);
+  background: var(--color-bg-inverse-surface);
 }
 .cal__block h4 {
   margin: 4px 0 0;
@@ -784,23 +786,23 @@ html.lenis body {
 .cal__detail {
   margin: 4px 0 0;
   font-size: var(--text-small);
-  color: var(--color-text-muted);
+  color: var(--color-text-inverse-muted);
 }
 .cal__block--keynote .cal__detail {
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-muted);
 }
 .cal__time {
   margin: 0;
   font-size: var(--text-small);
-  color: var(--color-text-muted);
+  color: var(--color-text-inverse-muted);
   font-variant-numeric: tabular-nums;
 }
 .cal__block--keynote {
-  background: var(--color-accent-solid);
-  color: var(--color-accent-on-solid);
+  background: var(--color-text-inverse);
+  color: var(--color-text);
 }
 .cal__block--keynote .cal__time {
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-muted);
 }
 .cal__block--break {
   background: transparent;
@@ -808,7 +810,7 @@ html.lenis body {
 .cal__block--break h4 {
   font-family: var(--font-body);
   font-size: var(--text-body);
-  color: var(--color-text-muted);
+  color: var(--color-text-inverse-muted);
 }
 
 .sr-only {
