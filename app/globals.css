@@ -558,20 +558,13 @@ html.lenis body {
   line-height: 1.3;
 }
 
-/* ---------- Theme: the picture of many, then the two halves of the Theme ---------- */
+/* ---------- Theme: the two halves of the Theme ---------- */
 
 .theme {
   padding-bottom: var(--section);
   background: var(--color-bg-inverse);
   color: var(--color-text-inverse);
   scroll-margin-top: 72px;
-}
-.theme__band img {
-  display: block;
-  width: 100%;
-  height: clamp(280px, 46vw, 680px);
-  object-fit: cover;
-  object-position: 50% 45%;
 }
 .theme__title {
   max-width: 18ch;
@@ -594,10 +587,6 @@ html.lenis body {
   color: var(--color-text-inverse);
   font-weight: 400;
   font-family: var(--font-display);
-}
-.theme__close {
-  margin: clamp(48px, 5vw, 80px) 0 0;
-  max-width: 52ch;
 }
 
 /* ---------- Panels: every title, select one for its question ---------- */
@@ -668,6 +657,8 @@ img[src*="sealinkday"] {
 }
 .panels__strand {
   margin: 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   font-size: var(--text-small);
   font-weight: 500;
 }
@@ -694,6 +685,8 @@ img[src*="sealinkday"] {
 }
 .strand__name {
   margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--text-lead);

@@ -1,13 +1,9 @@
-import Picture from "./Picture";
-import { theme, photos } from "@/content/site";
+import { theme } from "@/content/site";
 
-/** The Theme: the picture of many people in one line, then what each half of the Theme means. */
+/** The Theme: what each half of the Theme means. */
 export default function Theme() {
   return (
     <section id="theme" className="theme" aria-labelledby="theme-title">
-      <div className="theme__band">
-        <Picture photo={photos.carts} sizes="100vw" />
-      </div>
       <div className="frame">
         <h2 id="theme-title" className="display theme__title" data-reveal>
           {theme.heading}
@@ -19,9 +15,6 @@ export default function Theme() {
             </p>
           ))}
         </div>
-        <p className="theme__close" data-reveal style={{ ["--i" as string]: 3 }}>
-          {theme.close}
-        </p>
       </div>
     </section>
   );
