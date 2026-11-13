@@ -942,14 +942,10 @@ html.lenis body {
   z-index: -1;
   pointer-events: none;
 }
-/* twice the band's size, anchored top-right, so the light covers only the corner */
 .footer-light__wash {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(215deg, var(--color-bg) 0%, var(--color-marine-tint) 8%, rgb(4 45 98 / 0) 22%); /* the one signature gradient, decided with the team */
+  inset: 0;
+  background: radial-gradient(circle at 100% 0, var(--color-bg) 0, var(--color-marine-tint) min(2vw, 24px), rgb(4 45 98 / 0) min(18vw, 220px)); /* the one signature gradient, decided with the team */
 }
 .footer-light__grain {
   position: absolute;

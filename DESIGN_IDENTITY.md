@@ -32,7 +32,7 @@ On photographs and Marine, the button inverts to stone with a Marine label. Phot
 
 ## Feel
 
-Classy through restraint: two colours, very large regular-weight type, one idea per screen, generous space. Each section has its own composition: the centred statement (Context), picture beside text (About), a sticky heading beside a ledger (Questions), the timetable (Programme), a full-screen photograph (Invitation). Two gradients only: the legibility shade on the opening photograph, and one still light in the top-right corner of the closing Marine band (stone through `#c4d3e6`, a pale Marine tint, into Marine, under a still film grain). Otherwise no shadows, no dividers, no captions.
+Classy through restraint: two colours, very large regular-weight type, one idea per screen, generous space. Each section has its own composition: the centred statement (Context), picture beside text (About), a sticky heading beside a ledger (Questions), the timetable (Programme), a full-screen photograph (Invitation). Two gradients only: the legibility shade on the opening photograph, and one still glow held to the top-right corner of the closing Marine band (stone through `#c4d3e6`, a pale Marine tint, into Marine, under a still film grain). Otherwise no shadows, no dividers, no captions.
 
 Motion follows `better-ui`: buttons press to 0.96 over 150ms; sections enter once with opacity, 4px blur and 12px rise over 300ms, 100ms apart; nothing moves under reduced motion.
 
