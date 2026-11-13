@@ -19,7 +19,7 @@ Primarily curious students and early-career professionals in India; open to anyo
 
 ## Scope
 
-One scrolling page, but carrying only what is confirmed.
+One scrolling page, carrying only what is confirmed.
 
 | # | Section | Claim | Proof on the page |
 | - | --- | --- | --- |
