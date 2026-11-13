@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Harvard Undergraduate India Forum",
   description: "India Uncharted: A Nation of Multitudes. The first Harvard forum in India. Mumbai, 13–14 March 2027.",
-  openGraph: { type: "website", siteName: "Harvard Undergraduate India Forum", images: [{ url: "og/site.jpg", width: 1200, height: 630 }] },
-  twitter: { card: "summary_large_image" },
+  openGraph: { type: "website", siteName: "Harvard Undergraduate India Forum", images: [{ url: "og/logo.jpg", width: 1200, height: 1200 }] },
+  twitter: { card: "summary" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
