@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 import Torana from "./Torana";
 import SiteHeader from "./SiteHeader";
 import { ScenePlate } from "./Scene";
-import { mountGateWalk } from "@/lib/walk";
+import { mountGateWalk, TITLE_OUT } from "@/lib/walk";
 import { site, opening, context, ids } from "@/content/site";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -61,8 +61,9 @@ export default function GateIntro() {
 
           // the walk itself runs on the timeline's progress, from 0 to 1
           tl.to({}, { duration: 1 }, 0)
-            // the title steps aside as you turn towards the gate
-            .to(q(".opening__title"), { autoAlpha: 0, y: 40, duration: 0.12, ease: "power1.in" }, 0)
+            // the title steps aside first; only then do you turn towards the gate (lib/walk.ts), so on the way back up
+            // the gate is at rest again before the title returns
+            .to(q(".opening__title"), { autoAlpha: 0, y: 40, duration: TITLE_OUT, ease: "none" }, 0)
             .to(q(".opening__scrim"), { autoAlpha: 0, duration: 0.18 }, 0)
             // as you pass between the pillars the sky softens into the page, and the story begins
             .to(q(".opening__paper"), { autoAlpha: 1, duration: 0.2, ease: "sine.inOut" }, 0.6)

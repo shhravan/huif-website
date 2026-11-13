@@ -59,6 +59,8 @@ type Layout = {
 };
 
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+/** walk progress by which the opening title has gone; the turn towards the gate starts here */
+export const TITLE_OUT = 0.08;
 const easeInOut = (t: number) => 0.5 - 0.5 * Math.cos(Math.PI * clamp(t));
 
 export class GateWalk {
@@ -81,6 +83,9 @@ export class GateWalk {
 
   /** Loads the paving texture and builds a small mip chain, so distant rows never shimmer. */
   async load() {
+    // stand the gate up and let it walk straight away; the moving paving joins in once it has loaded (on a slow
+    // network the gate would otherwise stand still while the title has already gone)
+    this.layout();
     const img = new Image();
     img.decoding = "async";
     img.src = this.textureUrl;
@@ -138,7 +143,7 @@ export class GateWalk {
 
   /**
    * Draws the scene at walk progress p (0: standing back, title in view; 1: through the gate).
-   * The first fifth turns towards the gate; the walk itself is one smooth ease, with no head sway.
+   * Once the title has gone (TITLE_OUT) the camera turns towards the gate; the walk itself is one smooth ease, with no head sway.
    * Safe to call before the paving has loaded: the latest progress is drawn once it has.
    */
   render(p: number) {
@@ -147,8 +152,11 @@ export class GateWalk {
     if (!L || !this.ctx || p === this.last) return;
     this.last = p;
 
-    const turn = easeInOut(p / 0.22);
-    const walk = easeInOut((p - 0.04) / 0.82);
+    // the camera holds still until the title has gone (TITLE_OUT), so the title never sits over a moving gate,
+    // and on the way back up the gate is at rest again before the title returns
+    // (the turn's slow first steps overlap the title's last, faint ones, so the gate never seems parked without a title)
+    const turn = easeInOut((p - TITLE_OUT + 0.02) / 0.2);
+    const walk = easeInOut((p - TITLE_OUT) / 0.78);
     const camX = L.gateX * turn;
     // after the doorway has opened, keep walking: the pillars slide out past the edges of the screen
     const through = easeInOut((p - 0.86) / 0.14);
@@ -262,11 +270,8 @@ export function mountGateWalk(scene: HTMLElement, options: WalkOptions) {
     asset(small ? "/scene/paving-1024.webp" : "/scene/paving-2048.webp"),
     options,
   );
-  let ready = false;
-  const loaded = walk.load().then(() => {
-    ready = true;
-  });
-  const onResize = () => ready && walk.layout();
+  const loaded = walk.load();
+  const onResize = () => walk.layout();
   window.addEventListener("resize", onResize);
   return { walk, loaded, dispose: () => window.removeEventListener("resize", onResize) };
 }
