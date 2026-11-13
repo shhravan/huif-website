@@ -10,6 +10,7 @@
  */
 
 import { asset } from "@/lib/asset";
+import { sceneAt } from "./opening";
 
 const PLATE_W = 2880;
 const PLATE_H = 1620;
@@ -59,9 +60,6 @@ type Layout = {
 };
 
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-/** walk progress by which the opening title has gone; the turn towards the gate starts here */
-export const TITLE_OUT = 0.08;
-const easeInOut = (t: number) => 0.5 - 0.5 * Math.cos(Math.PI * clamp(t));
 
 export class GateWalk {
   private ctx: CanvasRenderingContext2D | null;
@@ -143,7 +141,7 @@ export class GateWalk {
 
   /**
    * Draws the scene at walk progress p (0: standing back, title in view; 1: through the gate).
-   * Once the title has gone (TITLE_OUT) the camera turns towards the gate; the walk itself is one smooth ease, with no head sway.
+   * When the camera turns, walks and goes through is the Opening script's (lib/opening.ts); the walk has no head sway.
    * Safe to call before the paving has loaded: the latest progress is drawn once it has.
    */
   render(p: number) {
@@ -152,14 +150,8 @@ export class GateWalk {
     if (!L || !this.ctx || p === this.last) return;
     this.last = p;
 
-    // the camera holds still until the title has gone (TITLE_OUT), so the title never sits over a moving gate,
-    // and on the way back up the gate is at rest again before the title returns
-    // (the turn's slow first steps overlap the title's last, faint ones, so the gate never seems parked without a title)
-    const turn = easeInOut((p - TITLE_OUT + 0.02) / 0.2);
-    const walk = easeInOut((p - TITLE_OUT) / 0.78);
+    const { turn, walk, through } = sceneAt(p);
     const camX = L.gateX * turn;
-    // after the doorway has opened, keep walking: the pillars slide out past the edges of the screen
-    const through = easeInOut((p - 0.86) / 0.14);
     const camZ = (L.d0 - L.pass) * walk + (L.pass - 0.12) * through;
     const d = L.d0 - camZ; // distance from the eye to the gate
 

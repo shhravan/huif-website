@@ -19,6 +19,10 @@ _Avoid_: Harvard shield, Veritas, crest
 The real photographed east gateway of the Great Stupa at Sanchi that the visitor walks through on the site.
 _Avoid_: Torana in visitor-facing copy, arch, door
 
+**Opening script**:
+The order of everything in the Gate opening, as one table over walk progress (lib/opening.ts): the title steps aside, the camera turns, walks and goes through the Gate, the sky softens into the page, the story appears, and the slim bar takes over from the opening's own header.
+_Avoid_: intro timeline, animation config
+
 **India Conference at Harvard**:
 The long-running student-organised conference about India held at Harvard since 2004. A separate gathering that inspired the Forum, not the same organisation.
 _Avoid_: calling the Forum its branch, edition or successor
