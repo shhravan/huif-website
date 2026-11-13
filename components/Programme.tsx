@@ -75,14 +75,13 @@ function Calendar({ day }: { day: Day }) {
                 ["--n" as string]: n,
               }}
             >
-              {/* one line of details above the title: the time, and for a keynote what it is */}
+              {/* the time above the title; what a keynote or break holds below it */}
               <p className="cal__time">
                 <time dateTime={b.slot.start}>{range(b.slot.start, b.slot.end)}</time>
                 {b.room && <span className="sr-only">, Room {b.room}</span>}
-                {b.detail && b.slot.kind === "keynote" && <span> · {b.detail}</span>}
               </p>
               <h4>{b.slot.kind === "panels" ? <Link href={panelHref(slugify(b.title))}>{b.title}</Link> : b.title}</h4>
-              {b.detail && b.slot.kind !== "keynote" && <p className="cal__detail">{b.detail}</p>}
+              {b.detail && <p className="cal__detail">{b.detail}</p>}
             </li>
           ))}
         </ol>

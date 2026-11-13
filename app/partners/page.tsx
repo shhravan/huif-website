@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
-import Picture from "@/components/Picture";
-import { CONTACT_EMAIL, partners, photos, site } from "@/content/site";
+import PartnersHero, { partnersMail as mail } from "@/components/PartnersHero";
+import { partners, site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: `Partners · ${site.name}`,
+  title: `Partners, ${site.name}`,
   description: partners.lead,
 };
 
@@ -26,21 +26,11 @@ function List({ items }: { items: readonly Item[] }) {
 
 /** For organisations thinking of supporting the Forum: who is in the room, what partners receive, how to start. */
 export default function PartnersPage() {
-  const mail = CONTACT_EMAIL ? `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(partners.close.subject)}` : site.contact.href;
   return (
     <>
       <SiteHeader variant="bar" home={false} />
       <main className="page partners">
-        <div className="frame partners__top">
-          <div>
-            <h1 className="display">{partners.title}</h1>
-            <p className="partners__lead">{partners.lead}</p>
-            <a className="button" href={mail}>
-              {partners.close.action}
-            </a>
-          </div>
-          <Picture photo={photos.taj} sizes="(max-width: 900px) 100vw, 40vw" className="partners__photo" priority />
-        </div>
+        <PartnersHero />
 
         <section className="frame partners__section" aria-labelledby="audience">
           <h2 id="audience" className="head">
