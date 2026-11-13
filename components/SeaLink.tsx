@@ -8,23 +8,23 @@ import { asset } from "@/lib/asset";
  * The points were sampled once from the team's night photograph (public/scene/sealink-points.json:
  * x, y on a 0–scale grid, brightness 0–9, warm 0/1). Drawn at whole device pixels so they stay crisp.
  *
- * Three motions, all small:
- * - each point drifts on its own small loop, at its own pace, so the points shimmer without the bridge moving as one;
- * - the whole field drifts opposite to the cursor (parallax), eased;
- * - points right under the cursor push away and spring back.
+ * The bridge itself stays still. The one motion: impulses of light run along it, each lighting a short stretch
+ * of one lane of points and travelling on.
  * Nothing moves under reduced motion; the loop pauses while the section is off screen.
  */
 
-const JITTER = 1.4; // css px, radius of each point's own small loop
-const DRIFT = { x: 26, y: 16 }; // css px the field drifts, opposite to the cursor, at the screen's edge
-const EASE = 0.05; // how quickly the drift follows the cursor, per frame
-const RADIUS = 100; // css px around the pointer that the points move away from
-const PUSH = 40; // how far a point at the pointer is pushed, in css px
-const SPRING = 0.09; // pull back towards home each frame
-const DAMP = 0.78; // velocity kept each frame
+const IMPULSES = 7; // running at once
+const LANE = 0.02; // half-width of the lane of points an impulse lights, in picture heights
+const TAIL = 0.22; // length of the lit trail behind each impulse's head, in picture heights
 
 /** `text`: the words laid over the bridge; points behind them are drawn faint. */
-export default function SeaLink({ label, text }: { label: string; text: RefObject<HTMLElement | null> }) {
+export default function SeaLink({
+  label,
+  text,
+}: {
+  label: string;
+  text: RefObject<HTMLElement | null>;
+}) {
   const canvas = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -40,18 +40,70 @@ export default function SeaLink({ label, text }: { label: string; text: RefObjec
     let bucket = new Uint8Array(0); // 0–5: colour and brightness group, drawn together
     let size = new Uint8Array(0); // 1 or 2 device pixels
     let quiet = new Uint8Array(0); // 1 where the point sits behind the text, drawn fainter
-    let phase = new Float32Array(0); // where each point starts its loop, and how fast it goes round
-    let pace = new Float32Array(0);
     let hx = new Float32Array(0); // home, in device px
     let hy = new Float32Array(0);
-    let ox = new Float32Array(0); // push offset from home
-    let oy = new Float32Array(0);
-    let vx = new Float32Array(0);
-    let vy = new Float32Array(0);
     let aspect = 1.78;
     let dpr = 1;
-    let pointer: { x: number; y: number } | null = null; // inside the canvas, device px
-    const drift = { x: 0, y: 0, tx: 0, ty: 0 }; // eased and target drift, device px
+    // impulses run along the bridge's own axis (its main direction, found from the points): su is a point's place
+    // along the bridge, sw its place across it, both in picture heights
+    let su = new Float32Array(0);
+    let sw = new Float32Array(0);
+    let uMin = 0;
+    let uMax = 1;
+    const impulses = Array.from({ length: IMPULSES }, () => ({
+      x: 0,
+      y: 0,
+      v: 0,
+    }));
+    const launch = (
+      imp: { x: number; y: number; v: number },
+      anywhere: boolean,
+    ) => {
+      const i = Math.floor(Math.random() * n);
+      imp.y = sw[i]; // the lane of a random point, so impulses follow the deck, the cables and the lights
+      imp.v = (0.25 + Math.random() * 0.35) * (Math.random() < 0.5 ? -1 : 1); // picture heights per second
+      const span = uMax - uMin;
+      imp.x = anywhere
+        ? uMin + Math.random() * span
+        : imp.v > 0
+          ? uMin - TAIL - Math.random() * span * 0.4
+          : uMax + TAIL + Math.random() * span * 0.4;
+    };
+    const axis = () => {
+      let mx = 0,
+        my = 0;
+      for (let i = 0; i < n; i++) {
+        mx += sx[i] * aspect;
+        my += sy[i];
+      }
+      mx /= n;
+      my /= n;
+      let xx = 0,
+        xy = 0,
+        yy = 0;
+      for (let i = 0; i < n; i++) {
+        const a = sx[i] * aspect - mx,
+          b = sy[i] - my;
+        xx += a * a;
+        xy += a * b;
+        yy += b * b;
+      }
+      const t = 0.5 * Math.atan2(2 * xy, xx - yy); // the main direction
+      const c = Math.cos(t),
+        sn = Math.sin(t);
+      su = new Float32Array(n);
+      sw = new Float32Array(n);
+      uMin = Infinity;
+      uMax = -Infinity;
+      for (let i = 0; i < n; i++) {
+        const a = sx[i] * aspect - mx,
+          b = sy[i] - my;
+        su[i] = a * c + b * sn;
+        sw[i] = -a * sn + b * c;
+        uMin = Math.min(uMin, su[i]);
+        uMax = Math.max(uMax, su[i]);
+      }
+    };
     let raf = 0;
     let visible = false;
 
@@ -76,7 +128,10 @@ export default function SeaLink({ label, text }: { label: string; text: RefObjec
       const left = (W - pw) * 0.35;
       const top = (H - scale) * 0.5;
       // behind the text the points are drawn fainter, so every line stays readable
-      const words = getComputedStyle(el).position === "absolute" ? text.current?.getBoundingClientRect() : null;
+      const words =
+        getComputedStyle(el).position === "absolute"
+          ? text.current?.getBoundingClientRect()
+          : null;
       const me = el.getBoundingClientRect();
       for (let i = 0; i < n; i++) {
         const x = left + sx[i] * pw;
@@ -84,78 +139,73 @@ export default function SeaLink({ label, text }: { label: string; text: RefObjec
         hx[i] = x * dpr;
         hy[i] = y * dpr;
         quiet[i] =
-          words && x > words.left - me.left - 32 && x < words.right - me.left + 32 && y > words.top - me.top - 24 && y < words.bottom - me.top + 24 ? 1 : 0;
+          words &&
+          x > words.left - me.left - 32 &&
+          x < words.right - me.left + 32 &&
+          y > words.top - me.top - 24 &&
+          y < words.bottom - me.top + 24
+            ? 1
+            : 0;
       }
-      draw(0);
+      draw();
     };
 
-    const draw = (t: number) => {
+    const draw = () => {
       ctx.clearRect(0, 0, el.width, el.height);
-      const s = t / 1000;
-      const j = still ? 0 : JITTER * dpr;
-      const dx = drift.x;
-      const dy = drift.y;
       for (let q = 0; q < 2; q++) {
         ctx.globalAlpha = q ? 0.22 : 1;
         for (let b = 0; b < styles.length; b++) {
           ctx.fillStyle = styles[b];
           for (let i = 0; i < n; i++) {
             if (bucket[i] !== b || quiet[i] !== q) continue;
-            // every point on its own loop: no shared wave, so the bridge itself stays still
-            const a = s * pace[i] + phase[i];
-            const px = Math.round(hx[i] + ox[i] + dx + (j ? Math.cos(a) * j : 0));
-            const py = Math.round(hy[i] + oy[i] + dy + (j ? Math.sin(a * 1.3) * j : 0));
             const sz = dpr > 1 ? size[i] + 1 : size[i];
-            ctx.fillRect(px, py, sz, sz);
+            ctx.fillRect(Math.round(hx[i]), Math.round(hy[i]), sz, sz);
+          }
+        }
+      }
+      // the impulses: points on an impulse's row, just behind its head, drawn again brighter, fading along the trail
+      if (!still) {
+        for (const imp of impulses) {
+          if (!imp.v) continue; // not launched yet
+          const dir = Math.sign(imp.v);
+          for (let i = 0; i < n; i++) {
+            const off = Math.abs(sw[i] - imp.y);
+            if (off > LANE) continue;
+            const behind = (imp.x - su[i]) * dir; // 0 at the head, growing along the trail
+            if (behind < 0 || behind > TAIL) continue;
+            const k = 1 - behind / TAIL;
+            ctx.globalAlpha = k * (1 - off / LANE) * (quiet[i] ? 0.3 : 1);
+            ctx.fillStyle =
+              bucket[i] >= 3 ? "rgb(255, 214, 165)" : "rgb(255, 255, 255)";
+            const sz = (dpr > 1 ? size[i] + 1 : size[i]) + (k > 0.85 ? 2 : 1); // the head a little larger
+            ctx.fillRect(Math.round(hx[i]), Math.round(hy[i]), sz, sz);
           }
         }
       }
       ctx.globalAlpha = 1;
     };
 
-    const push = () => {
-      const r = RADIUS * dpr;
-      const strength = PUSH * dpr;
-      for (let i = 0; i < n; i++) {
-        if (pointer) {
-          const ddx = hx[i] + ox[i] + drift.x - pointer.x;
-          const ddy = hy[i] + oy[i] + drift.y - pointer.y;
-          const d2 = ddx * ddx + ddy * ddy;
-          if (d2 < r * r) {
-            const d = Math.sqrt(d2) || 1;
-            const k = 1 - d / r;
-            const f = k * k * (strength / 4);
-            vx[i] += (ddx / d) * f;
-            vy[i] += (ddy / d) * f;
-          }
-        }
-        vx[i] = (vx[i] - ox[i] * SPRING) * DAMP;
-        vy[i] = (vy[i] - oy[i] * SPRING) * DAMP;
-        ox[i] += vx[i];
-        oy[i] += vy[i];
+    let prev = 0;
+    const step = (t: number) => {
+      const dt = prev ? Math.min(0.05, (t - prev) / 1000) : 0;
+      prev = t;
+      for (const imp of impulses) {
+        imp.x += imp.v * dt;
+        const span = uMax - uMin;
+        if (
+          imp.x < uMin - TAIL - span * 0.5 ||
+          imp.x > uMax + TAIL + span * 0.5
+        )
+          launch(imp, false);
       }
     };
 
     const loop = (t: number) => {
       if (visible) {
-        drift.x += (drift.tx - drift.x) * EASE;
-        drift.y += (drift.ty - drift.y) * EASE;
-        push();
-        draw(t);
+        step(t);
+        draw();
       }
       raf = requestAnimationFrame(loop);
-    };
-
-    // the whole field drifts opposite to where the cursor is on the screen
-    const onWindowMove = (e: PointerEvent) => {
-      drift.tx = -((e.clientX / window.innerWidth) * 2 - 1) * DRIFT.x * dpr;
-      drift.ty = -((e.clientY / window.innerHeight) * 2 - 1) * DRIFT.y * dpr;
-      const rect = el.getBoundingClientRect();
-      const inside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
-      pointer = inside ? { x: (e.clientX - rect.left) * dpr, y: (e.clientY - rect.top) * dpr } : null;
-    };
-    const onLeave = () => {
-      pointer = null;
     };
 
     const io = new IntersectionObserver(([e]) => {
@@ -172,28 +222,21 @@ export default function SeaLink({ label, text }: { label: string; text: RefObjec
         bucket = new Uint8Array(n);
         size = new Uint8Array(n);
         quiet = new Uint8Array(n);
-        phase = new Float32Array(n);
-        pace = new Float32Array(n);
         for (let i = 0; i < n; i++) {
           const b = d.points[i * 4 + 2];
           sx[i] = d.points[i * 4] / d.scale;
           sy[i] = d.points[i * 4 + 1] / d.scale;
-          bucket[i] = (d.points[i * 4 + 3] ? 3 : 0) + (b >= 8 ? 2 : b >= 6 ? 1 : 0);
+          bucket[i] =
+            (d.points[i * 4 + 3] ? 3 : 0) + (b >= 8 ? 2 : b >= 6 ? 1 : 0);
           size[i] = b >= 8 ? 2 : 1;
-          phase[i] = Math.random() * Math.PI * 2;
-          pace[i] = 0.5 + Math.random() * 1.1;
         }
         hx = new Float32Array(n);
         hy = new Float32Array(n);
-        ox = new Float32Array(n);
-        oy = new Float32Array(n);
-        vx = new Float32Array(n);
-        vy = new Float32Array(n);
+        axis();
+        for (const imp of impulses) launch(imp, true);
         layout();
         if (!still) {
           io.observe(el);
-          window.addEventListener("pointermove", onWindowMove, { passive: true });
-          document.documentElement.addEventListener("pointerleave", onLeave);
           raf = requestAnimationFrame(loop);
         }
       })
@@ -205,10 +248,10 @@ export default function SeaLink({ label, text }: { label: string; text: RefObjec
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
-      window.removeEventListener("pointermove", onWindowMove);
-      document.documentElement.removeEventListener("pointerleave", onLeave);
     };
   }, [text]);
 
-  return <canvas ref={canvas} className="sealink" role="img" aria-label={label} />;
+  return (
+    <canvas ref={canvas} className="sealink" role="img" aria-label={label} />
+  );
 }
