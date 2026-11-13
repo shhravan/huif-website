@@ -8,14 +8,17 @@ import { asset } from "@/lib/asset";
  * The points were sampled once from the team's night photograph (public/scene/sealink-points.json:
  * x, y on a 0–scale grid, brightness 0–9, warm 0/1). Drawn at whole device pixels so they stay crisp.
  *
- * The bridge itself stays still. The one motion: impulses of light run along it, each lighting a short stretch
+ * The bridge itself stays still. The one motion: slow, faint impulses of light run along it, one in every lane of
+ * points, so in time they pass through the whole pattern without drawing the eye; each lights a short stretch
  * of one lane of points and travelling on.
  * Nothing moves under reduced motion; the loop pauses while the section is off screen.
  */
 
-const IMPULSES = 7; // running at once
-const LANE = 0.02; // half-width of the lane of points an impulse lights, in picture heights
-const TAIL = 0.22; // length of the lit trail behind each impulse's head, in picture heights
+const LANE = 0.025; // width of each lane of points along the bridge, in picture heights; every lane carries an impulse
+const TAIL = 0.2; // length of the lit trail behind an impulse's head, in picture heights
+const SPEED = [0.035, 0.07]; // picture heights per second: slow, so the light seems to seep along
+const SPACING = 0.55; // distance between impulses along one lane, in picture heights
+const GLOW = 0.45; // brightness of an impulse's head, over the point's own
 
 /** `text`: the words laid over the bridge; points behind them are drawn faint. */
 export default function SeaLink({
@@ -50,25 +53,10 @@ export default function SeaLink({
     let sw = new Float32Array(0);
     let uMin = 0;
     let uMax = 1;
-    const impulses = Array.from({ length: IMPULSES }, () => ({
-      x: 0,
-      y: 0,
-      v: 0,
-    }));
-    const launch = (
-      imp: { x: number; y: number; v: number },
-      anywhere: boolean,
-    ) => {
-      const i = Math.floor(Math.random() * n);
-      imp.y = sw[i]; // the lane of a random point, so impulses follow the deck, the cables and the lights
-      imp.v = (0.25 + Math.random() * 0.35) * (Math.random() < 0.5 ? -1 : 1); // picture heights per second
-      const span = uMax - uMin;
-      imp.x = anywhere
-        ? uMin + Math.random() * span
-        : imp.v > 0
-          ? uMin - TAIL - Math.random() * span * 0.4
-          : uMax + TAIL + Math.random() * span * 0.4;
-    };
+    // one impulse per lane: where its head starts, how fast it goes and which way (picked once per lane)
+    let lane = new Uint16Array(0);
+    let lanePhase = new Float32Array(0);
+    let laneSpeed = new Float32Array(0);
     const axis = () => {
       let mx = 0,
         my = 0;
@@ -102,6 +90,22 @@ export default function SeaLink({
         sw[i] = -a * sn + b * c;
         uMin = Math.min(uMin, su[i]);
         uMax = Math.max(uMax, su[i]);
+      }
+      let wMin = Infinity;
+      for (let i = 0; i < n; i++) wMin = Math.min(wMin, sw[i]);
+      lane = new Uint16Array(n);
+      let lanes = 0;
+      for (let i = 0; i < n; i++) {
+        lane[i] = Math.floor((sw[i] - wMin) / LANE);
+        lanes = Math.max(lanes, lane[i] + 1);
+      }
+      lanePhase = new Float32Array(lanes);
+      laneSpeed = new Float32Array(lanes);
+      for (let L = 0; L < lanes; L++) {
+        lanePhase[L] = Math.random() * SPACING;
+        laneSpeed[L] =
+          (SPEED[0] + Math.random() * (SPEED[1] - SPEED[0])) *
+          (Math.random() < 0.5 ? -1 : 1);
       }
     };
     let raf = 0;
@@ -163,41 +167,31 @@ export default function SeaLink({
           }
         }
       }
-      // the impulses: points on an impulse's row, just behind its head, drawn again brighter, fading along the trail
-      if (!still) {
-        for (const imp of impulses) {
-          if (!imp.v) continue; // not launched yet
-          const dir = Math.sign(imp.v);
-          for (let i = 0; i < n; i++) {
-            const off = Math.abs(sw[i] - imp.y);
-            if (off > LANE) continue;
-            const behind = (imp.x - su[i]) * dir; // 0 at the head, growing along the trail
-            if (behind < 0 || behind > TAIL) continue;
-            const k = 1 - behind / TAIL;
-            ctx.globalAlpha = k * (1 - off / LANE) * (quiet[i] ? 0.3 : 1);
-            ctx.fillStyle =
-              bucket[i] >= 3 ? "rgb(255, 214, 165)" : "rgb(255, 255, 255)";
-            const sz = (dpr > 1 ? size[i] + 1 : size[i]) + (k > 0.85 ? 2 : 1); // the head a little larger
-            ctx.fillRect(Math.round(hx[i]), Math.round(hy[i]), sz, sz);
-          }
+      // the impulses: in every lane, the points just behind that lane's head, drawn again a little brighter
+      if (!still && lane.length) {
+        for (let i = 0; i < n; i++) {
+          const L = lane[i];
+          const v = laneSpeed[L];
+          // how far this point is behind the nearest impulse ahead of it in its lane (heads every SPACING)
+          const a = Math.sign(v) * (lanePhase[L] - su[i]) + Math.abs(v) * clock;
+          const behind = ((a % SPACING) + SPACING) % SPACING;
+          if (behind > TAIL) continue;
+          const k = 1 - behind / TAIL;
+          ctx.globalAlpha = GLOW * k * k * (quiet[i] ? 0.3 : 1);
+          ctx.fillStyle =
+            bucket[i] >= 3 ? "rgb(255, 214, 165)" : "rgb(255, 255, 255)";
+          const sz = dpr > 1 ? size[i] + 1 : size[i];
+          ctx.fillRect(Math.round(hx[i]), Math.round(hy[i]), sz, sz);
         }
       }
       ctx.globalAlpha = 1;
     };
 
     let prev = 0;
+    let clock = 0; // seconds the impulses have run (only while on screen)
     const step = (t: number) => {
-      const dt = prev ? Math.min(0.05, (t - prev) / 1000) : 0;
+      clock += prev ? Math.min(0.05, (t - prev) / 1000) : 0;
       prev = t;
-      for (const imp of impulses) {
-        imp.x += imp.v * dt;
-        const span = uMax - uMin;
-        if (
-          imp.x < uMin - TAIL - span * 0.5 ||
-          imp.x > uMax + TAIL + span * 0.5
-        )
-          launch(imp, false);
-      }
     };
 
     const loop = (t: number) => {
@@ -233,7 +227,6 @@ export default function SeaLink({
         hx = new Float32Array(n);
         hy = new Float32Array(n);
         axis();
-        for (const imp of impulses) launch(imp, true);
         layout();
         if (!still) {
           io.observe(el);
