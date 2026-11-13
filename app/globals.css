@@ -25,7 +25,6 @@
   --color-accent-light-hover: #ffffff;
   --color-bg-surface: #e4e3dd; /* one tone step from stone: tabs, keynote rows */
   --color-bg-surface-hover: #d9d8d1;
-  --color-marine-tint: #c4d3e6; /* the pale Marine in the closing band's light */
   --color-photo-fallback: #8d9bb6; /* behind photographs while they load */
 
   --font-display: "Eczar", "Iowan Old Style", Georgia, serif;
@@ -902,8 +901,6 @@ html.lenis body {
 }
 
 .site-footer__band {
-  position: relative;
-  isolation: isolate;
   overflow: hidden;
   padding-top: clamp(48px, 5vw, 72px);
   background: var(--color-bg-inverse);
@@ -935,26 +932,6 @@ html.lenis body {
   grid-column: 1 / span 6;
 }
 
-/* ---- the light in the closing band (components/FooterLight.tsx) ---- */
-.footer-light {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-}
-.footer-light__wash {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 100% 0, var(--color-bg) 0, var(--color-marine-tint) min(2vw, 24px), rgb(4 45 98 / 0) min(18vw, 220px)); /* the one signature gradient, decided with the team */
-}
-.footer-light__grain {
-  position: absolute;
-  inset: 0;
-  opacity: 0.16;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 240px 240px;
-}
 .site-footer__pre {
   margin: clamp(48px, 6vw, 96px) 0 0;
   font-family: var(--font-display);
