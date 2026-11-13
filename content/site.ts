@@ -53,7 +53,6 @@ export const photos = {
     alt: "The Bandra–Worli Sea Link in Mumbai by day, a wave breaking in front of it",
   },
   taj: { name: "taj", w: [800, 1066], ratio: 1066 / 1333, alt: "The Taj Mahal Palace in Mumbai in late-afternoon light, pigeons in flight" },
-  carts: { name: "carts", w: [1200, 1920], ratio: 1920 / 1238, alt: "Black-and-white photograph of people pulling carts in a line along an embankment, reflected in the water" },
 } as const;
 
 export type Photo = { name: string; w: readonly [number, number]; ratio: number; alt: string };
@@ -93,7 +92,6 @@ export const theme = {
       text: "India cannot be understood through one experience, one geography, one generation or one set of priorities. Its languages, identities, economies and ambitions differ, even within a single field.",
     },
   ],
-  close: "Not every conversation will end in agreement. The aim is better questions, and a clearer sense of why the answers differ.",
 } as const;
 
 export const about = {
@@ -264,7 +262,7 @@ export const strands = [
     id: "making",
     name: "Making",
     line: "What India makes, powers and heals, and the work that goes into it.",
-    photo: "carts",
+    photo: "taj",
     panels: ["Building in India: Manufacturing", "India’s Energy Transition", "The Future of Healthcare in India", "Fashion & Design"], // taste-skill-ignore: the panel's confirmed title
   },
   {
