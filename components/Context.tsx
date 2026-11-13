@@ -1,4 +1,4 @@
-import { context } from "@/content/site";
+import { context, ids } from "@/content/site";
 
 /**
  * The context, on stone. Its heading appears at the end of the walk through the gate (GateIntro),
@@ -6,7 +6,7 @@ import { context } from "@/content/site";
  */
 export default function Context() {
   return (
-    <section className="context" aria-labelledby="context-title">
+    <section className="context" aria-labelledby={ids.contextTitle}>
       <div className="frame context__inner">
         <div className="context__reasons">
           {context.reasons.map((r) => (

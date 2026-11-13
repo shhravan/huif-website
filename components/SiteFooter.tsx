@@ -23,9 +23,6 @@ export default function SiteFooter() {
                   <a href={n.href}>{n.label}</a>
                 </li>
               ))}
-              <li>
-                <a href="#contact">{site.contact.label}</a>
-              </li>
             </ul>
           </nav>
           <div className="site-footer__col">

@@ -7,10 +7,9 @@
  * frame on a canvas from the real paving texture, in true perspective (one textured row per
  * screen row) all the way to the horizon, hazing with distance as the plate does. The gate is projected through the
  * same camera, so its feet stay planted on the paving as you walk towards it and between its pillars.
- *
- * Optionally a "portal": the next section seen only through the gate's opening, which grows as you
- * approach and opens to the whole screen as you pass through.
  */
+
+import { asset } from "@/lib/asset";
 
 const PLATE_W = 2880;
 const PLATE_H = 1620;
@@ -35,17 +34,12 @@ const FEET_X: [number, number][] = [
 const GATE_CX = 0.491; // the opening's centre
 const PILLAR_DEPTH = 0.9; // metres: the pillars are square in plan
 const PILLAR = 0.27; // each pillar's centre, as a fraction of the gate width from the opening's centre
-// the story is drawn behind the gate, from pillar centre to pillar centre and from inside the lowest
-// lintel down to the feet, so the carved stone itself frames it and no straight edge shows
-const OPENING = { left: 0.236, right: 0.747, top: 0.345 };
 
 export type WalkOptions = {
   /** where the gate first stands: 0 is the centre of the screen, 0.27 is right of centre */
   offset: number;
   /** the gate's first height, as a fraction of the screen height (desktop; phones fill the height) */
   size: number;
-  /** the next section, seen through the opening */
-  portal?: HTMLElement;
 };
 
 type Layout = {
@@ -67,6 +61,7 @@ export class GateWalk {
   private mips: { pattern: CanvasPattern; k: number }[] = [];
   private layoutState: Layout | null = null;
   private last = -1;
+  private want = 0; // the progress last asked for, drawn as soon as the stage is laid out
 
   constructor(
     private world: HTMLElement,
@@ -126,17 +121,17 @@ export class GateWalk {
     this.canvas.height = Math.round(h * dpr);
     this.gate.style.height = `${gateScreenH}px`;
     this.gate.style.width = `${gateScreenH * GATE_ASPECT}px`;
-    const p = this.last;
     this.last = -1;
-    this.render(p < 0 ? 0 : p);
+    this.render(this.want);
   }
 
   /**
    * Draws the scene at walk progress p (0: standing back, title in view; 1: through the gate).
    * The first fifth turns towards the gate; the walk itself is one smooth ease, with no head sway.
-   * With a portal, the story shows through the opening late in the walk and opens to the whole screen at the end.
+   * Safe to call before the paving has loaded: the latest progress is drawn once it has.
    */
   render(p: number) {
+    this.want = p;
     const L = this.layoutState;
     if (!L || !this.ctx || p === this.last) return;
     this.last = p;
@@ -162,24 +157,6 @@ export class GateWalk {
     const top = feetY - GATE_FEET * gh;
     const left = cx + ((L.gateX - camX) * L.f) / d - (gh * GATE_ASPECT) / 2;
     this.gate.style.transform = `translate3d(${left}px, ${top}px, 0) scale(${s})`;
-
-    const portal = this.options.portal;
-    if (portal) {
-      const gw = gh * GATE_ASPECT;
-      const open = easeInOut((p - 0.7) / 0.18); // the opening grows to the whole screen
-      const lerp = (a: number, b: number) => a + (b - a) * open;
-      const t = lerp(top + OPENING.top * gh, 0);
-      const r = lerp(L.w - (left + OPENING.right * gw), 0);
-      const b = lerp(L.h - feetY, 0);
-      const l = lerp(left + OPENING.left * gw, 0);
-      portal.style.clipPath = `inset(${t}px ${r}px ${b}px ${l}px)`;
-      // the Marine field fades in first; the words follow once it is solid
-      const shown = easeInOut((p - 0.46) / 0.24);
-      portal.style.opacity = String(shown);
-      portal.style.visibility = shown > 0 ? "visible" : "hidden";
-      const words = portal.firstElementChild as HTMLElement | null;
-      if (words) words.style.opacity = String(easeInOut((p - 0.66) / 0.14));
-    }
   }
 
   /**
@@ -250,4 +227,28 @@ export class GateWalk {
       ctx.fillRect(0, y, W, 1);
     }
   }
+}
+
+/**
+ * Sets up the walk for a gate scene (ScenePlate, the ground canvas and the gate inside `scene`): picks the
+ * paving texture for the screen, loads it and keeps the stage laid out on resize. Call dispose() on unmount.
+ */
+export function mountGateWalk(scene: HTMLElement, options: WalkOptions) {
+  const part = <T extends HTMLElement>(cls: string) => scene.querySelector<T>(cls)!;
+  const small = window.matchMedia("(max-width: 860px)").matches;
+  const walk = new GateWalk(
+    scene,
+    part(".gate-scene__back"),
+    part<HTMLCanvasElement>(".gate-scene__ground"),
+    part(".gate-scene__gate"),
+    asset(small ? "/scene/paving-1024.webp" : "/scene/paving-2048.webp"),
+    options,
+  );
+  let ready = false;
+  const loaded = walk.load().then(() => {
+    ready = true;
+  });
+  const onResize = () => ready && walk.layout();
+  window.addEventListener("resize", onResize);
+  return { walk, loaded, dispose: () => window.removeEventListener("resize", onResize) };
 }

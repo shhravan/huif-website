@@ -7,9 +7,8 @@ import { useGSAP } from "@gsap/react";
 import Torana from "./Torana";
 import SiteHeader from "./SiteHeader";
 import { ScenePlate } from "./Scene";
-import { GateWalk } from "@/lib/walk";
-import { asset } from "@/lib/asset";
-import { site, opening, context } from "@/content/site";
+import { mountGateWalk } from "@/lib/walk";
+import { site, opening, context, ids } from "@/content/site";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -29,22 +28,8 @@ export default function GateIntro() {
       if (!el) return;
       const q = gsap.utils.selector(root);
       const bar = document.querySelector(".site-header--bar");
-      const [back] = q(".gate-scene__back") as HTMLElement[];
-      const [canvas] = q(".gate-scene__ground") as HTMLCanvasElement[];
-      const [gate] = q(".gate-scene__gate") as HTMLElement[];
-
-      const small = window.matchMedia("(max-width: 860px)").matches;
-      const walk = new GateWalk(el, back, canvas, gate, asset(small ? "/scene/paving-1024.webp" : "/scene/paving-2048.webp"), {
-        offset: 0.27,
-        size: 0.86,
-      });
-      let ready = false;
-      walk.load().then(() => {
-        ready = true;
-        ScrollTrigger.refresh();
-      });
-      const onResize = () => ready && walk.layout();
-      window.addEventListener("resize", onResize);
+      const { walk, loaded, dispose } = mountGateWalk(el, { offset: 0.27, size: 0.86 });
+      loaded.then(() => ScrollTrigger.refresh());
 
       const mm = gsap.matchMedia();
       mm.add(
@@ -88,7 +73,7 @@ export default function GateIntro() {
         },
       );
 
-      return () => window.removeEventListener("resize", onResize);
+      return dispose;
     },
     { scope: root },
   );
@@ -104,7 +89,7 @@ export default function GateIntro() {
       <div className="opening__paper" aria-hidden="true" />
       {/* the story begins here: the Context section's title and first paragraph, centred on the page as it settles */}
       <div className="frame opening__story">
-        <h2 id="context-title" className="display">
+        <h2 id={ids.contextTitle} className="display">
           {context.heading}
         </h2>
         <p className="context__lead">

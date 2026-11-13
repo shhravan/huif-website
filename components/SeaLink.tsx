@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 import { asset } from "@/lib/asset";
 
 /**
@@ -23,7 +23,8 @@ const PUSH = 40; // how far a point at the pointer is pushed, in css px
 const SPRING = 0.09; // pull back towards home each frame
 const DAMP = 0.78; // velocity kept each frame
 
-export default function SeaLink({ label }: { label: string }) {
+/** `text`: the words laid over the bridge; points behind them are drawn faint. */
+export default function SeaLink({ label, text }: { label: string; text: RefObject<HTMLElement | null> }) {
   const canvas = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -73,7 +74,7 @@ export default function SeaLink({ label }: { label: string }) {
       const left = (W - pw) * 0.35;
       const top = (H - scale) * 0.5;
       // behind the text the points are drawn fainter, so every line stays readable
-      const text = getComputedStyle(el).position === "absolute" ? host.querySelector(".about__body")?.getBoundingClientRect() : null;
+      const words = getComputedStyle(el).position === "absolute" ? text.current?.getBoundingClientRect() : null;
       const me = el.getBoundingClientRect();
       for (let i = 0; i < n; i++) {
         const x = left + sx[i] * pw;
@@ -81,7 +82,7 @@ export default function SeaLink({ label }: { label: string }) {
         hx[i] = x * dpr;
         hy[i] = y * dpr;
         quiet[i] =
-          text && x > text.left - me.left - 32 && x < text.right - me.left + 32 && y > text.top - me.top - 24 && y < text.bottom - me.top + 24 ? 1 : 0;
+          words && x > words.left - me.left - 32 && x < words.right - me.left + 32 && y > words.top - me.top - 24 && y < words.bottom - me.top + 24 ? 1 : 0;
       }
       draw(0);
     };
@@ -201,7 +202,7 @@ export default function SeaLink({ label }: { label: string }) {
       window.removeEventListener("pointermove", onWindowMove);
       document.documentElement.removeEventListener("pointerleave", onLeave);
     };
-  }, []);
+  }, [text]);
 
   return <canvas ref={canvas} className="sealink" role="img" aria-label={label} />;
 }

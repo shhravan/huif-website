@@ -39,6 +39,9 @@ export const photos = {
 export type Photo = (typeof photos)[keyof typeof photos];
 
 /** The story, in the order of the narrative brief: the context, the response, the invitation. */
+/** Element ids shared between components: the Context section's title lives in the opening (GateIntro). */
+export const ids = { contextTitle: "context-title" } as const;
+
 export const context = {
   heading: "A country too complex for a single narrative",
   /** Read as one paragraph: the first part in full ink, the rest quieter. */
