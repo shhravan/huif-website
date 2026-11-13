@@ -29,7 +29,7 @@ export default function PartnersPage() {
   return (
     <>
       <SiteHeader variant="bar" home={false} />
-      <main className="page partners">
+      <main id="content" tabIndex={-1} className="page partners">
         <PartnersHero />
 
         <section className="frame partners__section" aria-labelledby="audience">

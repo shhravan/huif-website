@@ -45,7 +45,11 @@ export default function SiteFooter({ home = true }: { home?: boolean }) {
                         <rect x="3" y="5" width="18" height="14" rx="2" />
                         <path d="m3.5 6.5 8.5 6.5 8.5-6.5" />
                       </svg>
-                      {CONTACT_EMAIL}
+                      {/* one line wherever it fits; below 360px it may break before the @ */}
+                      <span>
+                        {CONTACT_EMAIL.split("@")[0]}
+                        <wbr />@{CONTACT_EMAIL.split("@")[1]}
+                      </span>
                     </a>
                   </li>
                 </ul>

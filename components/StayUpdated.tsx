@@ -18,7 +18,11 @@ export default function StayUpdated() {
       onSubmit={(e) => {
         e.preventDefault();
         const email = String(new FormData(e.currentTarget).get("email") ?? "").trim();
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setState("invalid");
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          setState("invalid");
+          (e.currentTarget.elements.namedItem("email") as HTMLInputElement).focus();
+          return;
+        }
         const body = `Please add ${email} to the HUIF 2027 updates.`;
         window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(t.subject)}&body=${encodeURIComponent(body)}`;
         setState("sent");

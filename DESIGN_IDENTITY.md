@@ -9,7 +9,7 @@ The decided look of the Launch page. Every section uses these values; nothing he
 
 ## Type
 
-- **Display:** Eczar 400, never bold. Five sizes only: 16, 19, 26, 64 and up to 120px. Display at 120px with −0.03em tracking, headings at 64px with −0.02em.
+- **Display:** Eczar 400, never bold. Seven sizes, all tokens in `app/globals.css`: small 16, body 19, lead 22, sub 29, title 44, head 64, display 89 (at 1440px; each scales down to 16 / 17 / 18 / 22 / 26 / 36 / 42 on a 390px phone, so display always outranks head). Display with −0.03em tracking, headings with −0.02em. Only the footer wordmark and two phone labels set their own size.
 - **Text:** Mukta 400 for reading, 500 for buttons and navigation. Body 17–19px.
 - Both faces are by Indian type designers and cover Devanagari.
 - Sentence case everywhere. Times use tabular figures.
@@ -40,4 +40,4 @@ Motion follows `better-ui`: buttons press to 0.96 over 150ms; sections enter onc
 
 ## Photographs
 
-Two of the team's: the carts, full width, above the Theme; and the Sea Link at night, sampled into about 21,000 points drawn crisp at device pixels across the whole About section. A slow wave runs through the points, the whole field drifts opposite to the cursor, and points right under it spread and spring back (no movement under reduced motion; paused off screen). Points behind the text are drawn faint. After the Gate there is no photograph: the sky softens into the page and the story's first heading appears in Marine. No captions, credits or video.
+Two of the team's: the carts, full width, above the Theme; and the Sea Link at night, sampled into about 21,000 points drawn crisp at device pixels across the whole About section. Each point drifts on its own small loop at its own pace (the bridge never waves as one), the whole field drifts opposite to the cursor, and points right under it spread and spring back (no movement under reduced motion; paused off screen). Points behind the text are drawn faint. After the Gate there is no photograph: the sky softens into the page and the story's first heading appears in Marine. No captions, credits or video.

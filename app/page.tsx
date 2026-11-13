@@ -14,18 +14,20 @@ import SiteFooter from "@/components/SiteFooter";
 // the context, the Forum, the Theme, the Panels (select one for its question), the Programme, and back out through the Gate.
 export default function Home() {
   return (
-    <main id="top">
+    <>
       <SmoothScroll />
       <Reveal />
       <SiteHeader variant="bar" />
-      <GateIntro />
-      <Context />
-      <About />
-      <Theme />
-      <Panels />
-      <Programme />
-      <GateOutro />
+      <main>
+        <GateIntro />
+        <Context />
+        <About />
+        <Theme />
+        <Panels />
+        <Programme />
+        <GateOutro />
+      </main>
       <SiteFooter />
-    </main>
+    </>
   );
 }

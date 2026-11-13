@@ -371,7 +371,7 @@ export const footer = {
   line: "13–14 March 2027, Mumbai",
   updates: {
     label: "Stay updated",
-    placeholder: "you@email.com",
+    placeholder: "name@email.com",
     action: "Sign up",
     /** No mailing list yet: the form opens the visitor's email app with this message to the Forum's address. */
     subject: "Keep me updated on HUIF 2027",
