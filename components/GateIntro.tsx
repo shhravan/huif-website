@@ -52,7 +52,7 @@ export default function GateIntro() {
               trigger: el,
               start: "top top",
               end: "+=260%",
-              scrub: 0.8,
+              scrub: 1.2,
               pin: true,
               anticipatePin: 1,
             },
@@ -67,8 +67,8 @@ export default function GateIntro() {
             // as the sky softens, the slim bar takes over
             .to(q(".site-header--photo"), { autoAlpha: 0, duration: 0.06 }, 0.66)
             // as you pass between the pillars the sky softens into the page, and the story begins
-            .to(q(".opening__paper"), { autoAlpha: 1, duration: 0.2, ease: "power1.inOut" }, 0.66)
-            .fromTo(q(".opening__story"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.14, ease: "power2.out" }, 0.7);
+            .to(q(".opening__paper"), { autoAlpha: 1, duration: 0.26, ease: "sine.inOut" }, 0.62)
+            .fromTo(q(".opening__story"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.2, ease: "sine.out" }, 0.68);
           if (bar) tl.to(bar, { autoAlpha: 1, yPercent: 0, duration: 0.06, ease: "power2.out" }, 0.72);
         },
       );
