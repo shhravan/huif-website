@@ -1,5 +1,6 @@
 import { asset, navHref } from "@/lib/asset";
 import { site } from "@/content/site";
+import PhoneMenu from "./PhoneMenu";
 
 /**
  * The top of the site.
@@ -28,6 +29,7 @@ export default function SiteHeader({ variant, home = true }: { variant: "photo" 
           </li>
         </ul>
       </nav>
+      {variant === "bar" && <PhoneMenu home={home} />}
     </header>
   );
 }

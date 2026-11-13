@@ -54,7 +54,7 @@ export default function Panels() {
             <div key={current.slug} className="panels__card">
               <p className="panels__strand">{current.strand.name}</p>
               <p className="panels__name">{current.title}</p>
-              <p className="panels__question">{current.question ?? panels.noQuestion}</p>
+              {current.question && <p className="panels__question">{current.question}</p>}
               <dl className="panels__facts">
                 <div>
                   <dt>When</dt>

@@ -78,7 +78,7 @@ function Calendar({ day }: { day: Day }) {
               {/* the time above the title; what a keynote or break holds below it */}
               <p className="cal__time">
                 <time dateTime={b.slot.start}>{range(b.slot.start, b.slot.end)}</time>
-                {b.room && <span className="sr-only">, Room {b.room}</span>}
+                {b.room && <span className="sr-only cal__room">, Room {b.room}</span>}
               </p>
               <h4>{b.slot.kind === "panels" ? <Link href={panelHref(slugify(b.title))}>{b.title}</Link> : b.title}</h4>
               {b.detail && <p className="cal__detail">{b.detail}</p>}

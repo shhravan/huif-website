@@ -37,7 +37,7 @@ export default function GateOutro() {
         walk.render(state.p);
         const tl = gsap.timeline({
           defaults: { ease: "none" },
-          scrollTrigger: { trigger: el, start: "top top", end: "+=200%", scrub: 1.2, pin: true, anticipatePin: 1 },
+          scrollTrigger: { trigger: el, start: "top top", end: "+=130%", scrub: 1.2, pin: true, anticipatePin: 1 },
           onUpdate: () => {
             walk.render(state.p);
           },

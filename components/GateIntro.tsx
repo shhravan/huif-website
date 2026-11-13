@@ -105,6 +105,7 @@ export default function GateIntro() {
           <br />
           India Forum
         </h1>
+        <p className="opening__line">{opening.line}</p>
         <dl className="opening__facts">
           {opening.facts.map((f) => (
             <div key={f.label}>

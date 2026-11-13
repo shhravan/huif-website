@@ -23,6 +23,8 @@ export const site = {
 } as const;
 
 export const opening = {
+  /** What HUIF is, in one line under the name. */
+  line: "Two days of conversation about India’s future, hosted by Harvard students in Mumbai.",
   action: { label: "See the programme", href: "#programme" },
   /** The facts strip under the title. */
   facts: [
