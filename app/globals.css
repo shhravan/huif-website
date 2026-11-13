@@ -1,0 +1,1734 @@
+/*
+ * HUIF design tokens. The source of truth is DESIGN_IDENTITY.md; change values there first.
+ *
+ * Two colours, stone and Marine, each with one muted step. Primitives name the value;
+ * components use only the semantic --color-* tokens below.
+ */
+:root {
+  /* primitives */
+  --stone-50: #f0efeb;
+  --stone-300: #a7b4c8; /* stone seen through Marine: the muted text on Marine */
+  --marine-700: #4a5a72; /* muted text on stone */
+  --marine-900: #042d62; /* brand Marine */
+  --marine-950: #021d42;
+  --marine-800: #173d6d; /* one step up from Marine, same hue (OKLCH 0.36 / 256°) */
+  --marine-750: #254875; /* two steps up (0.40 / 256°) */
+  --white: #ffffff;
+
+  /* semantic roles */
+  --color-bg: var(--stone-50);
+  --color-text: var(--marine-900);
+  --color-text-muted: var(--marine-700);
+  --color-bg-inverse: var(--marine-900);
+  --color-text-inverse: var(--stone-50);
+  --color-text-inverse-muted: var(--stone-300);
+  --color-accent-solid: var(--marine-900);
+  --color-accent-solid-hover: var(--marine-950);
+  --color-accent-on-solid: var(--stone-50);
+  /* the filled element on Marine grounds: stone with a Marine label (the light button, the selected day, keynotes) */
+  --color-accent-solid-inverse: var(--stone-50);
+  --color-accent-solid-inverse-hover: var(--white);
+  --color-accent-on-solid-inverse: var(--marine-900);
+  --color-bg-inverse-surface: var(--marine-800); /* the other day's tab */
+  --color-bg-inverse-surface-hover: var(--marine-750);
+  --color-photo-fallback: #8d9bb6; /* behind photographs while they load */
+
+  --font-display: "Eczar", "Iowan Old Style", Georgia, serif;
+  --font-body: "Mukta", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* seven sizes (16 / 19 / 22 / 29 / 45 / 64 / 89 at 1440px); only the footer wordmark and two phone labels set their own */
+  --text-small: 1rem;
+  --text-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --text-lead: clamp(1.125rem, 1.05rem + 0.35vw, 1.375rem);
+  --text-sub: clamp(1.375rem, 1.1rem + 0.8vw, 1.875rem);
+  --text-title: clamp(1.625rem, 1rem + 2vw, 2.75rem);
+  --text-head: clamp(2.25rem, 1.4rem + 2.9vw, 4rem);
+  --text-display: clamp(2.625rem, 0.9rem + 5.6vw, 7.5rem);
+
+  --margin: clamp(20px, 4vw, 56px);
+  --gap: clamp(12px, 2.2vw, 32px); /* column gap of the 12-column grids; 11 gaps must fit 280px at 320px wide */
+  --section: clamp(72px, 7vw, 120px);
+}
+
+/* Desktop: the home page as it reads at 75% browser zoom (sizes, spacing and the column about three quarters of
+ * what they were), with body text held at 17px so it stays comfortable to read. The display lines follow the
+ * screen width and are unchanged. */
+@media (min-width: 901px) {
+  :root {
+    --text-small: 0.9375rem;
+    --text-body: clamp(1rem, 0.85rem + 0.25vw, 1.0625rem);
+    --text-lead: clamp(1.0625rem, 0.9rem + 0.3vw, 1.1875rem);
+    --text-sub: clamp(1.25rem, 0.9rem + 0.6vw, 1.5rem);
+    --text-title: clamp(1.5rem, 0.8rem + 1.4vw, 2.125rem);
+    --text-head: clamp(2.25rem, 1rem + 2.2vw, 3rem);
+    --margin: clamp(20px, 3.4vw, 48px);
+    --section: clamp(56px, 6vw, 92px);
+    --frame: 1200px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+/* anchored sections and focused elements stop below the fixed bar */
+html {
+  scroll-padding-top: 80px;
+}
+/* the first thing a keyboard reaches; on screen only while focused */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: var(--margin);
+  z-index: 100;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--color-accent-solid);
+  color: var(--color-accent-on-solid);
+  font-weight: 500;
+  text-decoration: none;
+  translate: 0 -200%;
+}
+.skip-link:focus-visible {
+  translate: 0 0;
+  outline-color: var(--color-accent-solid);
+}
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-underline-position: from-font;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.2em;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* one pair of page margins, used by every section */
+.frame {
+  width: 100%;
+  max-width: var(--frame, 1440px);
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+
+/* display and heading type share one setting; sizes come from the scale */
+.display,
+.head {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-wrap: balance;
+}
+.display {
+  font-size: min(var(--text-display), 11vw);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+/* on wide screens every display line, the opening title included, shares one size */
+@media (min-width: 901px) {
+  .display {
+    font-size: min(var(--text-display), 6.2vw);
+  }
+}
+.head {
+  font-size: var(--text-head);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+/* Lenis smooth scrolling */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+/* ---------- The one button ---------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 14px 28px;
+  border: 1px solid transparent; /* keeps an edge in forced-colours mode */
+  background: var(--color-accent-solid);
+  color: var(--color-accent-on-solid);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--text-small);
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition-property: background-color, scale;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+@media (hover: hover) {
+  .button:hover {
+    background: var(--color-accent-solid-hover);
+  }
+}
+.button:not(:disabled):active {
+  scale: 0.96;
+}
+/* the ring takes the fill's colour, not the label's, so it shows against the ground around the button */
+.button:focus-visible {
+  outline-color: var(--color-accent-solid);
+}
+.button--light:focus-visible {
+  outline-color: var(--color-accent-solid-inverse);
+}
+.button--small {
+  min-height: 44px;
+  padding: 10px 20px;
+}
+/* on photographs and Marine grounds the button inverts: stone fill, Marine label */
+.button--light {
+  background: var(--color-accent-solid-inverse);
+  color: var(--color-accent-on-solid-inverse);
+}
+@media (hover: hover) {
+  .button--light:hover {
+    background: var(--color-accent-solid-inverse-hover);
+  }
+}
+
+/* ---------- Gate scene: real sky and paving + the gate ---------- */
+
+.gate-scene {
+  position: relative;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  /* if the browser has not painted part of the sky photograph yet (fast scrolling), what shows is the sky's own
+     colours, not a flat band */
+  background: linear-gradient(180deg, #5879a4 0%, #6a8cb2 30%, #97aec5 62%, #a9a8a6 76%, #6e5f4e 77%, #5c4e40 100%); /* stand-in for the sky photograph while it paints */
+  /* horizon of the landscape photo, measured from the bottom of the screen */
+  --horizon: 24vh;
+}
+
+.gate-scene__back {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.gate-scene__plate {
+  position: absolute;
+  inset: 0;
+  /* its own layer, painted once, so scrolling never repaints the photograph in strips */
+  will-change: transform;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 76%;
+  user-select: none;
+}
+
+.gate-scene__gate {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  --gate-h: min(91.8svh, 153vw);
+  height: var(--gate-h);
+  aspect-ratio: 0.6265;
+  /* put the gate photo's eye-level line (75.3% down) on the landscape's horizon */
+  bottom: calc(var(--horizon) - 0.2466 * var(--gate-h));
+  translate: -50% 0;
+}
+
+/* the near ground, drawn each frame from the paving texture in true perspective (lib/walk.ts) */
+.gate-scene__ground {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* once the walk is running, the gate is placed by the camera, not by CSS */
+.gate-scene.is-walk-ready .gate-scene__gate,
+.opening.is-walk-ready .gate-scene__gate {
+  left: 0;
+  top: 0;
+  bottom: auto;
+  translate: none;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.torana {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.torana__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  /* cut the empty opening out of the image box (measured from its alpha), so what lies beyond the gate
+     is not under an invisible rectangle; nothing visible changes */
+  clip-path: polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, 34.5% 36.5%, 64.4% 36.5%, 65% 52%, 66.8% 60%, 66.8% 88%, 30.6% 88%, 31.6% 60%, 33.3% 52%, 34.5% 36.5%);
+}
+
+/* India, seen through the gate's opening; lib/walk.ts sets its clip and opacity each frame */
+
+/* ---------- Header ---------- */
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.site-header__logo img {
+  display: block;
+  width: auto;
+}
+
+.site-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-body);
+  font-weight: 500;
+}
+
+.site-header__nav a:not(.button) {
+  text-decoration: none;
+}
+@media (hover: hover) {
+  .site-header__nav a:not(.button):hover {
+    text-decoration: underline;
+  }
+}
+.site-header__nav a:not(.button):focus-visible {
+  text-decoration: underline;
+}
+
+/* on the photograph (opening screen) */
+.site-header--photo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  padding: calc(22px + env(safe-area-inset-top, 0px)) var(--margin) 0;
+  color: var(--color-text-inverse);
+}
+.site-header--photo .site-header__logo img {
+  height: 104px;
+}
+.site-header--photo .site-header__nav {
+  padding-top: 18px;
+}
+
+/* the slim bar that stays after the walk-through */
+.site-header--bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  align-items: center;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) var(--margin) 10px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  visibility: hidden;
+}
+.site-header--bar .site-header__logo img {
+  height: 52px;
+}
+
+@media (max-width: 860px) {
+  .site-header--photo .site-header__logo img {
+    height: 78px;
+  }
+  .site-header--photo .site-header__nav {
+    display: none;
+  }
+  .site-header--bar .site-header__logo img {
+    height: 44px;
+  }
+  .site-header--bar .site-header__nav li:not(:last-child) {
+    display: none;
+  }
+}
+
+/* ---------- Opening ---------- */
+
+/* desktop: the gate stands right of centre so the title has the left of the frame; you turn to it as you walk */
+@media (orientation: landscape) {
+  .opening .gate-scene__gate {
+    left: 77%;
+    --gate-h: min(86svh, 143vw);
+  }
+}
+
+/* a soft neutral shade rising from the ground, under the title: the one gradient the house rules allow */
+.opening__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(0deg, rgb(17 17 19 / 0.62) 0%, rgb(17 17 19 / 0.3) 30%, rgb(17 17 19 / 0) 58%); /* legibility scrim over the photograph */
+}
+
+/* after the walk: the sky softens into the page, as in the first version of the opening */
+.opening__paper {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgb(240 239 235 / 0.2) 0%, rgb(240 239 235 / 0.75) 30%, var(--color-bg) 55%); /* the sky softening into the page */
+}
+.opening__story {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(20px, 3svh, 36px);
+  padding-bottom: clamp(32px, 7svh, 72px);
+  text-align: center;
+  color: var(--color-text);
+  opacity: 0;
+  visibility: hidden;
+}
+.opening__story h2 {
+  max-width: 24ch;
+}
+/* the first paragraph sits with the heading, set large enough that the settled page is full, not blank */
+.opening__story .context__lead {
+  max-width: 44ch;
+  font-size: var(--text-sub);
+  line-height: 1.35;
+}
+
+/* the title is anchored to the bottom-left of the frame, like a title card */
+.opening__title {
+  position: absolute;
+  left: var(--margin);
+  right: var(--margin);
+  bottom: clamp(32px, 6svh, 64px);
+  z-index: 3;
+  color: var(--color-text-inverse);
+}
+.opening__line {
+  max-width: 40ch;
+  margin: 16px 0 0;
+  font-size: var(--text-lead);
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+.opening__facts {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: min(860px, 56vw);
+  gap: 16px clamp(24px, 3.4vw, 56px);
+  margin: clamp(24px, 3vw, 40px) 0 clamp(24px, 3vw, 36px);
+}
+.opening__facts div {
+  margin: 0;
+}
+.opening__facts dt {
+  margin: 0 0 2px;
+  font-size: var(--text-small);
+  color: var(--color-text-inverse-muted);
+}
+.opening__facts dd {
+  margin: 0;
+  font-size: var(--text-lead);
+  line-height: 1.2;
+}
+
+@media (orientation: portrait) {
+  .opening .gate-scene__gate {
+    --gate-h: min(98svh, 192vw);
+  }
+  .opening__facts {
+    max-width: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 20px;
+    margin: 18px 0 22px;
+  }
+  .opening__facts dd {
+    font-size: var(--text-lead);
+  }
+}
+
+/* with reduced motion the bar is there from the start, so the opening's own header steps aside (and leaves the tab order) */
+@media (prefers-reduced-motion: reduce) {
+  .site-header--bar {
+    visibility: visible;
+  }
+  .site-header--photo {
+    visibility: hidden;
+  }
+}
+
+/* ---------- Context: the one centred moment, on Marine ---------- */
+
+/* overlaps the walk's last frame by 2px, so no hairline shows where the softened sky meets the page */
+.context {
+  position: relative;
+  margin-top: -2px;
+  padding-block: clamp(8px, 2vw, 24px) var(--section);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+.context__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.context__inner h2 {
+  max-width: 24ch;
+}
+.context__lead {
+  max-width: 52ch;
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: var(--text-lead);
+  line-height: 1.4;
+  text-wrap: balance;
+}
+.context__lead span {
+  color: var(--color-text-muted);
+}
+/* why now: two reasons, a lead-in in full ink, the rest quieter */
+.context__reasons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px clamp(32px, 5vw, 80px);
+  text-align: left;
+}
+.context__reasons p {
+  margin: 0;
+  max-width: 48ch;
+  color: var(--color-text-muted);
+}
+.context__reasons h3 {
+  margin: 0 0 10px;
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-lead);
+  line-height: 1.25;
+}
+
+/* ---------- About: the Sea Link in points across the whole section, text in the sea ---------- */
+
+.about {
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--section);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+}
+/* components/SeaLink.tsx: still, the points spread from the pointer and spring back */
+.sealink {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.about__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gap);
+  pointer-events: none;
+}
+/* the text sits in the open sea on the right, clear of the bridge; the heading, above the deck,
+   may take one more column */
+.about__body {
+  grid-column: 8 / span 5;
+  pointer-events: auto;
+}
+@media (min-width: 901px) {
+  .about__body h2,
+  .about__body h1 {
+    margin-left: calc((-100% - 32px * 4) / 5 - 32px);
+  }
+}
+.about__text {
+  margin-top: clamp(28px, 3vw, 44px);
+  max-width: 58ch;
+}
+.about__text p {
+  margin: 0 0 1em;
+}
+.about__text p:first-child {
+  font-size: var(--text-lead);
+  line-height: 1.4;
+}
+.about__mumbai {
+  margin: clamp(32px, 3vw, 44px) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lead);
+  line-height: 1.3;
+}
+
+/* ---------- Theme: the two halves of the Theme ---------- */
+
+/* on stone, the opening of the same chapter as the Panels below it */
+.theme {
+  padding-bottom: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+.theme__title {
+  max-width: 18ch;
+  padding-top: clamp(72px, 8vw, 128px);
+}
+.theme__parts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px clamp(32px, 5vw, 80px);
+  margin-top: clamp(48px, 5vw, 80px);
+}
+.theme__parts p {
+  margin: 0;
+  max-width: 52ch;
+  color: var(--color-text-muted);
+  font-size: var(--text-lead);
+  line-height: 1.45;
+}
+.theme__parts strong {
+  color: var(--color-text);
+  font-weight: 400;
+  font-family: var(--font-display);
+}
+
+/* ---------- Panels: every title, select one for its question ---------- */
+
+.panels {
+  padding-block: var(--section);
+}
+.panels__head {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px var(--gap);
+  align-items: end;
+  margin-bottom: clamp(56px, 6vw, 96px);
+}
+.panels__head h2 {
+  grid-column: 1 / span 6;
+}
+.panels__head p {
+  grid-column: 8 / span 5;
+  margin: 0;
+  color: var(--color-text-muted);
+}
+/* the list on the right, the box that follows it on the left */
+.panels__body {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gap);
+  align-items: start;
+}
+.panels__box {
+  grid-column: 1 / span 5;
+  position: sticky;
+  top: 88px;
+  height: min(calc(100svh - 128px), 620px);
+  overflow: hidden;
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+}
+.panels__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 500ms ease-out;
+}
+.panels__photo.is-on {
+  opacity: 1;
+}
+/* a Marine scrim under the words, so the photograph stays itself above them */
+.panels__box::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(4 45 98 / 0) 10%, rgb(4 45 98 / 0.94) 62%); /* a scrim under text on a photo */
+}
+/* the Sea Link's towers stand left of centre */
+img[src*="sealinkday"] {
+  object-position: 38% 50%;
+}
+.panels__card {
+  position: absolute;
+  z-index: 1;
+  inset: auto 0 0 0;
+  padding: clamp(28px, 3vw, 44px);
+}
+.panels__strand {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: var(--text-lead);
+  font-weight: 500;
+}
+.panels__box {
+  display: block;
+  text-decoration: none;
+}
+.panels__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.panels__question {
+  margin: 14px 0 0;
+  font-size: var(--text-lead);
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+.panels__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  margin: 22px 0 0;
+  font-size: var(--text-small);
+}
+.panels__facts dt {
+  color: var(--color-text-inverse-muted);
+}
+.panels__facts dd {
+  margin: 0;
+}
+.panels__open {
+  display: inline-block;
+  margin-top: 22px;
+  font-size: var(--text-small);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.2em;
+}
+/* the Taj Mahal sits low in its arch: lift the photograph so the Taj clears the words, the scrim closes the gap below */
+.panels__photo--culture {
+  translate: 0 -24%;
+}
+.panels__strands {
+  grid-column: 7 / -1;
+}
+.strand + .strand {
+  margin-top: clamp(64px, 6vw, 104px);
+}
+.strand__photo {
+  display: none;
+}
+.strand__name {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-title);
+  line-height: 1.1;
+}
+.strand__line {
+  margin: 8px 0 20px;
+  max-width: 44ch;
+  color: var(--color-text-muted);
+}
+.strand__panels {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.strand__panel {
+  display: block;
+  padding: 5px 0;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 200ms ease-out;
+}
+.strand__panel.is-on,
+.strand__panel:focus-visible {
+  color: var(--color-text);
+}
+.strand__title {
+  font-family: var(--font-display);
+  font-size: var(--text-sub);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.12em;
+  transition: text-decoration-color 200ms ease-out;
+}
+.strand__panel.is-on .strand__title {
+  text-decoration-color: currentColor;
+}
+.strand__meta {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .panels__card {
+    animation: card-in 320ms ease-out both;
+  }
+}
+@keyframes card-in {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
+}
+
+/* phones and tablets: no box; each strand opens with its photograph, every panel shows when it meets */
+@media (max-width: 900px) {
+  .panels__box {
+    display: none;
+  }
+  .panels__strands {
+    grid-column: 1 / -1;
+  }
+  .strand__photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    margin-bottom: 20px;
+    background: var(--color-photo-fallback);
+  }
+  .strand__panel {
+    color: var(--color-text);
+    padding: 8px 0;
+  }
+  .strand__panel.is-on .strand__title {
+    text-decoration-color: transparent;
+  }
+  .strand__meta {
+    display: block;
+    margin-top: 2px;
+    color: var(--color-text-muted);
+    font-size: var(--text-small);
+  }
+}
+
+/* ---------- Programme: a calendar on Marine, one day at a time ---------- */
+
+.programme {
+  padding-block: var(--section);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+}
+.programme__head {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 24px var(--gap);
+  align-items: end;
+  margin-bottom: clamp(48px, 5vw, 72px);
+}
+.programme__head h2 {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+/* day tabs: one pill-shaped switch on Marine, a stone marker sliding under the chosen day */
+.tabs {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: min(100%, 440px);
+  margin: 0 auto clamp(32px, 4vw, 56px);
+  padding: 6px;
+  border-radius: 999px;
+  background: var(--color-bg-inverse-surface);
+}
+.tabs__marker {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 6px;
+  width: calc(50% - 6px);
+  border-radius: 999px;
+  background: var(--color-accent-solid-inverse);
+  translate: calc(var(--active, 0) * 100%) 0;
+  transition: translate 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tabs__tab {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 10px 16px 12px;
+  border: 1px solid transparent; /* keeps an edge in forced-colours mode */
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-text-inverse);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition-property: color, scale;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+}
+.tabs__tab:active {
+  scale: 0.96;
+}
+.tabs__tab[aria-selected="true"] {
+  color: var(--color-accent-on-solid-inverse);
+}
+/* the chosen day's ring sits inside its stone marker, where Marine shows */
+.tabs__tab[aria-selected="true"]:focus-visible {
+  outline-offset: -6px;
+}
+@media (hover: hover) {
+  .tabs__tab[aria-selected="false"]:hover {
+    background: var(--color-bg-inverse-surface-hover);
+  }
+}
+.tabs__label {
+  font-family: var(--font-display);
+  font-size: var(--text-lead);
+  line-height: 1.1;
+}
+.tabs__date {
+  font-size: var(--text-small);
+}
+
+/* calendar grid: one row per quarter hour, each slot as tall as it is long */
+.cal__head {
+  display: grid;
+  grid-template-columns: 62px 1fr 1fr; /* 72px less the 10px gap, so each room sits over its column of cards */
+  gap: 0 10px;
+  padding-bottom: 12px;
+}
+.cal__head p {
+  margin: 0;
+  padding-left: 20px; /* lines up with the text inside the cards */
+  color: var(--color-text-inverse);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-lead);
+}
+.cal__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  /* to scale where text fits; a row grows only when a long title needs it */
+  grid-template-rows: repeat(var(--rows), minmax(20px, auto));
+}
+.cal__hour {
+  grid-column: 1;
+  margin: -0.7em 0 0;
+  color: var(--color-text-inverse);
+  font-size: var(--text-small);
+  font-weight: 500;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.cal__slots {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: subgrid;
+  gap: 0 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* every session is a soft stone card with Marine text; keynotes span both rooms and set their title a step larger */
+.cal__block {
+  margin: 0 0 8px;
+  padding: 14px 20px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--color-accent-solid-inverse);
+  color: var(--color-accent-on-solid-inverse);
+}
+.cal__block h3 {
+  margin: 4px 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-lead);
+  line-height: 1.2;
+}
+.cal__detail,
+.cal__time {
+  margin: 0;
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.cal__detail {
+  margin-top: 4px;
+}
+.cal__block--keynote h3 {
+  font-size: var(--text-sub);
+  line-height: 1.1;
+}
+
+/* breaks are not boxes: plain text on Marine */
+.cal__block--break {
+  background: transparent;
+  color: var(--color-text-inverse);
+}
+.cal__block--break .cal__time,
+.cal__block--break .cal__detail {
+  color: var(--color-text-inverse-muted);
+}
+/* a break reads as one line: "Lunch: Sponsor Q&A" */
+.cal__block--break h3,
+.cal__block--break .cal__detail {
+  display: inline;
+}
+.cal__block--break .cal__detail::before {
+  content: ": ";
+}
+.cal__block--break h3 {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--color-text-inverse-muted);
+}
+
+/* switching days: the sessions fade in and rise a little, one after another */
+@media (prefers-reduced-motion: no-preference) {
+  [role="tabpanel"]:not([hidden]) .cal__block {
+    animation: cal-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--n, 0) * 28ms);
+  }
+  @keyframes cal-in {
+    from {
+      opacity: 0;
+      translate: 0 10px;
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tabs__marker {
+    transition: none;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- The close: the gate again, with Get in touch ---------- */
+
+.outro__text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: clamp(96px, 14svh, 160px);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: var(--color-text);
+}
+/* wide screens: the words on the left in the sky, the gate standing to the right (GateOutro) */
+@media (orientation: landscape) and (min-width: 861px) {
+  .outro__text {
+    top: 72px; /* below the top bar */
+    bottom: 30svh;
+    right: 50%;
+    width: auto; /* .frame sets 100% */
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .outro__text > * {
+    max-width: 100%;
+  }
+  .outro__text p {
+    text-wrap: pretty;
+  }
+}
+.outro__text p {
+  max-width: 44ch;
+  margin: 14px 0 24px;
+  font-size: var(--text-lead);
+  text-wrap: balance;
+}
+
+/* ---------- Footer: one Marine band, the details on top and the name across the width ---------- */
+
+.site-footer {
+  overflow: hidden;
+  padding-top: clamp(56px, 5vw, 80px);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+}
+.site-footer__top {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 40px var(--gap);
+  align-items: start;
+}
+.site-footer__lead {
+  grid-column: 1 / span 6;
+}
+.site-footer__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-title);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.site-footer__line {
+  margin: 12px 0 36px;
+  color: var(--color-text-inverse-muted);
+  font-size: var(--text-lead);
+}
+.site-footer__col {
+  grid-column: 7 / span 2;
+}
+.site-footer__col:last-child {
+  grid-column: 9 / span 4;
+}
+/* the email stays on one line: below 1200px the lead takes the full width and the two columns share the next row */
+@media (min-width: 901px) and (max-width: 1200px) {
+  .site-footer__lead {
+    grid-column: 1 / -1;
+  }
+  .site-footer__col {
+    grid-column: 1 / span 4;
+  }
+  .site-footer__col:last-child {
+    grid-column: 5 / span 8;
+  }
+}
+.site-footer__label {
+  margin: 0 0 14px;
+  color: var(--color-text-inverse-muted);
+  font-size: var(--text-small);
+}
+.site-footer__label--gap {
+  margin-top: 32px;
+}
+.site-footer__col ul {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-lead);
+  line-height: 1.3;
+}
+.site-footer__col a {
+  color: var(--color-text-inverse);
+  text-decoration: none;
+}
+.site-footer__col .site-footer__email {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-small);
+  white-space: nowrap;
+}
+.site-footer__email svg {
+  flex: none;
+}
+@media (max-width: 359px) {
+  .site-footer__col .site-footer__email {
+    align-items: flex-start;
+    white-space: normal;
+  }
+}
+@media (hover: hover) {
+  .site-footer__col a:hover {
+    text-decoration: underline;
+  }
+}
+
+.updates__label {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--color-text-inverse-muted);
+  font-size: var(--text-small);
+}
+.updates__row {
+  display: flex;
+  gap: 12px;
+  max-width: 560px;
+}
+.updates input {
+  flex: 1;
+  min-width: 0;
+  min-height: 52px;
+  padding: 12px 18px;
+  border: 1px solid var(--color-text-inverse-muted); /* a field needs an edge */
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-text-inverse);
+  font: inherit;
+  font-size: var(--text-small);
+}
+.updates input::placeholder {
+  color: var(--color-text-inverse-muted);
+  opacity: 1; /* Firefox dims placeholders by default */
+}
+.updates input:focus-visible {
+  outline: 2px solid var(--color-text-inverse);
+  outline-offset: 2px;
+}
+.updates input[aria-invalid="true"] {
+  border-color: var(--color-text-inverse);
+}
+.updates__status {
+  min-height: 1.5em;
+  margin: 10px 0 0;
+  color: var(--color-text-inverse-muted);
+  font-size: var(--text-small);
+}
+
+.site-footer__pre {
+  margin: clamp(48px, 5vw, 80px) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lead);
+}
+/* the name across the full width, sitting on the band's lower edge */
+.site-footer__name {
+  margin: 0;
+  padding-bottom: 0.06em;
+  font-family: var(--font-display);
+  font-size: min(18.2vw, 262px);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+.site-footer__base {
+  background: var(--color-bg);
+}
+.site-footer__credit {
+  margin: 0;
+  padding-block: 20px;
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+}
+
+/* ---------- Narrow screens ---------- */
+
+@media (max-width: 900px) {
+  .about__body,
+  .panels__head h2,
+  .panels__head p,
+  .programme__head h2,
+  .programme__head p {
+    grid-column: 1 / -1;
+  }
+  .site-footer__lead {
+    grid-column: 1 / -1;
+  }
+  .site-footer__col {
+    grid-column: span 6;
+  }
+  .site-footer__col:last-child {
+    grid-column: span 6;
+  }
+  .site-footer__col .site-footer__email {
+    font-size: 0.9375rem; /* keeps the address on one line at phone width */
+  }
+  /* phones: the bridge sits above the text, not behind it */
+  .about {
+    padding-top: 0;
+  }
+  .sealink {
+    position: relative;
+    inset: auto;
+    height: auto;
+    aspect-ratio: 1.15;
+    margin-bottom: clamp(32px, 6vw, 56px);
+  }
+}
+
+@media (max-width: 640px) {
+  .site-footer__col:last-child {
+    grid-column: 1 / -1;
+  }
+  .theme__parts,
+  .context__reasons {
+    grid-template-columns: 1fr;
+  }
+  .tabs__tab {
+    padding: 10px 8px 12px;
+  }
+  .tabs__date {
+    white-space: nowrap;
+  }
+  .cal__grid {
+    grid-template-columns: 44px 1fr;
+    grid-template-rows: repeat(var(--rows), minmax(30px, auto));
+  }
+  .cal__head {
+    grid-template-columns: 34px 1fr 1fr;
+  }
+  .cal__head p {
+    padding-left: 12px;
+    font-size: var(--text-body);
+  }
+  .cal__hour {
+    font-size: 0.8125rem; /* hour labels fit a 44px column */
+  }
+  .cal__block {
+    padding: 10px 12px;
+    border-radius: 10px;
+  }
+  .cal__block h3 {
+    font-size: var(--text-small);
+  }
+
+}
+
+/* ---------- Motion: entrances ----------
+ * Content is visible without script and with reduced motion. Otherwise the parts of each
+ * section enter once: opacity, 4px of blur and 12px of rise over 300ms, 100ms apart. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-ready [data-reveal] {
+    opacity: 0;
+    filter: blur(4px);
+    translate: 0 12px;
+    transition-property: opacity, filter, translate;
+    transition-duration: 300ms;
+    transition-timing-function: ease-out;
+    transition-delay: calc(var(--i, 0) * 100ms);
+  }
+  .reveal-ready [data-reveal].is-in {
+    opacity: 1;
+    filter: none;
+    translate: 0 0;
+  }
+}
+
+/* ---------- Pages of their own: one per panel, and Partners ---------- */
+
+.site-header--page {
+  visibility: visible;
+}
+.page {
+  padding-top: 112px;
+}
+.page__back {
+  margin: 0 0 clamp(28px, 3vw, 48px);
+  font-size: var(--text-small);
+}
+.page__back a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+.page__back a:hover,
+.page__back a:focus-visible {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+/* a panel: the title and its question beside the strand's photograph */
+.panel-page__top {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gap);
+  align-items: end;
+}
+.panel-page__text {
+  grid-column: 1 / span 7;
+}
+.panel-page__question {
+  margin: 24px 0 0;
+  max-width: 30ch;
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  line-height: 1.18;
+  text-wrap: pretty;
+}
+.panel-page__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 48px;
+  margin: 40px 0 0;
+}
+.panel-page__facts dt {
+  font-weight: 500;
+}
+.panel-page__facts dd {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+.panel-page__photo {
+  grid-column: 8 / -1;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 70svh;
+  object-fit: cover;
+  background: var(--color-photo-fallback);
+}
+.panel-page__intro {
+  max-width: 62ch;
+  margin: clamp(48px, 5vw, 80px) 0 0;
+  font-size: var(--text-lead);
+  line-height: 1.45;
+}
+.panel-page__label {
+  margin: 0 0 20px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-lead);
+}
+.panel-page__speakers {
+  margin-top: clamp(64px, 7vw, 120px);
+  padding-block: clamp(48px, 5vw, 80px);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+}
+.panel-page__pending {
+  margin: 0;
+  max-width: 28ch;
+  font-family: var(--font-display);
+  font-size: var(--text-sub);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+.panel-page__pending-note {
+  margin: 20px 0 0;
+  color: var(--color-text-inverse-muted);
+}
+.panel-page__pending-note a {
+  color: var(--color-text-inverse);
+}
+.speakers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.speakers__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lead);
+}
+.speakers__role {
+  margin: 4px 0 0;
+  color: var(--color-text-inverse-muted);
+}
+.panel-page__more {
+  padding-block: clamp(64px, 7vw, 120px);
+}
+.panel-page__more ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.panel-page__more a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 20px;
+  padding: 6px 0;
+  text-decoration: none;
+}
+.panel-page__other {
+  font-family: var(--font-display);
+  font-size: var(--text-sub);
+  line-height: 1.12;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.12em;
+  transition: text-decoration-color 200ms ease-out;
+}
+.panel-page__more a:hover .panel-page__other,
+.panel-page__more a:focus-visible .panel-page__other {
+  text-decoration-color: currentColor;
+}
+.panel-page__other-meta {
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+/* Partners: the hero is the About section's Sea Link (components/PartnersHero.tsx) */
+.page.partners {
+  padding-top: 0;
+}
+.partners__hero {
+  padding-top: calc(var(--section) + 72px);
+}
+.partners__lead {
+  max-width: 44ch;
+  margin: 28px 0 36px;
+  font-size: var(--text-lead);
+  line-height: 1.4;
+}
+.partners__section {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 24px var(--gap);
+  padding-block: clamp(72px, 7vw, 120px);
+}
+.partners__section > h2 {
+  grid-column: 1 / span 5;
+}
+.partners__section > :not(h2) {
+  grid-column: 7 / -1;
+}
+.partners__list {
+  display: grid;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.partners__list h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-sub);
+  line-height: 1.15;
+}
+.partners__list p {
+  margin: 6px 0 0;
+  max-width: 52ch;
+}
+.partners__note {
+  margin: 32px 0 0;
+  color: var(--color-text-muted);
+}
+.partners__offer {
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+}
+.partners__offer .partners__list p {
+  color: var(--color-text-inverse-muted);
+}
+.partners__close {
+  padding-block: clamp(24px, 3vw, 48px) clamp(72px, 7vw, 120px);
+}
+.partners__close p {
+  max-width: 48ch;
+  margin: 20px 0 32px;
+  font-size: var(--text-lead);
+}
+
+@media (max-width: 900px) {
+  .page {
+    padding-top: 88px;
+  }
+  .panel-page__text,
+  .panel-page__photo,
+  .partners__section > h2,
+  .partners__section > :not(h2) {
+    grid-column: 1 / -1;
+  }
+  .panel-page__photo {
+    height: auto;
+    aspect-ratio: 3 / 2;
+  }
+}
+
+/* a panel's title in the calendar opens its page */
+.cal__block h3 a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.12em;
+  transition: text-decoration-color 200ms ease-out;
+}
+.cal__block h3 a:hover,
+.cal__block h3 a:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+/* the room of a session (.sr-only in the grid) is shown on phones, where the rooms are one list */
+
+/* phones: one list in time order, each card full width and saying its room; no hour column, no room header */
+@media (max-width: 640px) {
+  .cal__head,
+  .cal__hour {
+    display: none;
+  }
+  .cal__grid {
+    display: block;
+  }
+  .cal__slots {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cal__block {
+    margin: 0;
+    padding: 14px 16px;
+  }
+  .cal__block h3 {
+    font-size: var(--text-lead);
+  }
+  .cal__block--keynote h3 {
+    font-size: var(--text-sub);
+  }
+  .sr-only.cal__room {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+}
+
+/* ---------- Phone menu (components/SiteHeader.tsx) ---------- */
+.site-header__menu {
+  display: none;
+}
+@media (max-width: 860px) {
+  .site-header--bar {
+    gap: 12px;
+  }
+  .site-header--bar nav[aria-label="Main"] {
+    margin-left: auto;
+  }
+  .site-header__menu {
+    display: block;
+    order: 3;
+  }
+  .site-header__menu summary {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    padding: 0 4px;
+    font-weight: 500;
+    list-style: none;
+    cursor: pointer;
+  }
+  .site-header__menu summary::-webkit-details-marker {
+    display: none;
+  }
+  .site-header__menu[open] summary {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  /* the open menu covers the page below the bar, so its links never run into the page's own text */
+  .site-header__menu nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: calc(100dvh - 100%);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 8px var(--margin) 24px;
+    background: var(--color-bg);
+  }
+  .site-header__menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .site-header__menu a {
+    display: block;
+    padding: 10px 0;
+    font-family: var(--font-display);
+    font-size: var(--text-title);
+    line-height: 1.2;
+    text-decoration: none;
+  }
+}
+
+/* Desktop at the 75% scale (see the token block at the top): the bar and the buttons, which are set in pixels */
+@media (min-width: 901px) {
+  .site-header--bar {
+    padding-block: calc(8px + env(safe-area-inset-top, 0px)) 8px;
+  }
+  .site-header--bar .site-header__logo img {
+    height: 42px;
+  }
+  .site-header--photo .site-header__logo img {
+    height: 84px;
+  }
+  .site-header__nav {
+    gap: 26px;
+  }
+  .button {
+    min-height: 46px;
+    padding: 11px 24px;
+  }
+  .button--small {
+    min-height: 40px;
+    padding: 8px 18px;
+  }
+  .cal__grid {
+    grid-template-rows: repeat(var(--rows), minmax(15px, auto));
+  }
+  .cal__block {
+    margin-bottom: 6px;
+    padding: 10px 16px;
+    border-radius: 12px;
+  }
+  .tabs__tab {
+    padding: 8px 14px 10px;
+  }
+}
