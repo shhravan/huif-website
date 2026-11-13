@@ -38,7 +38,7 @@
   --text-display: clamp(2.625rem, 0.9rem + 5.6vw, 7.5rem);
 
   --margin: clamp(20px, 4vw, 56px);
-  --section: clamp(112px, 12vw, 200px);
+  --section: clamp(72px, 7vw, 120px);
 }
 
 *,
@@ -844,41 +844,47 @@ html.lenis body {
   text-wrap: balance;
 }
 
-/* ---------- Footer: an invitation, then a Marine band with the name across it ---------- */
+/* ---------- Footer: one Marine band, the details on top and the name across the width ---------- */
 
 .site-footer {
-  padding-top: var(--section);
-  background: var(--color-bg);
-  color: var(--color-text);
+  overflow: hidden;
+  padding-top: clamp(56px, 5vw, 80px);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
 }
 .site-footer__top {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 40px 32px;
   align-items: start;
-  padding-bottom: var(--section);
 }
-.site-footer__invite {
+.site-footer__lead {
   grid-column: 1 / span 6;
 }
-.site-footer__heading {
-  max-width: 16ch;
+.site-footer__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
 }
 .site-footer__line {
-  max-width: 44ch;
-  margin: 20px 0 28px;
-  color: var(--color-text-muted);
+  margin: 12px 0 36px;
+  color: var(--color-text-inverse-muted);
+  font-size: var(--text-lead);
 }
 .site-footer__col {
-  grid-column: span 2;
+  grid-column: 8 / span 2;
 }
 .site-footer__col:last-child {
-  grid-column: span 4;
+  grid-column: 10 / span 3;
 }
 .site-footer__label {
-  margin: 0 0 12px;
-  font-family: var(--font-display);
-  font-size: var(--text-lead);
+  margin: 0 0 14px;
+  color: var(--color-text-inverse-muted);
+  font-size: var(--text-small);
 }
 .site-footer__label--gap {
   margin-top: 32px;
@@ -886,13 +892,19 @@ html.lenis body {
 .site-footer__col ul {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
   margin: 0;
   padding: 0;
   list-style: none;
+  font-size: var(--text-lead);
+  line-height: 1.3;
 }
 .site-footer__col a {
+  color: var(--color-text-inverse);
   text-decoration: none;
+}
+.site-footer__col .site-footer__email {
+  font-size: var(--text-small);
 }
 @media (hover: hover) {
   .site-footer__col a:hover {
@@ -900,40 +912,49 @@ html.lenis body {
   }
 }
 
-.site-footer__band {
-  overflow: hidden;
-  padding-top: clamp(48px, 5vw, 72px);
-  background: var(--color-bg-inverse);
-  color: var(--color-text-inverse);
-}
-.site-footer__facts {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 24px 32px;
-  align-items: start;
-}
-.site-footer__facts p {
-  grid-column: span 3;
-  margin: 0;
-  color: var(--color-text-inverse-muted);
-}
-.site-footer__facts span {
+.updates__label {
   display: block;
+  margin-bottom: 12px;
+  color: var(--color-text-inverse-muted);
+  font-size: var(--text-small);
 }
-.site-footer__value {
+.updates__row {
+  display: flex;
+  gap: 12px;
+  max-width: 560px;
+}
+.updates input {
+  flex: 1;
+  min-width: 0;
+  min-height: 52px;
+  padding: 12px 18px;
+  border: 1px solid var(--color-text-inverse-muted); /* a field needs an edge */
+  border-radius: 0;
+  background: transparent;
   color: var(--color-text-inverse);
-  font-family: var(--font-display);
-  font-size: var(--text-head);
-  line-height: 1;
-  letter-spacing: -0.02em;
+  font: inherit;
+  font-size: 16px;
 }
-/* the light owns the top-right corner, so the line on the Forum sits under the facts on Marine */
-.site-footer__facts .site-footer__about {
-  grid-column: 1 / span 6;
+.updates input::placeholder {
+  color: var(--color-text-inverse-muted);
+  opacity: 0.8;
+}
+.updates input:focus-visible {
+  outline: 2px solid var(--color-text-inverse);
+  outline-offset: 2px;
+}
+.updates input[aria-invalid="true"] {
+  border-color: var(--color-text-inverse);
+}
+.updates__status {
+  min-height: 1.5em;
+  margin: 10px 0 0;
+  color: var(--color-text-inverse-muted);
+  font-size: var(--text-small);
 }
 
 .site-footer__pre {
-  margin: clamp(48px, 6vw, 96px) 0 0;
+  margin: clamp(48px, 5vw, 80px) 0 0;
   font-family: var(--font-display);
   font-size: var(--text-lead);
 }
@@ -947,9 +968,12 @@ html.lenis body {
   letter-spacing: -0.03em;
   white-space: nowrap;
 }
+.site-footer__base {
+  background: var(--color-bg);
+}
 .site-footer__credit {
   margin: 0;
-  padding: 20px 0;
+  padding-block: 20px;
   font-size: var(--text-small);
   color: var(--color-text-muted);
 }
@@ -964,12 +988,17 @@ html.lenis body {
   .programme__head p {
     grid-column: 1 / -1;
   }
-  .site-footer__invite,
-  .site-footer__col,
-  .site-footer__col:last-child,
-  .site-footer__facts p,
-  .site-footer__facts .site-footer__about {
+  .site-footer__lead {
     grid-column: 1 / -1;
+  }
+  .site-footer__col {
+    grid-column: span 6;
+  }
+  .site-footer__col:last-child {
+    grid-column: span 6;
+  }
+  .site-footer__email {
+    overflow-wrap: anywhere;
   }
   /* phones: the bridge sits above the text, not behind it */
   .about {
@@ -985,6 +1014,9 @@ html.lenis body {
 }
 
 @media (max-width: 640px) {
+  .site-footer__col:last-child {
+    grid-column: 1 / -1;
+  }
   .panels__entry:nth-child(n) {
     padding-left: 0;
   }
