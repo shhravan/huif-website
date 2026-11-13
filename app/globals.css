@@ -620,60 +620,160 @@ html.lenis body {
   margin: 0;
   color: var(--color-text-muted);
 }
-/* one large index, flush left; each title opens in place */
-.panels__index {
+/* the list on the right, the box that follows it on the left */
+.panels__body {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 32px;
+  align-items: start;
+}
+.panels__box {
+  grid-column: 1 / span 5;
+  position: sticky;
+  top: 96px;
+  height: min(calc(100svh - 136px), 760px);
+  overflow: hidden;
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+}
+.panels__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 500ms ease-out;
+}
+.panels__photo.is-on {
+  opacity: 0.5;
+}
+/* the Sea Link's towers stand left of centre */
+img[src*="sealink"] {
+  object-position: 25% 40%;
+}
+/* the Sea Link is already drawn in light on Marine */
+.panels__photo--power.is-on {
+  opacity: 1;
+}
+.panels__card {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: clamp(28px, 3vw, 44px);
+}
+.panels__strand {
+  margin: 0 0 12px;
+  font-size: var(--text-small);
+  font-weight: 500;
+}
+.panels__question {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.625rem, 1rem + 1.2vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+.panels__when {
+  margin: 18px 0 0;
+  font-size: var(--text-small);
+}
+.panels__strands {
+  grid-column: 7 / -1;
+}
+.strand + .strand {
+  margin-top: clamp(64px, 6vw, 104px);
+}
+.strand__photo {
+  display: none;
+}
+.strand__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-lead);
+  line-height: 1.2;
+}
+.strand__line {
+  margin: 4px 0 20px;
+  max-width: 44ch;
+  color: var(--color-text-muted);
+}
+.strand__panels {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.panels__entry {
-  padding: 6px 0;
+.strand__panel {
+  display: block;
+  padding: 5px 0;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 200ms ease-out;
 }
-.panels__title {
-  margin: 0;
-  font-weight: 400;
-}
-.panels__title button {
-  padding: 0;
-  border: 0;
-  background: none;
+.strand__panel.is-on,
+.strand__panel:focus-visible {
   color: var(--color-text);
+}
+.strand__title {
   font-family: var(--font-display);
-  font-size: clamp(1.875rem, 1rem + 2.6vw, 3.75rem);
-  line-height: 1.08;
-  letter-spacing: -0.02em;
-  text-align: left;
+  font-size: clamp(1.625rem, 1rem + 1.5vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
   text-decoration-line: underline;
   text-decoration-color: transparent;
   text-decoration-thickness: from-font;
   text-underline-offset: 0.12em;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition-property: text-decoration-color;
-  transition-duration: 150ms;
-  transition-timing-function: ease-out;
+  transition: text-decoration-color 200ms ease-out;
 }
-.panels__title button[aria-expanded="true"] {
+.strand__panel.is-on .strand__title {
   text-decoration-color: currentColor;
 }
-@media (hover: hover) {
-  .panels__title button:hover {
-    text-decoration-color: currentColor;
+.strand__meta {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .panels__card {
+    animation: card-in 320ms ease-out both;
   }
 }
-.panels__more {
-  max-width: 60ch;
-  padding: 14px 0 22px;
+@keyframes card-in {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
 }
-.panels__when {
-  margin: 0;
-  color: var(--color-text-muted);
-  font-size: var(--text-small);
-}
-.panels__question {
-  margin: 8px 0 0;
-  font-size: var(--text-lead);
-  line-height: 1.4;
+
+/* phones and tablets: no box; each strand opens with its photograph, every panel shows when it meets */
+@media (max-width: 900px) {
+  .panels__box {
+    display: none;
+  }
+  .panels__strands {
+    grid-column: 1 / -1;
+  }
+  .strand__photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    margin-bottom: 20px;
+    background: var(--color-photo-fallback);
+  }
+  .strand__panel {
+    color: var(--color-text);
+    padding: 8px 0;
+  }
+  .strand__panel.is-on .strand__title {
+    text-decoration-color: transparent;
+  }
+  .strand__meta {
+    display: block;
+    margin-top: 2px;
+    color: var(--color-text-muted);
+    font-size: var(--text-small);
+  }
 }
 
 /* ---------- Programme: a calendar on Marine, one day at a time ---------- */
@@ -1133,4 +1233,257 @@ html.lenis body {
     filter: none;
     translate: 0 0;
   }
+}
+
+/* ---------- Pages of their own: one per panel, and Partners ---------- */
+
+.site-header--page {
+  visibility: visible;
+}
+.page {
+  padding-top: 112px;
+}
+.page__back {
+  margin: 0 0 clamp(28px, 3vw, 48px);
+  font-size: var(--text-small);
+}
+.page__back a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+.page__back a:hover,
+.page__back a:focus-visible {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+/* a panel: the title and its question beside the strand's photograph */
+.panel-page__top {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 32px;
+  align-items: end;
+}
+.panel-page__text {
+  grid-column: 1 / span 7;
+}
+.panel-page__question {
+  margin: 24px 0 0;
+  max-width: 30ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1rem + 1.2vw, 2.25rem);
+  line-height: 1.18;
+  text-wrap: pretty;
+}
+.panel-page__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 48px;
+  margin: 40px 0 0;
+}
+.panel-page__facts dt {
+  font-weight: 500;
+}
+.panel-page__facts dd {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+.panel-page__photo {
+  grid-column: 8 / -1;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 70svh;
+  object-fit: cover;
+  background: var(--color-photo-fallback);
+}
+.panel-page__intro {
+  max-width: 62ch;
+  margin: clamp(48px, 5vw, 80px) 0 0;
+  font-size: var(--text-lead);
+  line-height: 1.45;
+}
+.panel-page__label {
+  margin: 0 0 20px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-lead);
+}
+.panel-page__speakers {
+  margin-top: clamp(64px, 7vw, 120px);
+  padding-block: clamp(48px, 5vw, 80px);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+}
+.panel-page__pending {
+  margin: 0;
+  max-width: 28ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1rem + 2vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+.panel-page__pending-note {
+  margin: 20px 0 0;
+  color: var(--color-text-inverse-muted);
+}
+.panel-page__pending-note a {
+  color: var(--color-text-inverse);
+}
+.speakers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.speakers__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lead);
+}
+.speakers__role {
+  margin: 4px 0 0;
+  color: var(--color-text-inverse-muted);
+}
+.panel-page__more {
+  padding-block: clamp(64px, 7vw, 120px);
+}
+.panel-page__more ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.panel-page__more a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 20px;
+  padding: 6px 0;
+  text-decoration: none;
+}
+.panel-page__other {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1rem + 1.4vw, 2.5rem);
+  line-height: 1.12;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.12em;
+  transition: text-decoration-color 200ms ease-out;
+}
+.panel-page__more a:hover .panel-page__other,
+.panel-page__more a:focus-visible .panel-page__other {
+  text-decoration-color: currentColor;
+}
+.panel-page__other-meta {
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+/* Partners */
+.partners__top {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 32px;
+  align-items: end;
+}
+.partners__top > div {
+  grid-column: 1 / span 7;
+}
+.partners__lead {
+  max-width: 44ch;
+  margin: 28px 0 36px;
+  font-size: var(--text-lead);
+  line-height: 1.4;
+}
+.partners__photo {
+  grid-column: 8 / -1;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 72svh;
+  object-fit: cover;
+  background: var(--color-photo-fallback);
+}
+.partners__section {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 24px 32px;
+  padding-block: clamp(72px, 7vw, 120px);
+}
+.partners__section > h2 {
+  grid-column: 1 / span 5;
+}
+.partners__section > :not(h2) {
+  grid-column: 7 / -1;
+}
+.partners__list {
+  display: grid;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.partners__list h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.375rem, 1rem + 0.9vw, 1.875rem);
+  line-height: 1.15;
+}
+.partners__list p {
+  margin: 6px 0 0;
+  max-width: 52ch;
+}
+.partners__note {
+  margin: 32px 0 0;
+  color: var(--color-text-muted);
+}
+.partners__offer {
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+}
+.partners__offer .partners__list p {
+  color: var(--color-text-inverse-muted);
+}
+.partners__close {
+  padding-block: clamp(24px, 3vw, 48px) clamp(72px, 7vw, 120px);
+}
+.partners__close p {
+  max-width: 48ch;
+  margin: 20px 0 32px;
+  font-size: var(--text-lead);
+}
+
+@media (max-width: 900px) {
+  .page {
+    padding-top: 88px;
+  }
+  .panel-page__text,
+  .panel-page__photo,
+  .partners__top > div,
+  .partners__photo,
+  .partners__section > h2,
+  .partners__section > :not(h2) {
+    grid-column: 1 / -1;
+  }
+  .panel-page__photo,
+  .partners__photo {
+    height: auto;
+    aspect-ratio: 3 / 2;
+  }
+}
+
+/* a panel's title in the calendar opens its page */
+.cal__block h4 a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.12em;
+  transition: text-decoration-color 200ms ease-out;
+}
+.cal__block h4 a:hover,
+.cal__block h4 a:focus-visible {
+  text-decoration-color: currentColor;
 }
