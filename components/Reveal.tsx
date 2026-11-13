@@ -19,7 +19,7 @@ export default function Reveal() {
           }
         }
       },
-      { rootMargin: "0px 0px -10% 0px" },
+      { rootMargin: "0px" },
     );
     document.documentElement.classList.add("reveal-ready");
     els.forEach((el) => io.observe(el));

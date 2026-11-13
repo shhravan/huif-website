@@ -46,6 +46,8 @@ export type WalkOptions = {
   size: number;
   /** the next section, seen through the opening */
   portal?: HTMLElement;
+  /** keep the gate where it stands instead of turning towards it (the closing scene, where text sits beside it) */
+  still?: boolean;
 };
 
 type Layout = {
@@ -141,7 +143,7 @@ export class GateWalk {
     if (!L || !this.ctx || p === this.last) return;
     this.last = p;
 
-    const turn = easeInOut(p / 0.22);
+    const turn = this.options.still ? 0 : easeInOut(p / 0.22);
     const walk = easeInOut((p - 0.04) / 0.82);
     const camX = L.gateX * turn;
     // after the doorway has opened, keep walking: the pillars slide out past the edges of the screen

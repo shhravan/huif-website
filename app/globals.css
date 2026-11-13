@@ -176,7 +176,9 @@ html.lenis body {
   height: 100svh;
   overflow: hidden;
   isolation: isolate;
-  background: var(--color-photo-fallback);
+  /* if the browser has not painted part of the sky photograph yet (fast scrolling), what shows is the sky's own
+     colours, not a flat band */
+  background: linear-gradient(180deg, #5879a4 0%, #6a8cb2 30%, #97aec5 62%, #a9a8a6 76%, #6e5f4e 77%, #5c4e40 100%); /* stand-in for the sky photograph while it paints */
   /* horizon of the landscape photo, measured from the bottom of the screen */
   --horizon: 24vh;
 }
@@ -190,6 +192,8 @@ html.lenis body {
 .gate-scene__plate {
   position: absolute;
   inset: 0;
+  /* its own layer, painted once, so scrolling never repaints the photograph in strips */
+  will-change: transform;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -362,16 +366,18 @@ html.lenis body {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  background: linear-gradient(180deg, rgb(240 239 235 / 0.55) 0%, rgb(240 239 235 / 0.92) 30%, var(--color-bg) 60%); /* the sky softening into the page */
+  background: linear-gradient(180deg, rgb(240 239 235 / 0.2) 0%, rgb(240 239 235 / 0.75) 30%, var(--color-bg) 55%); /* the sky softening into the page */
 }
 .opening__story {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: clamp(24px, 5svh, 56px);
+  inset: 0;
   z-index: 4;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(20px, 3svh, 36px);
+  padding-bottom: clamp(32px, 7svh, 72px);
   text-align: center;
   color: var(--color-text);
   opacity: 0;
@@ -379,6 +385,12 @@ html.lenis body {
 }
 .opening__story h2 {
   max-width: 24ch;
+}
+/* the first paragraph sits with the heading, set large enough that the settled page is full, not blank */
+.opening__story .context__lead {
+  max-width: 44ch;
+  font-size: clamp(1.25rem, 0.95rem + 1.2vw, 2rem);
+  line-height: 1.35;
 }
 
 /* the title is anchored to the bottom-left of the frame, like a title card */
@@ -455,6 +467,7 @@ html.lenis body {
 .context__lead {
   max-width: 52ch;
   margin: 0;
+  color: var(--color-text);
   font-family: var(--font-display);
   font-size: var(--text-lead);
   line-height: 1.4;
@@ -468,7 +481,6 @@ html.lenis body {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 32px clamp(32px, 5vw, 80px);
-  margin-top: clamp(48px, 5vw, 80px);
   text-align: left;
 }
 .context__reasons p {
@@ -831,13 +843,31 @@ html.lenis body {
   position: absolute;
   left: 0;
   right: 0;
-  top: clamp(104px, 15svh, 160px);
+  top: clamp(96px, 14svh, 160px);
   z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   color: var(--color-text);
+}
+/* wide screens: the words on the left in the sky, the gate standing to the right (GateOutro) */
+@media (orientation: landscape) and (min-width: 861px) {
+  .outro__text {
+    top: 72px; /* below the top bar */
+    bottom: 30svh;
+    right: 50%;
+    width: auto; /* .frame sets 100% */
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .outro__text > * {
+    max-width: 100%;
+  }
+  .outro__text p {
+    text-wrap: pretty;
+  }
 }
 .outro__text p {
   max-width: 44ch;
