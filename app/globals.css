@@ -408,6 +408,13 @@ html.lenis body {
   z-index: 3;
   color: var(--color-text-inverse);
 }
+.opening__line {
+  max-width: 40ch;
+  margin: 16px 0 0;
+  font-size: var(--text-lead);
+  line-height: 1.35;
+  text-wrap: pretty;
+}
 .opening__facts {
   display: flex;
   flex-wrap: wrap;
@@ -560,10 +567,11 @@ html.lenis body {
 
 /* ---------- Theme: the two halves of the Theme ---------- */
 
+/* on stone, the opening of the same chapter as the Panels below it */
 .theme {
-  padding-bottom: var(--section);
-  background: var(--color-bg-inverse);
-  color: var(--color-text-inverse);
+  padding-bottom: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
   scroll-margin-top: 72px;
 }
 .theme__title {
@@ -579,12 +587,12 @@ html.lenis body {
 .theme__parts p {
   margin: 0;
   max-width: 52ch;
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-muted);
   font-size: var(--text-lead);
   line-height: 1.45;
 }
 .theme__parts strong {
-  color: var(--color-text-inverse);
+  color: var(--color-text);
   font-weight: 400;
   font-family: var(--font-display);
 }
@@ -1533,4 +1541,93 @@ img[src*="sealinkday"] {
 .cal__block h4 a:hover,
 .cal__block h4 a:focus-visible {
   text-decoration-color: currentColor;
+}
+
+/* the room of a session (.sr-only in the grid) is shown on phones, where the rooms are one list */
+
+/* phones: one list in time order, each card full width and saying its room; no hour column, no room header */
+@media (max-width: 640px) {
+  .cal__head,
+  .cal__hour {
+    display: none;
+  }
+  .cal__grid {
+    display: block;
+  }
+  .cal__slots {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cal__block {
+    margin: 0;
+    padding: 14px 16px;
+  }
+  .cal__block h4 {
+    font-size: 1.125rem;
+  }
+  .cal__block--keynote h4 {
+    font-size: 1.375rem;
+  }
+  .sr-only.cal__room {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+}
+
+/* ---------- Phone menu (components/SiteHeader.tsx) ---------- */
+.site-header__menu {
+  display: none;
+}
+@media (max-width: 860px) {
+  .site-header--bar {
+    gap: 12px;
+  }
+  .site-header--bar nav[aria-label="Main"] {
+    margin-left: auto;
+  }
+  .site-header__menu {
+    display: block;
+    order: 3;
+  }
+  .site-header__menu summary {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    padding: 0 4px;
+    font-weight: 500;
+    list-style: none;
+    cursor: pointer;
+  }
+  .site-header__menu summary::-webkit-details-marker {
+    display: none;
+  }
+  .site-header__menu[open] summary {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .site-header__menu nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 8px var(--margin) 24px;
+    background: var(--color-bg);
+  }
+  .site-header__menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .site-header__menu a {
+    display: block;
+    padding: 10px 0;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    line-height: 1.2;
+    text-decoration: none;
+  }
 }

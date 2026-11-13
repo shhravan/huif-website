@@ -22,6 +22,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${p.title}, ${site.name}`,
     description: p.question ?? `${p.title}: a panel at the ${site.name}, ${p.date} 2027, Mumbai.`,
+    // the share image is made per panel (public/og/<slug>.jpg): its strand photograph, title and question
+    openGraph: { images: [{ url: `og/${p.slug}.jpg`, width: 1200, height: 630 }] },
   };
 }
 
