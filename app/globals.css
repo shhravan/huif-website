@@ -510,9 +510,16 @@ html.lenis body {
   gap: 32px;
   pointer-events: none;
 }
+/* the text sits in the open sea on the right, clear of the bridge; the heading, above the deck,
+   may take one more column */
 .about__body {
-  grid-column: 7 / span 6;
+  grid-column: 8 / span 5;
   pointer-events: auto;
+}
+@media (min-width: 901px) {
+  .about__body h2 {
+    margin-left: calc((-100% - 32px * 4) / 5 - 32px);
+  }
 }
 .about__text {
   margin-top: clamp(28px, 3vw, 44px);
