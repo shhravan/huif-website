@@ -1,37 +1,35 @@
 "use client";
 
-import { useState } from "react";
-import { panels, programme, type Slot } from "@/content/site";
-
-/** "13:30" → "1:30 pm" */
-function clock(t: string) {
-  const [h, m] = t.split(":").map(Number);
-  return `${h % 12 === 0 ? 12 : h % 12}:${String(m).padStart(2, "0")} ${h < 12 ? "am" : "pm"}`; // taste-skill-ignore: a clock, not index numbering
-}
-
-type Entry = { id: string; title: string; question?: string; when: string };
-
-/** Every Panel, read straight from the Schedule. */
-const entries: Entry[] = programme.days.flatMap((day) =>
-  (day.slots as readonly Slot[]).flatMap((s): Entry[] =>
-    s.kind === "panels"
-      ? s.rooms.map((p, i) => ({
-          id: `panel-${day.id}-${s.start.replace(":", "")}-${i + 1}`,
-          title: p.title,
-          question: "question" in p ? p.question : undefined,
-          when: `${day.label}, ${day.date} · ${clock(s.start)} · Room ${i + 1}`,
-        }))
-      : [],
-  ),
-);
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import Picture from "./Picture";
+import { panels, photos, strands } from "@/content/site";
+import { allPanels, panelHref, panelsOf, photoOf } from "@/lib/panels";
 
 /**
- * The sixteen panels as one large typographic index, set in a slow stagger after the "hardest questions"
- * list on indiaconferenceharvard.com. Each title opens to show where and when it is, and its central
- * question where the team has published one. The calendar below carries the full timetable.
+ * The sixteen Panels in four strands. On wide screens a picture box stays beside the list as it scrolls and shows the
+ * question of the panel being read (the one at the middle of the screen, or the one under the pointer or focus),
+ * over its strand's photograph. On phones each strand opens with its photograph instead. Every title links to the
+ * panel's own page.
  */
 export default function Panels() {
-  const [open, setOpen] = useState<string | null>(entries.find((e) => e.question)?.id ?? null);
+  const [active, setActive] = useState(allPanels.find((p) => p.question)?.slug ?? allPanels[0].slug);
+  const list = useRef<HTMLDivElement>(null);
+  const current = allPanels.find((p) => p.slug === active)!;
+
+  // the panel crossing the middle of the screen becomes the one in the box
+  useEffect(() => {
+    const items = list.current?.querySelectorAll<HTMLElement>("[data-slug]");
+    if (!items) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) setActive(e.target.getAttribute("data-slug")!);
+      },
+      { rootMargin: "-48% 0px -48% 0px" },
+    );
+    items.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
 
   return (
     <section id="panels" className="panels" aria-labelledby="panels-title">
@@ -44,24 +42,56 @@ export default function Panels() {
             {panels.intro}
           </p>
         </header>
-        <ul className="panels__index">
-          {entries.map((e) => {
-            const isOpen = open === e.id;
-            return (
-              <li key={e.id} className="panels__entry">
-                <h3 className="panels__title">
-                  <button type="button" aria-expanded={isOpen} aria-controls={e.id} onClick={() => setOpen(isOpen ? null : e.id)}>
-                    {e.title}
-                  </button>
+
+        <div className="panels__body">
+          {/* the box that follows the list; decorative for screen readers, which get the same words on each panel's page */}
+          <div className="panels__box" aria-hidden="true">
+            {strands.map((s) => (
+              <Picture
+                key={s.id}
+                photo={photos[s.photo]}
+                sizes="40vw"
+                className={`panels__photo panels__photo--${s.id}${s.id === current.strand.id ? " is-on" : ""}`}
+              />
+            ))}
+            <div key={current.slug} className="panels__card">
+              <p className="panels__strand">{current.strand.name}</p>
+              <p className="panels__question">{current.question ?? panels.noQuestion}</p>
+              <p className="panels__when">
+                {current.title} · {current.date} · {current.time} · Room {current.room}
+              </p>
+            </div>
+          </div>
+
+          <div ref={list} className="panels__strands">
+            {strands.map((s) => (
+              <section key={s.id} className="strand" aria-labelledby={`strand-${s.id}`}>
+                <Picture photo={photoOf(s)} sizes="100vw" className="strand__photo" />
+                <h3 id={`strand-${s.id}`} className="strand__name">
+                  {s.name}
                 </h3>
-                <div id={e.id} className="panels__more" hidden={!isOpen}>
-                  <p className="panels__when">{e.when}</p>
-                  {e.question && <p className="panels__question">{e.question}</p>}
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+                <p className="strand__line">{s.line}</p>
+                <ul className="strand__panels">
+                  {panelsOf(s).map((p) => (
+                    <li key={p.slug} data-slug={p.slug}>
+                      <Link
+                        href={panelHref(p.slug)}
+                        className={`strand__panel${p.slug === active ? " is-on" : ""}`}
+                        onMouseEnter={() => setActive(p.slug)}
+                        onFocus={() => setActive(p.slug)}
+                      >
+                        <span className="strand__title">{p.title}</span>
+                        <span className="strand__meta">
+                          {p.day} · {p.time} · Room {p.room}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

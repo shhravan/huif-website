@@ -1,4 +1,5 @@
 import StayUpdated from "./StayUpdated";
+import { navHref } from "@/lib/asset";
 import { site, footer, CONTACT_EMAIL } from "@/content/site";
 
 /**
@@ -6,7 +7,7 @@ import { site, footer, CONTACT_EMAIL } from "@/content/site";
  * and where to follow on the right, then the name set across the full width. The one credit is the one
  * its licence requires.
  */
-export default function SiteFooter() {
+export default function SiteFooter({ home = true }: { home?: boolean }) {
   return (
     <footer className="site-footer">
       <div className="frame">
@@ -20,7 +21,7 @@ export default function SiteFooter() {
             <ul>
               {site.nav.map((n) => (
                 <li key={n.label}>
-                  <a href={n.href}>{n.label}</a>
+                  <a href={navHref(n.href, home)}>{n.label}</a>
                 </li>
               ))}
             </ul>

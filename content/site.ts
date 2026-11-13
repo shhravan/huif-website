@@ -8,10 +8,12 @@ export const CONTACT_EMAIL: string | null = "harvardundergraduateindiaforum@gmai
 
 export const site = {
   name: "Harvard Undergraduate India Forum",
+  /** "#…" links are sections of the home page; "/…/" links are pages of their own. */
   nav: [
     { label: "About", href: "#about" },
     { label: "Panels", href: "#panels" },
     { label: "Programme", href: "#programme" },
+    { label: "Partners", href: "/partners/" },
   ],
   instagram: { label: "Instagram", handle: "@harvardu_indiaforum", href: "https://www.instagram.com/harvardu_indiaforum" },
   contact: {
@@ -32,11 +34,24 @@ export const opening = {
 
 /** The team's photographs. Files are in public/photos as <name>-<width>.webp. */
 export const photos = {
+  sealink: {
+    name: "sealink",
+    w: [800, 1200],
+    ratio: 1500 / 1348,
+    alt: "The Bandra–Worli Sea Link in Mumbai at night, drawn in points of light",
+  },
+  torana: {
+    name: "torana",
+    dir: "/gate",
+    w: [1400, 2400],
+    ratio: 1400 / 2235,
+    alt: "The carved east gateway of the Great Stupa at Sanchi",
+  },
   taj: { name: "taj", w: [800, 1066], ratio: 1066 / 1333, alt: "The Taj Mahal Palace in Mumbai in late-afternoon light, pigeons in flight" },
   carts: { name: "carts", w: [1200, 1920], ratio: 1920 / 1238, alt: "Black-and-white photograph of people pulling carts in a line along an embankment, reflected in the water" },
 } as const;
 
-export type Photo = (typeof photos)[keyof typeof photos];
+export type Photo = { name: string; dir?: string; w: readonly [number, number]; ratio: number; alt: string };
 
 /** The story, in the order of the narrative brief: the context, the response, the invitation. */
 /** Element ids shared between components: the Context section's title lives in the opening (GateIntro). */
@@ -91,7 +106,14 @@ export type Slot =
   | { start: string; end: string; kind: "break"; title: string; rooms?: readonly [string, string] }
   | { start: string; end: string; kind: "panels"; rooms: readonly [Panel, Panel] };
 
-export type Panel = { title: string; question?: string };
+/** A speaker or moderator on a Panel. */
+export type Speaker = { name: string; role: string; moderator?: boolean };
+
+/**
+ * A Panel. Only the title is certain today; the question, the introduction and the speakers are added as the team
+ * confirms them. Speakers stay hidden until `lineup.announced` is true, so every panel is announced at once.
+ */
+export type Panel = { title: string; question?: string; intro?: string; speakers?: readonly Speaker[] };
 
 export const programme = {
   heading: "Programme",
@@ -206,10 +228,129 @@ export const programme = {
   days: readonly { id: string; label: string; date: string; slots: readonly Slot[] }[];
 };
 
-/** Every Panel, by day, in the order of the Schedule. Titles come from the Schedule (see BRIEF.md). */
+/** The line-up is announced in one go: flip `announced` and every panel page shows its speakers. */
+export const lineup = {
+  announced: false,
+  date: "TBA",
+} as const;
+
+/** The sixteen Panels in four strands. Every Panel title in the Programme belongs to exactly one strand (checked in lib/panels.ts). */
+export const strands = [
+  {
+    id: "power",
+    name: "Power",
+    line: "Who decides, and how India governs and builds for itself.",
+    photo: "sealink",
+    panels: [
+      "Law, Institutions & a Changing India",
+      "Democracy, Citizenship & Representation",
+      "Women Reshaping India’s Workforce",
+      "Building the India of Tomorrow",
+    ],
+  },
+  {
+    id: "capital",
+    name: "Capital",
+    line: "Where India’s money comes from, who holds it and where it goes next.",
+    photo: "taj",
+    panels: ["Startups & Venture Capital", "Wealth Management", "Legacy & Reinvention: Indian Family Businesses", "Real Estate"],
+  },
+  {
+    id: "making",
+    name: "Making",
+    line: "What India makes, powers and heals, and the work that goes into it.",
+    photo: "carts",
+    panels: ["Building in India: Manufacturing", "India’s Energy Transition", "The Future of Healthcare in India", "Fashion & Design"], // taste-skill-ignore: the panel's confirmed title
+  },
+  {
+    id: "culture",
+    name: "Culture",
+    line: "The stories India tells about itself, and who gets to tell them.",
+    photo: "torana",
+    panels: ["Media, Culture, and India’s Soft Power", "Literature", "New Media", "The Changing Face of Indian Sport"],
+  },
+] as const satisfies readonly { id: string; name: string; line: string; photo: keyof typeof photos; panels: readonly string[] }[];
+
 export const panels = {
-  heading: "Sixteen panels, two days",
-  intro: "From democracy and the law to film, sport and healthcare. Select a title to see when it meets and the question it sets out to explore.",
+  heading: "Sixteen panels, four strands",
+  intro: "Each panel is built around one question. Open a panel to see when it meets and what it asks.",
+  /** Shown wherever the team has not published a panel’s question yet. */
+  noQuestion: "Question to be announced.",
+  open: "Open the panel",
+} as const;
+
+/** One page per Panel. */
+export const panelPage = {
+  back: "All panels",
+  when: "When",
+  where: "Where",
+  venue: "Mumbai",
+  speakers: "Speakers",
+  moderator: "Moderator",
+  /** Before the line-up is announced. */
+  pending: "Speakers will be announced together, all sixteen panels at once.",
+  pendingDate: "Announcement date: TBA.",
+  follow: "Follow us on Instagram to hear first",
+  more: (strand: string) => `More from ${strand}`,
+} as const;
+
+/** The Partners page. Tiers and amounts are still to be set by the team (TBA). */
+export const partners = {
+  title: "Partner with the Forum",
+  lead: "For two days in March, Harvard students and the people shaping India will share one room in Mumbai. Partners make that room possible, and have a place in it.",
+  audience: {
+    heading: "Who will be in the room",
+    items: [
+      {
+        lead: "Harvard undergraduates",
+        text: "Students from across Harvard College, from economics and government to medicine and the arts, who want to stay close to India’s future.",
+      },
+      {
+        lead: "Students and young professionals in Mumbai",
+        text: "The audience the Forum exists for: people early in their careers who want to hear the reasoning behind India’s choices, and question it.",
+      },
+      {
+        lead: "Speakers across sixteen panels",
+        text: "Leaders from government, business, culture and the professions, on panels from law and energy to film and sport.",
+      },
+    ],
+    note: "Expected attendance: TBA.",
+  },
+  offer: {
+    heading: "What partners receive",
+    items: [
+      { lead: "A place on the programme", text: "Your name alongside the Forum’s on stage, on this site and in the programme." },
+      {
+        lead: "Time with the room",
+        text: "The programme sets aside a Sponsor Q&A on both days, over lunch on Saturday and brunch on Sunday.",
+      },
+      {
+        lead: "The evening social",
+        text: "Saturday closes with a keynote and a networking social, where partners meet speakers and students.",
+      },
+      {
+        lead: "A strand or a panel of your own",
+        text: "Partner with one of the four strands, Power, Capital, Making or Culture, or with a single panel close to your work.",
+      },
+      { lead: "Students to meet", text: "Talk to students about internships, graduate roles and research." },
+    ],
+  },
+  ways: {
+    heading: "Ways to partner",
+    items: [
+      { lead: "Forum partner", text: "The lead partner of HUIF 2027, across both days." },
+      { lead: "Strand partner", text: "One of the four strands and its four panels." },
+      { lead: "Panel partner", text: "One panel and its question." },
+      { lead: "In-kind partner", text: "Venue, hospitality, travel or media." },
+    ],
+    note: "Tiers and amounts: TBA. Write to us and we’ll send the details.",
+  },
+  close: {
+    heading: "Talk to us about partnering",
+    line: "Tell us a little about your organisation and what you’d like from the Forum.",
+    action: "Email the team",
+    subject: "Partnering with HUIF 2027",
+  },
 } as const;
 
 export const closing = {

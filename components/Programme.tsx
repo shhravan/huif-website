@@ -1,7 +1,9 @@
 "use client";
 
 import { useRef, useState, type KeyboardEvent } from "react";
+import Link from "next/link";
 import { programme, type Slot } from "@/content/site";
+import { panelHref, slugify } from "@/lib/panels";
 
 /** "13:30" → { text: "1:30", suffix: "pm" } */
 function clock(t: string) {
@@ -79,7 +81,7 @@ function Calendar({ day }: { day: Day }) {
                 {b.room && <span className="sr-only">, Room {b.room}</span>}
                 {b.detail && b.slot.kind === "keynote" && <span> · {b.detail}</span>}
               </p>
-              <h4>{b.title}</h4>
+              <h4>{b.slot.kind === "panels" ? <Link href={panelHref(slugify(b.title))}>{b.title}</Link> : b.title}</h4>
               {b.detail && b.slot.kind !== "keynote" && <p className="cal__detail">{b.detail}</p>}
             </li>
           ))}
