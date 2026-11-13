@@ -13,7 +13,7 @@ export default function SiteHeader({ variant, home = true }: { variant: "photo" 
   return (
     <header className={`site-header site-header--${variant}${home ? "" : " site-header--page"}`}>
       <a className="site-header__logo" href={home ? "#top" : asset("/")}>
-        <img src={logo} alt={`${site.name}, home`} width={480} height={437} />
+        <img src={logo} alt={`${site.name}, home`} width={1149} height={1045} />
       </a>
       <nav aria-label={variant === "bar" ? "Main" : "Main (opening)"}>
         <ul className="site-header__nav">
