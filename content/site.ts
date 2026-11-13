@@ -217,13 +217,18 @@ export const closing = {
 } as const;
 
 export const footer = {
-  /** The close, after the end of indiaconferenceharvard.com: an invitation, then the facts band. */
-  heading: "Follow along. Then be in the room.",
-  line: "Speakers, the programme and how to attend will be announced on Instagram first.",
-  reach: "Reach us directly",
-  band: [
-    { value: "13–14 March", note: "2027 · Mumbai" },
-    { value: "16 panels", note: "4 keynotes, two rooms" },
-  ],
-  about: "The Harvard Undergraduate India Forum is a student-led gathering that brings students, professionals and leaders together to explore India’s present and future.",
+  /** The close: one Marine band with the name, the date, updates, the pages and where to follow, then the name across the width. */
+  title: "Harvard Undergraduate India Forum",
+  line: "13–14 March 2027 · Mumbai",
+  updates: {
+    label: "Stay updated",
+    placeholder: "you@email.com",
+    action: "Sign up",
+    /** No mailing list yet: the form opens the visitor's email app with this message to the Forum's address. */
+    subject: "Keep me updated on HUIF 2027",
+    sent: "Your email app has opened with the request. Send it and we’ll keep you posted.",
+    invalid: "Enter an email address, like name@email.com.",
+  },
+  follow: "Follow",
+  reach: "Reach us",
 } as const;
