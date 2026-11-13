@@ -34,6 +34,11 @@ const FEET_X: [number, number][] = [
 const GATE_CX = 0.491; // the opening's centre
 const PILLAR_DEPTH = 0.9; // metres: the pillars are square in plan
 const PILLAR = 0.27; // each pillar's centre, as a fraction of the gate width from the opening's centre
+// the empty doorway, as fractions of the image box (measured from the photo's alpha): once it is wider and taller
+// than the screen no stone is in view, so the gate is hidden rather than scaled up to tens of thousands of pixels,
+// a layer too large for the browser to keep (it would drop it, and the gate would flicker or vanish)
+const HOLE_X: [number, number] = [0.311, 0.671];
+const HOLE_TOP = 0.353;
 
 export type WalkOptions = {
   /** where the gate first stands: 0 is the centre of the screen, 0.27 is right of centre */
@@ -79,8 +84,14 @@ export class GateWalk {
     const img = new Image();
     img.decoding = "async";
     img.src = this.textureUrl;
-    await img.decode();
-    if (!this.ctx) return;
+    try {
+      await img.decode();
+    } catch {
+      // decode() can reject (Safari does at times) although the image loads; wait for it instead, and if the
+      // paving never arrives, lay the stage out anyway so the gate still stands and walks
+      await new Promise<void>((done) => (img.complete ? done() : ((img.onload = () => done()), (img.onerror = () => done()))));
+    }
+    if (!this.ctx || !img.naturalWidth) return this.layout();
     let size = img.naturalWidth;
     let source: CanvasImageSource = img;
     while (size >= 64) {
@@ -156,7 +167,14 @@ export class GateWalk {
     const feetY = hy + (EYE * L.f) / d;
     const top = feetY - GATE_FEET * gh;
     const left = cx + ((L.gateX - camX) * L.f) / d - (gh * GATE_ASPECT) / 2;
-    this.gate.style.transform = `translate3d(${left}px, ${top}px, 0) scale(${s})`;
+    const gw = gh * GATE_ASPECT;
+    // how far the stone still reaches into the screen, past the doorway's edges: as it leaves, the gate fades out,
+    // and once it has gone it is hidden and no longer scaled up
+    const reach = Math.max(left + HOLE_X[0] * gw, L.w - (left + HOLE_X[1] * gw), top + HOLE_TOP * gh, L.h - feetY);
+    const fade = clamp(reach / (0.08 * L.w));
+    this.gate.style.opacity = fade < 1 ? String(fade) : "";
+    this.gate.style.visibility = fade > 0 ? "" : "hidden";
+    if (fade > 0) this.gate.style.transform = `translate3d(${left}px, ${top}px, 0) scale(${s})`;
   }
 
   /**
