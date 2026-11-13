@@ -656,23 +656,56 @@ img[src*="sealinkday"] {
   padding: clamp(28px, 3vw, 44px);
 }
 .panels__strand {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: var(--text-lead);
   font-weight: 500;
 }
-.panels__question {
+.panels__box {
+  display: block;
+  text-decoration: none;
+}
+.panels__name {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.625rem, 1rem + 1.2vw, 2.25rem);
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  font-size: clamp(1.75rem, 1rem + 1.5vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.panels__question {
+  margin: 14px 0 0;
+  font-size: var(--text-lead);
+  line-height: 1.4;
   text-wrap: pretty;
 }
-.panels__when {
-  margin: 18px 0 0;
+.panels__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  margin: 22px 0 0;
   font-size: var(--text-small);
+}
+.panels__facts dt {
+  color: var(--color-text-inverse-muted);
+}
+.panels__facts dd {
+  margin: 0;
+}
+.panels__open {
+  display: inline-block;
+  margin-top: 22px;
+  font-size: var(--text-small);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.2em;
+}
+/* the Taj Mahal sits low in its arch: show the whole frame at the top, the words on Marine below it */
+.panels__photo--culture {
+  object-fit: contain;
+  object-position: 50% 0;
 }
 .panels__strands {
   grid-column: 7 / -1;
@@ -858,14 +891,17 @@ img[src*="sealinkday"] {
 /* calendar grid: one row per quarter hour, each slot as tall as it is long */
 .cal__head {
   display: grid;
-  grid-template-columns: 72px 1fr 1fr;
-  gap: 8px;
+  grid-template-columns: 62px 1fr 1fr; /* 72px less the 10px gap, so each room sits over its column of cards */
+  gap: 0 10px;
   padding-bottom: 12px;
 }
 .cal__head p {
   margin: 0;
-  color: var(--color-text-inverse-muted);
-  text-align: center;
+  padding-left: 20px; /* lines up with the text inside the cards */
+  color: var(--color-text-inverse);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-lead);
 }
 .cal__grid {
   position: relative;
@@ -877,9 +913,17 @@ img[src*="sealinkday"] {
 .cal__hour {
   grid-column: 1;
   margin: -0.7em 0 0;
-  color: var(--color-text-inverse-muted);
-  font-size: var(--text-small);
+  color: var(--color-text-inverse);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.2;
   font-variant-numeric: tabular-nums;
+}
+.cal__hour small {
+  margin-left: 3px;
+  color: var(--color-text-inverse-muted);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
 }
 .cal__slots {
   grid-column: 2;
@@ -1045,10 +1089,22 @@ img[src*="sealinkday"] {
   font-size: var(--text-lead);
 }
 .site-footer__col {
-  grid-column: 8 / span 2;
+  grid-column: 7 / span 2;
 }
 .site-footer__col:last-child {
-  grid-column: 10 / span 3;
+  grid-column: 9 / span 4;
+}
+/* the email stays on one line: below 1200px the lead takes the full width and the two columns share the next row */
+@media (min-width: 901px) and (max-width: 1200px) {
+  .site-footer__lead {
+    grid-column: 1 / -1;
+  }
+  .site-footer__col {
+    grid-column: 1 / span 4;
+  }
+  .site-footer__col:last-child {
+    grid-column: 5 / span 8;
+  }
 }
 .site-footer__label {
   margin: 0 0 14px;
@@ -1073,7 +1129,14 @@ img[src*="sealinkday"] {
   text-decoration: none;
 }
 .site-footer__col .site-footer__email {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: var(--text-small);
+  white-space: nowrap;
+}
+.site-footer__email svg {
+  flex: none;
 }
 @media (hover: hover) {
   .site-footer__col a:hover {
@@ -1166,8 +1229,8 @@ img[src*="sealinkday"] {
   .site-footer__col:last-child {
     grid-column: span 6;
   }
-  .site-footer__email {
-    overflow-wrap: anywhere;
+  .site-footer__col .site-footer__email {
+    font-size: 0.9375rem;
   }
   /* phones: the bridge sits above the text, not behind it */
   .about {
@@ -1201,7 +1264,18 @@ img[src*="sealinkday"] {
     grid-template-rows: repeat(var(--rows), minmax(30px, auto));
   }
   .cal__head {
-    grid-template-columns: 44px 1fr 1fr;
+    grid-template-columns: 34px 1fr 1fr;
+  }
+  .cal__head p {
+    padding-left: 12px;
+    font-size: 1.0625rem;
+  }
+  .cal__hour {
+    font-size: 1rem;
+  }
+  .cal__hour small {
+    display: block;
+    margin: 0;
   }
   .cal__block {
     padding: 10px 12px;

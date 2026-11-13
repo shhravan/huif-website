@@ -42,7 +42,7 @@ export default function Panels() {
 
         <div className="panels__body">
           {/* the box that follows the list; decorative for screen readers, which get the same words on each panel's page */}
-          <div className="panels__box" aria-hidden="true">
+          <Link href={panelHref(current.slug)} className="panels__box" aria-hidden="true" tabIndex={-1}>
             {strands.map((s) => (
               <Picture
                 key={s.id}
@@ -53,14 +53,23 @@ export default function Panels() {
             ))}
             <div key={current.slug} className="panels__card">
               <p className="panels__strand">{current.strand.name}</p>
+              <p className="panels__name">{current.title}</p>
               <p className="panels__question">{current.question ?? panels.noQuestion}</p>
-              <p className="panels__when">
-                {current.title}
-                <br />
-                {current.date}, {current.time}, Room {current.room}
-              </p>
+              <dl className="panels__facts">
+                <div>
+                  <dt>When</dt>
+                  <dd>
+                    {current.date}, {current.time}
+                  </dd>
+                </div>
+                <div>
+                  <dt>Where</dt>
+                  <dd>Room {current.room}, Mumbai</dd>
+                </div>
+              </dl>
+              <span className="panels__open">{panels.open}</span>
             </div>
-          </div>
+          </Link>
 
           <div ref={list} className="panels__strands">
             {strands.map((s) => (

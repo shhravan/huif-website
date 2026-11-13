@@ -37,13 +37,13 @@ export default function GateOutro() {
         walk.render(state.p);
         const tl = gsap.timeline({
           defaults: { ease: "none" },
-          scrollTrigger: { trigger: el, start: "top top", end: "+=200%", scrub: 0.8, pin: true, anticipatePin: 1 },
+          scrollTrigger: { trigger: el, start: "top top", end: "+=200%", scrub: 1.2, pin: true, anticipatePin: 1 },
           onUpdate: () => {
             walk.render(state.p);
           },
         });
-        tl.to(state, { p: 0, duration: 0.78 }, 0)
-          .fromTo(q(".outro__text"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.14, ease: "power2.out" }, 0.8)
+        tl.to(state, { p: 0, duration: 0.78, ease: "sine.inOut" }, 0)
+          .fromTo(q(".outro__text"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.2, ease: "sine.out" }, 0.76)
           .to({}, { duration: 0.06 });
       });
       mm.add("(prefers-reduced-motion: reduce)", () => {

@@ -31,7 +31,7 @@ export default function SiteFooter({ home = true }: { home?: boolean }) {
             <ul>
               <li>
                 <a href={site.instagram.href} rel="noopener">
-                  {site.instagram.label} <span aria-hidden="true">→</span>
+                  {site.instagram.label}
                 </a>
               </li>
             </ul>
@@ -41,8 +41,11 @@ export default function SiteFooter({ home = true }: { home?: boolean }) {
                 <ul>
                   <li>
                     <a className="site-footer__email" href={site.contact.href}>
-                      {CONTACT_EMAIL.split("@")[0]}
-                      <wbr />@{CONTACT_EMAIL.split("@")[1]}
+                      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="5" width="18" height="14" rx="2" />
+                        <path d="m3.5 6.5 8.5 6.5 8.5-6.5" />
+                      </svg>
+                      {CONTACT_EMAIL}
                     </a>
                   </li>
                 </ul>

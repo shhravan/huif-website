@@ -38,7 +38,7 @@ export default async function PanelPage({ params }: { params: Promise<{ slug: st
       <main className="page">
         <div className="frame">
           <p className="page__back">
-            <a href={navHref("#panels", false)}>← {panelPage.back}</a>
+            <a href={navHref("#panels", false)}>{panelPage.back}</a>
           </p>
           <div className="panel-page__top">
             <div className="panel-page__text">
@@ -96,7 +96,7 @@ export default async function PanelPage({ params }: { params: Promise<{ slug: st
                 <p className="panel-page__pending-note">
                   {panelPage.pendingDate}{" "}
                   <a href={site.instagram.href} rel="noopener">
-                    {panelPage.follow} <span aria-hidden="true">→</span>
+                    {panelPage.follow}
                   </a>
                 </p>
               </>
