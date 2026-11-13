@@ -59,8 +59,7 @@ function Calendar({ day }: { day: Day }) {
           const c = clock(`${m / 60}:00`);
           return (
             <p key={m} className="cal__hour" style={{ gridRow: (m - start) / 15 + 1 }} aria-hidden="true">
-              {c.text.replace(":00", "")}
-              <small>{c.suffix}</small>
+              {c.text.replace(":00", "")} {c.suffix}
             </p>
           );
         })}

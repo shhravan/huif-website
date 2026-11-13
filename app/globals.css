@@ -702,10 +702,9 @@ img[src*="sealinkday"] {
   text-decoration-thickness: from-font;
   text-underline-offset: 0.2em;
 }
-/* the Taj Mahal sits low in its arch: show the whole frame at the top, the words on Marine below it */
+/* the Taj Mahal sits low in its arch: lift the photograph so the Taj clears the words, the scrim closes the gap below */
 .panels__photo--culture {
-  object-fit: contain;
-  object-position: 50% 0;
+  translate: 0 -24%;
 }
 .panels__strands {
   grid-column: 7 / -1;
@@ -914,16 +913,10 @@ img[src*="sealinkday"] {
   grid-column: 1;
   margin: -0.7em 0 0;
   color: var(--color-text-inverse);
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  line-height: 1.2;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
   font-variant-numeric: tabular-nums;
-}
-.cal__hour small {
-  margin-left: 3px;
-  color: var(--color-text-inverse-muted);
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
 }
 .cal__slots {
   grid-column: 2;
@@ -1271,11 +1264,7 @@ img[src*="sealinkday"] {
     font-size: 1.0625rem;
   }
   .cal__hour {
-    font-size: 1rem;
-  }
-  .cal__hour small {
-    display: block;
-    margin: 0;
+    font-size: 0.8125rem;
   }
   .cal__block {
     padding: 10px 12px;
