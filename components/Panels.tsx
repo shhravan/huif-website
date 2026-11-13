@@ -59,7 +59,7 @@ export default function Panels() {
                 <div>
                   <dt>When</dt>
                   <dd>
-                    {current.day}, {current.date}
+                    {current.date}
                     <br />
                     {current.time}
                   </dd>

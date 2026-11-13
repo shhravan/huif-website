@@ -65,8 +65,10 @@ export default function GateIntro() {
             .to(q(".opening__title"), { autoAlpha: 0, y: 40, duration: 0.12, ease: "power1.in" }, 0)
             .to(q(".opening__scrim"), { autoAlpha: 0, duration: 0.18 }, 0)
             // as you pass between the pillars the sky softens into the page, and the story begins
-            .to(q(".opening__paper"), { autoAlpha: 1, duration: 0.26, ease: "sine.inOut" }, 0.62)
-            .fromTo(q(".opening__story"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.2, ease: "sine.out" }, 0.68);
+            .to(q(".opening__paper"), { autoAlpha: 1, duration: 0.2, ease: "sine.inOut" }, 0.6)
+            // the story's first words come only once the page colour has covered the sky (and go first on the way
+            // back up), so dark type never sits on the bare sky
+            .fromTo(q(".opening__story"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.14, ease: "sine.out" }, 0.8);
           // as the sky softens, the slim bar takes over from the opening's header, and hands back on the way up.
           // One switch on the scroll position itself (not the eased timeline), so one header is always showing.
           const photo = q(".site-header--photo");
