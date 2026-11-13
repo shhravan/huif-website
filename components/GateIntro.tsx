@@ -83,7 +83,7 @@ export default function GateIntro() {
             .to(q(".site-header--photo"), { autoAlpha: 0, duration: 0.06 }, 0.66)
             // as you pass between the pillars the sky softens into the page, and the story begins
             .to(q(".opening__paper"), { autoAlpha: 1, duration: 0.2, ease: "power1.inOut" }, 0.66)
-            .fromTo(q(".opening__story"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.14, ease: "power2.out" }, 0.8);
+            .fromTo(q(".opening__story"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.14, ease: "power2.out" }, 0.7);
           if (bar) tl.to(bar, { autoAlpha: 1, yPercent: 0, duration: 0.06, ease: "power2.out" }, 0.72);
         },
       );
@@ -102,11 +102,14 @@ export default function GateIntro() {
       </div>
       <div className="opening__scrim" aria-hidden="true" />
       <div className="opening__paper" aria-hidden="true" />
-      {/* the story begins here; this heading is the Context section's title */}
+      {/* the story begins here: the Context section's title and first paragraph, centred on the page as it settles */}
       <div className="frame opening__story">
         <h2 id="context-title" className="display">
           {context.heading}
         </h2>
+        <p className="context__lead">
+          {context.lead} <span>{context.rest}</span>
+        </p>
       </div>
 
       <SiteHeader variant="photo" />

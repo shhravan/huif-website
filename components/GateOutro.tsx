@@ -13,8 +13,8 @@ import { site, closing, CONTACT_EMAIL } from "@/content/site";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 /**
- * The close: the Sanchi gate again, centred, as if you step back out through it.
- * The same camera and ground as the opening (lib/walk.ts); "Get in touch" in the sky above.
+ * The close: the Sanchi gate again, standing to the right as in the opening, the words beside it in the sky.
+ * The same camera and ground as the opening (lib/walk.ts). On tall screens the gate is small, under the words.
  */
 export default function GateOutro() {
   const root = useRef<HTMLElement>(null);
@@ -28,12 +28,14 @@ export default function GateOutro() {
       const [canvas] = q(".gate-scene__ground") as HTMLCanvasElement[];
       const [gate] = q(".gate-scene__gate") as HTMLElement[];
       const small = window.matchMedia("(max-width: 860px)").matches;
+      // wide screens: the gate stands right of the words, as in the opening; tall screens: small, under them
       const walk = new GateWalk(el, back, canvas, gate, asset(small ? "/scene/paving-1024.webp" : "/scene/paving-2048.webp"), {
-        offset: 0,
-        size: 0.5,
+        offset: 0.25,
+        size: window.innerHeight > window.innerWidth ? 0.3 : 0.56,
+        still: true,
       });
-      // start close to the gate and step back from it as the section scrolls into view
-      const state = { p: 0.55 };
+      // a short step back from the gate as the section scrolls into view, the gate keeping its place
+      const state = { p: 0.18 };
       let ready = false;
       walk.load().then(() => {
         ready = true;
@@ -45,7 +47,7 @@ export default function GateOutro() {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.to(state, {
-          p: 0.04,
+          p: 0,
           ease: "none",
           scrollTrigger: { trigger: el, start: "top bottom", end: "top top", scrub: 1.2 },
           onUpdate: () => {
@@ -54,7 +56,7 @@ export default function GateOutro() {
         });
       });
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        state.p = 0.04;
+        state.p = 0;
         if (ready) walk.render(state.p);
       });
 
