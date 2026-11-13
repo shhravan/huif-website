@@ -11,6 +11,9 @@
   --marine-700: #4a5a72; /* muted text on stone */
   --marine-900: #042d62; /* brand Marine */
   --marine-950: #021d42;
+  --marine-800: #173d6d; /* one step up from Marine, same hue (OKLCH 0.36 / 256°) */
+  --marine-750: #254875; /* two steps up (0.40 / 256°) */
+  --white: #ffffff;
 
   /* semantic roles */
   --color-bg: var(--stone-50);
@@ -22,9 +25,12 @@
   --color-accent-solid: var(--marine-900);
   --color-accent-solid-hover: var(--marine-950);
   --color-accent-on-solid: var(--stone-50);
-  --color-accent-light-hover: #ffffff;
-  --color-bg-inverse-surface: #173d6d; /* one tone step from Marine: programme blocks and the other day's tab */
-  --color-bg-inverse-surface-hover: #254875;
+  /* the filled element on Marine grounds: stone with a Marine label (the light button, the selected day, keynotes) */
+  --color-accent-solid-inverse: var(--stone-50);
+  --color-accent-solid-inverse-hover: var(--white);
+  --color-accent-on-solid-inverse: var(--marine-900);
+  --color-bg-inverse-surface: var(--marine-800); /* programme blocks and the other day's tab */
+  --color-bg-inverse-surface-hover: var(--marine-750);
   --color-photo-fallback: #8d9bb6; /* behind photographs while they load */
 
   --font-display: "Eczar", "Iowan Old Style", Georgia, serif;
@@ -160,12 +166,12 @@ html.lenis body {
 }
 /* on photographs and Marine grounds the button inverts: stone fill, Marine label */
 .button--light {
-  background: var(--color-text-inverse);
-  color: var(--color-text);
+  background: var(--color-accent-solid-inverse);
+  color: var(--color-accent-on-solid-inverse);
 }
 @media (hover: hover) {
   .button--light:hover {
-    background: var(--color-accent-light-hover);
+    background: var(--color-accent-solid-inverse-hover);
   }
 }
 
@@ -728,8 +734,8 @@ html.lenis body {
   scale: 0.96;
 }
 .tabs__tab[aria-selected="true"] {
-  background: var(--color-text-inverse);
-  color: var(--color-text);
+  background: var(--color-accent-solid-inverse);
+  color: var(--color-accent-on-solid-inverse);
 }
 @media (hover: hover) {
   .tabs__tab[aria-selected="false"]:hover {
@@ -743,7 +749,6 @@ html.lenis body {
 }
 .tabs__date {
   font-size: var(--text-small);
-  opacity: 0.85;
 }
 
 /* calendar grid: one row per quarter hour, each slot as tall as it is long */
@@ -810,8 +815,8 @@ html.lenis body {
   font-variant-numeric: tabular-nums;
 }
 .cal__block--keynote {
-  background: var(--color-text-inverse);
-  color: var(--color-text);
+  background: var(--color-accent-solid-inverse);
+  color: var(--color-accent-on-solid-inverse);
 }
 .cal__block--keynote .cal__time {
   color: var(--color-text-muted);
