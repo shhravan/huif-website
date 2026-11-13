@@ -52,6 +52,7 @@ export const photos = {
     ratio: 1920 / 1280,
     alt: "The Bandra–Worli Sea Link in Mumbai by day, a wave breaking in front of it",
   },
+  carts: { name: "carts", w: [1200, 1920], ratio: 1920 / 1238, alt: "Black-and-white photograph of people pulling carts in a line along an embankment, reflected in the water" },
   taj: { name: "taj", w: [800, 1066], ratio: 1066 / 1333, alt: "The Taj Mahal Palace in Mumbai in late-afternoon light, pigeons in flight" },
 } as const;
 
@@ -262,7 +263,7 @@ export const strands = [
     id: "making",
     name: "Making",
     line: "What India makes, powers and heals, and the work that goes into it.",
-    photo: "taj",
+    photo: "carts",
     panels: ["Building in India: Manufacturing", "India’s Energy Transition", "The Future of Healthcare in India", "Fashion & Design"], // taste-skill-ignore: the panel's confirmed title
   },
   {
