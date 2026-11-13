@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Picture from "./Picture";
-import { panels, photos, strands } from "@/content/site";
+import { panelPage, panels, photos, strands } from "@/content/site";
 import { allPanels, panelHref, panelsOf, photoOf } from "@/lib/panels";
 
 /**
@@ -59,12 +59,18 @@ export default function Panels() {
                 <div>
                   <dt>When</dt>
                   <dd>
-                    {current.date}, {current.time}
+                    {current.day}, {current.date}
+                    <br />
+                    {current.time}
                   </dd>
                 </div>
                 <div>
                   <dt>Where</dt>
-                  <dd>Room {current.room}, Mumbai</dd>
+                  <dd>
+                    Room {current.room}
+                    <br />
+                    {panelPage.venue}
+                  </dd>
                 </div>
               </dl>
               <span className="panels__open">{panels.open}</span>
