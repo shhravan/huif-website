@@ -62,11 +62,16 @@ function Calendar({ day }: { day: Day }) {
           );
         })}
         <ol className="cal__slots">
-          {blocksFor(slots).map((b) => (
+          {blocksFor(slots).map((b, n) => (
             <li
               key={b.key}
               className={`cal__block cal__block--${b.slot.kind}`}
-              style={{ gridRowStart: row(b.slot.start), gridRowEnd: row(b.slot.end), gridColumn: b.column === "both" ? "1 / -1" : b.column }}
+              style={{
+                gridRowStart: row(b.slot.start),
+                gridRowEnd: row(b.slot.end),
+                gridColumn: b.column === "both" ? "1 / -1" : b.column,
+                ["--n" as string]: n,
+              }}
             >
               {/* one line of details above the title: the time, and for a keynote what it is */}
               <p className="cal__time">
@@ -108,7 +113,9 @@ export default function Programme() {
             {programme.heading}
           </h2>
         </header>
-        <div className="tabs" role="tablist" aria-label="Day" onKeyDown={onKey}>
+        <div className="tabs" role="tablist" aria-label="Day" onKeyDown={onKey} style={{ ["--active" as string]: active }}>
+          {/* the white marker that slides under the chosen day */}
+          <span className="tabs__marker" aria-hidden="true" />
           {programme.days.map((day, i) => (
             <button
               key={day.id}
