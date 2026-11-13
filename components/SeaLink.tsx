@@ -9,13 +9,13 @@ import { asset } from "@/lib/asset";
  * x, y on a 0–scale grid, brightness 0–9, warm 0/1). Drawn at whole device pixels so they stay crisp.
  *
  * Three motions, all small:
- * - a slow wave runs through the points, so the bridge breathes;
+ * - each point drifts on its own small loop, at its own pace, so the points shimmer without the bridge moving as one;
  * - the whole field drifts opposite to the cursor (parallax), eased;
  * - points right under the cursor push away and spring back.
  * Nothing moves under reduced motion; the loop pauses while the section is off screen.
  */
 
-const WAVE = 3.2; // css px, height of the wave through the points
+const JITTER = 1.4; // css px, radius of each point's own small loop
 const DRIFT = { x: 26, y: 16 }; // css px the field drifts, opposite to the cursor, at the screen's edge
 const EASE = 0.05; // how quickly the drift follows the cursor, per frame
 const RADIUS = 100; // css px around the pointer that the points move away from
@@ -40,6 +40,8 @@ export default function SeaLink({ label, text }: { label: string; text: RefObjec
     let bucket = new Uint8Array(0); // 0–5: colour and brightness group, drawn together
     let size = new Uint8Array(0); // 1 or 2 device pixels
     let quiet = new Uint8Array(0); // 1 where the point sits behind the text, drawn fainter
+    let phase = new Float32Array(0); // where each point starts its loop, and how fast it goes round
+    let pace = new Float32Array(0);
     let hx = new Float32Array(0); // home, in device px
     let hy = new Float32Array(0);
     let ox = new Float32Array(0); // push offset from home
@@ -90,7 +92,7 @@ export default function SeaLink({ label, text }: { label: string; text: RefObjec
     const draw = (t: number) => {
       ctx.clearRect(0, 0, el.width, el.height);
       const s = t / 1000;
-      const wave = still ? 0 : WAVE * dpr;
+      const j = still ? 0 : JITTER * dpr;
       const dx = drift.x;
       const dy = drift.y;
       for (let q = 0; q < 2; q++) {
@@ -99,10 +101,10 @@ export default function SeaLink({ label, text }: { label: string; text: RefObjec
           ctx.fillStyle = styles[b];
           for (let i = 0; i < n; i++) {
             if (bucket[i] !== b || quiet[i] !== q) continue;
-            // a long swell travelling along the bridge, and a smaller cross ripple
-            const w = wave ? Math.sin(s * 0.9 + sx[i] * 9 + sy[i] * 4) * wave + Math.sin(s * 1.6 - sx[i] * 14) * wave * 0.35 : 0;
-            const px = Math.round(hx[i] + ox[i] + dx + (wave ? Math.cos(s * 0.7 + sy[i] * 7) * wave * 0.4 : 0));
-            const py = Math.round(hy[i] + oy[i] + dy + w);
+            // every point on its own loop: no shared wave, so the bridge itself stays still
+            const a = s * pace[i] + phase[i];
+            const px = Math.round(hx[i] + ox[i] + dx + (j ? Math.cos(a) * j : 0));
+            const py = Math.round(hy[i] + oy[i] + dy + (j ? Math.sin(a * 1.3) * j : 0));
             const sz = dpr > 1 ? size[i] + 1 : size[i];
             ctx.fillRect(px, py, sz, sz);
           }
@@ -170,12 +172,16 @@ export default function SeaLink({ label, text }: { label: string; text: RefObjec
         bucket = new Uint8Array(n);
         size = new Uint8Array(n);
         quiet = new Uint8Array(n);
+        phase = new Float32Array(n);
+        pace = new Float32Array(n);
         for (let i = 0; i < n; i++) {
           const b = d.points[i * 4 + 2];
           sx[i] = d.points[i * 4] / d.scale;
           sy[i] = d.points[i * 4 + 1] / d.scale;
           bucket[i] = (d.points[i * 4 + 3] ? 3 : 0) + (b >= 8 ? 2 : b >= 6 ? 1 : 0);
           size[i] = b >= 8 ? 2 : 1;
+          phase[i] = Math.random() * Math.PI * 2;
+          pace[i] = 0.5 + Math.random() * 1.1;
         }
         hx = new Float32Array(n);
         hy = new Float32Array(n);

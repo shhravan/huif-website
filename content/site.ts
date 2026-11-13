@@ -34,24 +34,29 @@ export const opening = {
 
 /** The team's photographs. Files are in public/photos as <name>-<width>.webp. */
 export const photos = {
-  sealink: {
-    name: "sealink",
-    w: [800, 1200],
-    ratio: 1500 / 1348,
-    alt: "The Bandra–Worli Sea Link in Mumbai at night, drawn in points of light",
+  tajmahal: {
+    name: "tajmahal",
+    w: [1000, 1600],
+    ratio: 2000 / 1333,
+    alt: "The Taj Mahal in soft morning light, framed by the dark arch of its gateway",
   },
-  torana: {
-    name: "torana",
-    dir: "/gate",
-    w: [1400, 2400],
-    ratio: 1400 / 2235,
-    alt: "The carved east gateway of the Great Stupa at Sanchi",
+  northblock: {
+    name: "northblock",
+    w: [1000, 1600],
+    ratio: 2000 / 1333,
+    alt: "The domed North Block of the Secretariat on Raisina Hill, New Delhi, in evening light",
+  },
+  sealinkday: {
+    name: "sealinkday",
+    w: [1000, 1600],
+    ratio: 1920 / 1280,
+    alt: "The Bandra–Worli Sea Link in Mumbai by day, a wave breaking in front of it",
   },
   taj: { name: "taj", w: [800, 1066], ratio: 1066 / 1333, alt: "The Taj Mahal Palace in Mumbai in late-afternoon light, pigeons in flight" },
   carts: { name: "carts", w: [1200, 1920], ratio: 1920 / 1238, alt: "Black-and-white photograph of people pulling carts in a line along an embankment, reflected in the water" },
 } as const;
 
-export type Photo = { name: string; dir?: string; w: readonly [number, number]; ratio: number; alt: string };
+export type Photo = { name: string; w: readonly [number, number]; ratio: number; alt: string };
 
 /** The story, in the order of the narrative brief: the context, the response, the invitation. */
 /** Element ids shared between components: the Context section's title lives in the opening (GateIntro). */
@@ -240,7 +245,7 @@ export const strands = [
     id: "power",
     name: "Power",
     line: "Who decides, and how India governs and builds for itself.",
-    photo: "sealink",
+    photo: "northblock",
     panels: [
       "Law, Institutions & a Changing India",
       "Democracy, Citizenship & Representation",
@@ -252,7 +257,7 @@ export const strands = [
     id: "capital",
     name: "Capital",
     line: "Where India’s money comes from, who holds it and where it goes next.",
-    photo: "taj",
+    photo: "sealinkday",
     panels: ["Startups & Venture Capital", "Wealth Management", "Legacy & Reinvention: Indian Family Businesses", "Real Estate"],
   },
   {
@@ -266,14 +271,13 @@ export const strands = [
     id: "culture",
     name: "Culture",
     line: "The stories India tells about itself, and who gets to tell them.",
-    photo: "torana",
+    photo: "tajmahal",
     panels: ["Media, Culture, and India’s Soft Power", "Literature", "New Media", "The Changing Face of Indian Sport"],
   },
 ] as const satisfies readonly { id: string; name: string; line: string; photo: keyof typeof photos; panels: readonly string[] }[];
 
 export const panels = {
   heading: "Sixteen panels, four strands",
-  intro: "Each panel is built around one question. Open a panel to see when it meets and what it asks.",
   /** Shown wherever the team has not published a panel’s question yet. */
   noQuestion: "Question to be announced.",
   open: "Open the panel",
@@ -363,7 +367,7 @@ export const closing = {
 export const footer = {
   /** The close: one Marine band with the name, the date, updates, the pages and where to follow, then the name across the width. */
   title: "Harvard Undergraduate India Forum",
-  line: "13–14 March 2027 · Mumbai",
+  line: "13–14 March 2027, Mumbai",
   updates: {
     label: "Stay updated",
     placeholder: "you@email.com",

@@ -14,7 +14,7 @@ export default function Picture({
   priority?: boolean;
 }) {
   const [small, large] = photo.w;
-  const src = (w: number) => asset(`${photo.dir ?? "/photos"}/${photo.name}-${w}.webp`);
+  const src = (w: number) => asset(`/photos/${photo.name}-${w}.webp`);
   return (
     <img
       className={className}

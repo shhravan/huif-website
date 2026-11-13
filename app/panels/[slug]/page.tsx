@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const p = await find(params);
   if (!p) return {};
   return {
-    title: `${p.title} · ${site.name}`,
+    title: `${p.title}, ${site.name}`,
     description: p.question ?? `${p.title}: a panel at the ${site.name}, ${p.date} 2027, Mumbai.`,
   };
 }
@@ -84,7 +84,7 @@ export default async function PanelPage({ params }: { params: Promise<{ slug: st
                   <li key={s.name}>
                     <p className="speakers__name">{s.name}</p>
                     <p className="speakers__role">
-                      {s.moderator ? `${panelPage.moderator} · ` : ""}
+                      {s.moderator ? `${panelPage.moderator}, ` : ""}
                       {s.role}
                     </p>
                   </li>
@@ -114,7 +114,7 @@ export default async function PanelPage({ params }: { params: Promise<{ slug: st
                 <Link href={panelHref(o.slug)}>
                   <span className="panel-page__other">{o.title}</span>
                   <span className="panel-page__other-meta">
-                    {o.day} · {o.time}
+                    {o.day}, {o.time}
                   </span>
                 </Link>
               </li>

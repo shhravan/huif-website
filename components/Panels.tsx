@@ -38,9 +38,6 @@ export default function Panels() {
           <h2 id="panels-title" className="head" data-reveal>
             {panels.heading}
           </h2>
-          <p data-reveal style={{ ["--i" as string]: 1 }}>
-            {panels.intro}
-          </p>
         </header>
 
         <div className="panels__body">
@@ -58,7 +55,9 @@ export default function Panels() {
               <p className="panels__strand">{current.strand.name}</p>
               <p className="panels__question">{current.question ?? panels.noQuestion}</p>
               <p className="panels__when">
-                {current.title} · {current.date} · {current.time} · Room {current.room}
+                {current.title}
+                <br />
+                {current.date}, {current.time}, Room {current.room}
               </p>
             </div>
           </div>
@@ -82,7 +81,7 @@ export default function Panels() {
                       >
                         <span className="strand__title">{p.title}</span>
                         <span className="strand__meta">
-                          {p.day} · {p.time} · Room {p.room}
+                          {p.day}, {p.time}, Room {p.room}
                         </span>
                       </Link>
                     </li>
