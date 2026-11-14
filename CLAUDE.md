@@ -9,8 +9,3 @@
 ## Tests
 - `npm test`: the Opening script's order (fast unit tests, tests/opening.test.ts).
 - `npm run test:browser`: checks on the built site (run `npm run build` first). Both run before every deploy.
-
-## How to work
-- Make the smallest change that fully works, and say what you skipped. Exception: when exploring a design, offer real alternatives.
-- Check with tests or measurements; take at most one screenshot, at the end.
-- Every fixed bug gets a test the same day.
