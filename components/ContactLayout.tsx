@@ -9,8 +9,13 @@ const SEA = "The Bandra–Worli Sea Link in Mumbai at night, drawn in points of 
 
 // TEMP: ?v=a|b|c switches between three layouts for review; one stays.
 export default function ContactLayout() {
-  const [v, setV] = useState("a");
-  useEffect(() => setV(new URLSearchParams(location.search).get("v") ?? "a"), []);
+  const [v, setV] = useState("b");
+  const [bv, setBv] = useState("horizon");
+  useEffect(() => {
+    const q = new URLSearchParams(location.search);
+    setV(q.get("v") ?? "b");
+    setBv(q.get("__variant") ?? "horizon");
+  }, []);
   const text = useRef<HTMLDivElement>(null);
   const intro = (
     <>
@@ -23,7 +28,16 @@ export default function ContactLayout() {
   );
   if (v === "b")
     return (
-      <section className="contact-b">
+      <section className={`contact-b contact-b--${bv}`}>
+        {/* TEMP picker, outside the design system */}
+        <label className="vpick">
+          Bridge
+          <select value={bv} onChange={(e) => { setBv(e.target.value); const u = new URL(location.href); u.searchParams.set("__variant", e.target.value); history.replaceState(null, "", u); }}>
+            <option value="horizon">Horizon: full width, below</option>
+            <option value="beside">Beside: under the intro</option>
+            <option value="bleed">Bleed: large, off the edges</option>
+          </select>
+        </label>
         <div className="frame contact__grid">
           <div className="contact__intro">{intro}</div>
           <div ref={text} className="contact__panel">

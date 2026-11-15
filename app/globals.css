@@ -1719,6 +1719,45 @@ img[src*="sealinkday"] {
   .contact-b__sea {
     transform: translateX(22%);
   }
+  /* TEMP: three bridge sizes */
+  .contact-b--horizon .contact-b__sea {
+    width: 100%;
+    height: clamp(360px, 46vw, 720px);
+    transform: translateX(16%);
+  }
+  .contact-b--beside {
+    padding-bottom: clamp(160px, 16vw, 280px);
+  }
+  .contact-b--beside .contact-b__sea {
+    position: absolute;
+    left: 0;
+    top: 400px;
+    bottom: 0;
+    width: 80%;
+    height: auto;
+    margin: 0;
+    transform: none;
+  }
+  .contact-b--bleed .contact-b__sea {
+    width: 150%;
+    height: clamp(460px, 62vw, 960px);
+    margin: clamp(48px, 6vw, 96px) 0 0 -15%;
+    transform: translateX(22%);
+  }
+}
+.vpick {
+  position: fixed;
+  z-index: 99;
+  left: 12px;
+  bottom: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 10px;
+  background: #fff;
+  color: #111;
+  font: 13px system-ui, sans-serif;
+  border: 1px solid #999;
 }
 @media (max-width: 900px) {
   .contact-b__sea .sealink {
