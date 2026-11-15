@@ -1,0 +1,62 @@
+/* Partners page variants (harness). Tokens only. */
+.pv-muted { color: var(--color-text-muted); }
+.pv-lead { font-size: var(--text-lead); line-height: 1.4; max-width: 48ch; margin: 20px 0 0; }
+.pv-title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: var(--text-title); line-height: 1.1; letter-spacing: -0.02em; }
+.pv-close { padding-block: var(--section); }
+.pv-close p { max-width: 48ch; margin: 20px 0 32px; font-size: var(--text-lead); }
+.pv-close--marine { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
+.pv-close--centre { text-align: center; }
+.pv-close--centre p { margin-inline: auto; }
+.pv-close--centre .button { background: var(--color-accent-solid); color: var(--color-accent-on-solid); }
+
+/* Ledger */
+.pv-ledger { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px var(--gap); padding-block: var(--section) 0; }
+.pv-ledger__head { grid-column: 1 / span 5; align-self: start; position: sticky; top: 112px; }
+.pv-ledger__rows { grid-column: 7 / -1; margin: 0; display: grid; gap: 40px; }
+.pv-ledger__rows > div { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 8px var(--gap); }
+.pv-ledger__rows dt { font-family: var(--font-display); font-size: var(--text-sub); line-height: 1.15; }
+.pv-ledger__rows dd { margin: 0; }
+.pv-ledger__rows dd > span { display: block; margin-top: 8px; }
+.pv-ledger__rows strong { font-weight: 500; color: var(--color-text); }
+.pv-ledger__strands { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.pv-ledger__note { padding-block: 48px var(--section); }
+
+/* Statement */
+.pv-stmt { padding-block: var(--section); }
+.pv-stmt--marine { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
+.pv-stmt--marine .pv-muted { color: var(--color-text-inverse-muted); }
+.pv-stmt__col { max-width: 980px; text-align: center; }
+.pv-stmt__col .pv-lead { margin-inline: auto; }
+.pv-stmt__kicker { margin: 0 0 24px; font: 500 var(--text-body) var(--font-body); color: var(--color-text-muted); }
+.pv-stmt__strands { list-style: none; margin: var(--section) auto; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
+.pv-stmt__strands li { display: grid; gap: 12px; }
+.pv-stmt__strands .display { font-size: min(var(--text-head), 11vw); }
+.pv-stmt__ways { list-style: none; margin: 64px auto; max-width: 980px; display: grid; gap: 56px; text-align: center; }
+.pv-stmt__ways p { margin: 8px auto 0; max-width: 46ch; }
+
+/* Brief */
+.pv-brief { padding-block: var(--section) 0; }
+.pv-brief__band { margin-top: 32px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
+.pv-brief__band h3 { margin: 0 0 8px; font-family: var(--font-display); font-weight: 400; font-size: var(--text-sub); line-height: 1.15; }
+.pv-brief__band p { margin: 0; }
+.pv-brief__table { width: 100%; margin: 40px 0 24px; border-collapse: collapse; text-align: left; }
+.pv-brief__table th, .pv-brief__table td { padding: 16px var(--gap) 16px 0; vertical-align: top; }
+.pv-brief__table thead th { font-weight: 500; color: var(--color-text-muted); }
+.pv-brief__table tbody th { font-family: var(--font-display); font-weight: 400; font-size: var(--text-sub); line-height: 1.15; width: 28%; }
+.pv-brief__table tbody tr:nth-child(odd) { background: color-mix(in srgb, var(--color-text) 4%, transparent); }
+.pv-brief__table tbody th { padding-left: 12px; }
+.pv-brief > .pv-muted:last-child { margin: 0 0 var(--section); }
+
+@media (max-width: 900px) {
+  .pv-ledger__head, .pv-ledger__rows { grid-column: 1 / -1; position: static; }
+  .pv-ledger__rows > div { grid-template-columns: 1fr; }
+  .pv-stmt__strands, .pv-brief__band { grid-template-columns: 1fr 1fr; }
+  .pv-brief__table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .pv-brief__table tr, .pv-brief__table th, .pv-brief__table td { display: block; width: auto; }
+  .pv-brief__table td { padding-block: 4px; padding-left: 12px; }
+  .pv-brief__table td:last-child::before { content: "In return: "; font-weight: 500; }
+  .pv-brief__table tbody tr { padding-block: 12px; }
+}
+@media (max-width: 520px) {
+  .pv-stmt__strands, .pv-brief__band { grid-template-columns: 1fr; }
+}

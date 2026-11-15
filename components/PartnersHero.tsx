@@ -7,7 +7,7 @@ import { partners, site } from "@/content/site";
 export const partnersMail = `${site.contact.href}?type=partnering`;
 
 /** The top of the Partners page: the same Sea Link in points as the About section, the invitation in the sea beside it. */
-export default function PartnersHero() {
+export default function PartnersHero({ action = true }: { action?: boolean }) {
   const body = useRef<HTMLDivElement>(null);
   return (
     <section className="about partners__hero" aria-labelledby="partners-title">
@@ -18,9 +18,11 @@ export default function PartnersHero() {
             {partners.title}
           </h1>
           <p className="partners__lead">{partners.lead}</p>
-          <a className="button button--light" href={partnersMail}>
-            {partners.close.action}
-          </a>
+          {action && (
+            <a className="button button--light" href={partnersMail}>
+              {partners.close.action}
+            </a>
+          )}
         </div>
       </div>
     </section>

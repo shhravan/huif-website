@@ -374,6 +374,19 @@ export const partners = {
     gets: "In return",
     note: "Amounts are set with each partner. Tell us what interests you and we’ll send the details.",
   },
+  /** Proof first: who is behind it, what is on stage, who will speak. Facts only from this file. */
+  proof: {
+    heading: "What you would be part of",
+    harvard: {
+      lead: "Run by Harvard students",
+      text: "The Harvard Undergraduate India Forum is organised by Harvard College students, who bring classmates from economics and government to medicine and the arts to Mumbai.",
+    },
+    strands: { lead: "Four strands, sixteen panels", text: "Two days, two rooms, four keynotes." },
+    speakers: {
+      lead: "Speakers named together",
+      text: "Leaders from government, business, culture and the professions. The line-up is announced all at once, across every panel.",
+    },
+  },
   close: {
     heading: "Talk to us about partnering",
     line: "Tell us a little about your organisation and what you’d like from the Forum.",
