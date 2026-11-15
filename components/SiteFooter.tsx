@@ -57,8 +57,6 @@ export default function SiteFooter({ home = true }: { home?: boolean }) {
             )}
           </div>
         </div>
-        <p className="site-footer__pre">Harvard Undergraduate</p>
-        <p className="site-footer__name">India Forum</p>
       </div>
       <div className="site-footer__base">
         <p className="frame site-footer__credit">

@@ -30,7 +30,7 @@ One scrolling page, carrying only what is confirmed.
 | 5 | Panels | Sixteen panels, two days | Every title from the Schedule as a large staggered index; each opens in place to its day, time, room and central question |
 | 6 | Programme | The full Schedule | A calendar grid, one day at a time (centred tabs): hours down the side, both rooms side by side |
 | 7 | Close | Join the conversation in Mumbai | The Gate again, with "Get in touch" |
-| 8 | Footer | A designed close | "Follow along. Then be in the room." with Pages, Follow and Reach us; then a Marine band with the dates, the panel count, one line on the Forum and the name set across the full width |
+| 8 | Footer | A designed close | "Follow along. Then be in the room." with Pages, Follow and Reach us; then a Marine band with the dates, the panel count and one line on the Forum |
 
 Photographs: two of the team's (the Taj Mahal Palace, the carts). No video.
 
