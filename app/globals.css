@@ -1641,76 +1641,141 @@ img[src*="sealinkday"] {
 .page.contact {
   padding-top: 0;
 }
-/* fields on Marine */
-.contact-b .contact__field :is(input, select, textarea) {
-  border-color: var(--color-text-inverse-muted);
-}
-.contact-b .contact__form .button {
-  background: var(--color-accent-solid-inverse);
-  color: var(--color-accent-on-solid-inverse);
-}
 .contact__field option {
   color: var(--color-text);
 }
-/* A: the Sea Link band, then the form on stone */
-.contact-a {
-  padding-top: calc(var(--section) + 72px);
-}
-.contact-a__form > h2 {
-  grid-column: 1 / span 5;
-}
-/* B: the whole page at sea, the form over the bridge */
-.contact-b {
+/* the contact page at sea: words and form on one top line; the bridge below the words, beside the form */
+.contact-sea {
   position: relative;
   overflow: hidden;
-  min-height: 100svh;
-  padding-top: 72px;
+  padding: 72px 0 clamp(160px, 16vw, 280px);
   background: var(--color-bg-inverse);
   color: var(--color-text-inverse);
 }
-.contact-b .contact__grid {
+.contact-sea .contact__grid {
   position: relative;
+  z-index: 1;
+  padding-bottom: 0;
+  align-items: start;
   pointer-events: none;
 }
-.contact-b .contact__grid > * {
+.contact-sea .contact__grid > * {
   pointer-events: auto;
 }
-/* C: the sea on the left, held while the form scrolls on the right */
-.contact-c {
-  display: grid;
-  grid-template-columns: 5fr 7fr;
-  min-height: 100svh;
+.contact-sea .head {
+  font-size: var(--text-head);
+  line-height: 1.05;
 }
-.contact-c__sea {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  overflow: hidden;
-  background: var(--color-bg-inverse);
+.contact-sea .contact__lead,
+.contact-sea .contact__direct {
+  color: var(--color-text-inverse-muted);
+}
+.contact-sea .contact__direct a {
   color: var(--color-text-inverse);
-  display: flex;
-  align-items: flex-end;
-  padding: 0 var(--margin) clamp(48px, 8vh, 96px);
 }
-.contact-c__intro {
+.contact-sea .contact__form,
+.contact-sea .contact__row {
+  gap: 16px;
+}
+.contact-sea .contact__field > span {
+  margin-bottom: 6px;
+  color: var(--color-text-inverse-muted);
+}
+/* filled fields; the edge is 45% stone (3.5:1 against Marine, above the 3:1 a field's edge needs) */
+.contact-sea .contact__field :is(input, select, textarea) {
+  min-height: 48px;
+  border: 1px solid color-mix(in srgb, var(--color-text-inverse) 45%, var(--color-bg-inverse));
+  background: var(--color-bg-inverse-surface);
+  caret-color: var(--color-text-inverse);
+  transition-property: border-color, background-color;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+@media (hover: hover) {
+  .contact-sea .contact__field :is(input, select, textarea):hover {
+    border-color: var(--color-text-inverse-muted);
+  }
+}
+.contact-sea .contact__field :is(input, select, textarea):focus-visible {
+  border-color: var(--color-text-inverse);
+  background: var(--color-bg-inverse-surface-hover);
+  outline-color: var(--color-accent-solid-inverse);
+}
+.contact-sea .contact__field [aria-invalid="true"] {
+  border-color: var(--color-text-inverse);
+}
+/* autofill keeps the field's own fill instead of the browser's pale one */
+.contact-sea .contact__field input:-webkit-autofill {
+  -webkit-text-fill-color: var(--color-text-inverse);
+  box-shadow: 0 0 0 100px var(--color-bg-inverse-surface) inset;
+}
+.contact-sea .contact__field :is(input, textarea)::placeholder {
+  color: color-mix(in srgb, var(--color-text-inverse) 55%, var(--color-bg-inverse));
+}
+.contact-sea .contact__form > .button {
+  margin-top: 8px;
+  background: var(--color-accent-solid-inverse);
+  color: var(--color-accent-on-solid-inverse);
+}
+@media (hover: hover) {
+  .contact-sea .contact__form > .button:not(:disabled):hover {
+    background: var(--color-accent-solid-inverse-hover);
+  }
+}
+.contact-sea .contact__form > .button:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+/* the thank-you replaces the form: it rises in once */
+@media (prefers-reduced-motion: no-preference) {
+  .contact__done {
+    animation: contact-done 300ms ease-out both;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .contact__done {
+    animation: contact-done-fade 300ms ease-out both;
+  }
+}
+@keyframes contact-done {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    translate: 0 12px;
+  }
+}
+@keyframes contact-done-fade {
+  from {
+    opacity: 0;
+  }
+}
+.contact-sea__bridge {
   position: relative;
+  height: clamp(220px, 34vw, 460px);
+  margin-top: clamp(40px, 6vw, 96px);
 }
-.contact-c__form {
-  padding: calc(72px + clamp(48px, 6vw, 96px)) var(--margin) clamp(72px, 7vw, 120px);
-  align-self: center;
+@media (min-width: 901px) {
+  /* under the intro, left of the form, running beneath the button */
+  .contact-sea__bridge {
+    position: absolute;
+    left: 0;
+    top: 400px;
+    bottom: 0;
+    width: 80%;
+    height: auto;
+    margin: 0;
+  }
 }
 @media (max-width: 900px) {
-  .contact-c {
-    display: block;
+  .contact-sea {
+    padding-bottom: 0;
   }
-  .contact-c__sea {
-    position: relative;
-    height: auto;
-    min-height: 70svh;
-    padding-top: 120px;
-  }
-  .contact-a__form > h2 {
-    grid-column: 1 / -1;
+  .contact-sea__bridge .sealink {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    aspect-ratio: auto;
+    margin: 0;
   }
 }
 
