@@ -1,79 +1,32 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import SeaLink from "./SeaLink";
 import ContactForm from "./ContactForm";
 import { contact, CONTACT_EMAIL } from "@/content/site";
 
-const SEA = "The Bandra–Worli Sea Link in Mumbai at night, drawn in points of light";
-
-// TEMP: ?v=a|b|c switches between three layouts for review; one stays.
+/** The contact page at sea: the words and the form share one top line, and the Sea Link runs below the words, beside the form. */
 export default function ContactLayout() {
-  const [v, setV] = useState("b");
-  const [bv, setBv] = useState("horizon");
-  useEffect(() => {
-    const q = new URLSearchParams(location.search);
-    setV(q.get("v") ?? "b");
-    setBv(q.get("__variant") ?? "horizon");
-  }, []);
-  const text = useRef<HTMLDivElement>(null);
-  const intro = (
-    <>
-      <h1 className="head">{contact.title}</h1>
-      <p className="contact__lead">{contact.lead}</p>
-      <p className="contact__direct">
-        {contact.direct} <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-      </p>
-    </>
-  );
-  if (v === "b")
-    return (
-      <section className={`contact-b contact-b--${bv}`}>
-        {/* TEMP picker, outside the design system */}
-        <label className="vpick">
-          Bridge
-          <select value={bv} onChange={(e) => { setBv(e.target.value); const u = new URL(location.href); u.searchParams.set("__variant", e.target.value); history.replaceState(null, "", u); }}>
-            <option value="horizon">Horizon: full width, below</option>
-            <option value="beside">Beside: under the intro</option>
-            <option value="bleed">Bleed: large, off the edges</option>
-          </select>
-        </label>
-        <div className="frame contact__grid">
-          <div className="contact__intro">{intro}</div>
-          <div ref={text} className="contact__panel">
-            <ContactForm />
-          </div>
+  const form = useRef<HTMLDivElement>(null);
+  return (
+    <section className="contact-sea" aria-labelledby="contact-title">
+      <div className="frame contact__grid">
+        <div className="contact__intro">
+          <h1 id="contact-title" className="head">
+            {contact.title}
+          </h1>
+          <p className="contact__lead">{contact.lead}</p>
+          <p className="contact__direct">
+            {contact.direct} <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+          </p>
         </div>
-        {/* the bridge below the words, never behind them */}
-        <div className="contact-b__sea">
-          <SeaLink label={SEA} text={text} />
-        </div>
-      </section>
-    );
-  if (v === "c")
-    return (
-      <div className="contact-c">
-        <section className="contact-c__sea">
-          <SeaLink label={SEA} text={text} />
-          <div ref={text} className="contact-c__intro">{intro}</div>
-        </section>
-        <div className="contact-c__form">
+        <div ref={form} className="contact__panel">
           <ContactForm />
         </div>
       </div>
-    );
-  return (
-    <>
-      <section className="about contact-a">
-        <SeaLink label={SEA} text={text} />
-        <div className="frame about__grid">
-          <div ref={text} className="about__body">{intro}</div>
-        </div>
-      </section>
-      <div className="frame contact__grid contact-a__form">
-        <h2 className="head">Write to the team</h2>
-        <ContactForm />
+      <div className="contact-sea__bridge">
+        <SeaLink label="The Bandra–Worli Sea Link in Mumbai at night, drawn in points of light" text={form} />
       </div>
-    </>
+    </section>
   );
 }
