@@ -24,12 +24,15 @@ export default function ContactLayout() {
   if (v === "b")
     return (
       <section className="contact-b">
-        <SeaLink label={SEA} text={text} />
         <div className="frame contact__grid">
           <div className="contact__intro">{intro}</div>
           <div ref={text} className="contact__panel">
             <ContactForm />
           </div>
+        </div>
+        {/* the bridge below the words, never behind them */}
+        <div className="contact-b__sea">
+          <SeaLink label={SEA} text={text} />
         </div>
       </section>
     );
