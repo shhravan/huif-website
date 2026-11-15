@@ -384,26 +384,24 @@ export const partners = {
 /** The contact page: one form for every "Get in touch". `?type=partnering` (and the other keys) preselects the topic. */
 export const contact = {
   title: "Get in touch",
-  lead: "Tell us who you are and what you have in mind. We reply within a few days.",
+  lead: "Partnering, speaking, attending or press: write to the team and we’ll reply within a few days.",
+  /** `?type=<key>` preselects the topic, so the Partners page opens on Partnering */
   topics: [
-    { key: "partnering", label: "Partnering with the Forum" },
+    { key: "partnering", label: "Partnering" },
     { key: "speaking", label: "Speaking" },
     { key: "attending", label: "Attending" },
     { key: "press", label: "Press" },
     { key: "other", label: "Something else" },
   ],
-  topicLabel: "What is it about?",
-  interestLabel: "Which part of the Forum interests you?",
-  interests: ["A strand", "A panel", "The evening", "Bringing students to Mumbai", "In kind", "Not sure yet"],
-  fields: { name: "Name", email: "Email", org: "Organisation (optional)", message: "Message" },
-  placeholders: { name: "Your name", email: "name@email.com", org: "Company, university or publication" },
+  fields: { name: "Name", email: "Email", org: "Organisation (optional)", topic: "Topic", message: "Message" },
+  placeholders: { name: "Your name", email: "name@email.com" },
   action: "Send message",
   sending: "Sending…",
-  sent: "Thanks. Your message has reached the team, and we’ll reply by email.",
-  /** used when no form key is set, or the form service fails: the visitor's email app opens instead */
-  mailed: "Your email app has opened with your message. Send it from there, or write to us directly:",
+  sent: "Thank you. Your message has reached the team, and we’ll reply by email.",
+  /** when no form key is set, or the form service fails: the visitor's email app opens instead */
+  mailed: "Your email app has opened with your message. Send it from there, or write to us at",
   invalid: { name: "Enter your name.", email: "Enter an email address, like name@email.com.", message: "Enter a message." },
-  direct: "Or write to us directly",
+  direct: "Or write to us at",
 } as const;
 
 export const closing = {

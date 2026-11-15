@@ -8,7 +8,7 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** One form for every enquiry. With FORM_KEY set it posts to Web3Forms; otherwise, or if that fails, it opens the visitor's email app with the message filled in. */
 export default function ContactForm() {
-  const [topic, setTopic] = useState<string>(t.topics[0].key);
+  const [topic, setTopic] = useState<string>("other");
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [state, setState] = useState<"idle" | "sending" | "sent" | "mailed">("idle");
 
@@ -34,7 +34,6 @@ export default function ContactForm() {
     const subject = `HUIF 2027: ${label}`;
     const lines = [`Name: ${d.name}`, `Email: ${d.email}`];
     if (d.org) lines.push(`Organisation: ${d.org}`);
-    if (d.interest) lines.push(`Interested in: ${d.interest}`);
     const body = [...lines, "", d.message].join("\n");
 
     if (FORM_KEY) {
@@ -64,27 +63,6 @@ export default function ContactForm() {
 
   return (
     <form className="contact__form" noValidate onSubmit={submit}>
-      <fieldset className="contact__topics">
-        <legend>{t.topicLabel}</legend>
-        {t.topics.map((x) => (
-          <label key={x.key}>
-            <input type="radio" name="topic" value={x.key} checked={topic === x.key} onChange={() => setTopic(x.key)} />
-            <span>{x.label}</span>
-          </label>
-        ))}
-      </fieldset>
-
-      {topic === "partnering" && (
-        <label className="contact__field">
-          <span>{t.interestLabel}</span>
-          <select name="interest" defaultValue={t.interests[t.interests.length - 1]}>
-            {t.interests.map((i) => (
-              <option key={i}>{i}</option>
-            ))}
-          </select>
-        </label>
-      )}
-
       <div className="contact__row">
         <label className="contact__field">
           <span>{t.fields.name}</span>
@@ -97,10 +75,22 @@ export default function ContactForm() {
           {err("email")}
         </label>
       </div>
-      <label className="contact__field">
-        <span>{t.fields.org}</span>
-        <input name="org" autoComplete="organization" placeholder={t.placeholders.org} />
-      </label>
+      <div className="contact__row">
+        <label className="contact__field">
+          <span>{t.fields.org}</span>
+          <input name="org" autoComplete="organization" />
+        </label>
+        <label className="contact__field">
+          <span>{t.fields.topic}</span>
+          <select name="topic" value={topic} onChange={(e) => setTopic(e.target.value)}>
+            {t.topics.map((x) => (
+              <option key={x.key} value={x.key}>
+                {x.label}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
       <label className="contact__field">
         <span>{t.fields.message}</span>
         <textarea name="message" rows={6} {...aria("message")} />

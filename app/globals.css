@@ -1575,7 +1575,8 @@ img[src*="sealinkday"] {
   grid-column: 1 / span 5;
 }
 .contact__form,
-.contact__done {
+.contact__done,
+.contact__panel {
   grid-column: 7 / -1;
 }
 .contact__lead {
@@ -1598,48 +1599,6 @@ img[src*="sealinkday"] {
 }
 .contact__form > .button {
   width: auto;
-}
-.contact__topics {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.contact__topics legend,
-.contact__field > span {
-  display: block;
-  margin-bottom: 8px;
-  font-size: var(--text-small);
-  font-weight: 500;
-}
-.contact__topics label {
-  position: relative;
-}
-.contact__topics input {
-  position: absolute;
-  opacity: 0;
-  inset: 0;
-  margin: 0;
-  cursor: pointer;
-}
-.contact__topics span {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 8px 16px;
-  border: 1px solid var(--color-text-muted);
-  font-size: var(--text-small);
-}
-.contact__topics input:checked + span {
-  background: var(--color-accent-solid);
-  border-color: var(--color-accent-solid);
-  color: var(--color-accent-on-solid);
-}
-.contact__topics input:focus-visible + span {
-  outline: 2px solid var(--color-accent-solid);
-  outline-offset: 2px;
 }
 .contact__row {
   display: grid;
@@ -1679,6 +1638,81 @@ img[src*="sealinkday"] {
 .contact__done {
   font-size: var(--text-lead);
 }
+.page.contact {
+  padding-top: 0;
+}
+/* fields on Marine */
+.contact-b .contact__field :is(input, select, textarea) {
+  border-color: var(--color-text-inverse-muted);
+}
+.contact-b .contact__form .button {
+  background: var(--color-accent-solid-inverse);
+  color: var(--color-accent-on-solid-inverse);
+}
+.contact__field option {
+  color: var(--color-text);
+}
+/* A: the Sea Link band, then the form on stone */
+.contact-a {
+  padding-top: calc(var(--section) + 72px);
+}
+.contact-a__form > h2 {
+  grid-column: 1 / span 5;
+}
+/* B: the whole page at sea, the form over the bridge */
+.contact-b {
+  position: relative;
+  overflow: hidden;
+  min-height: 100svh;
+  padding-top: 72px;
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+}
+.contact-b .contact__grid {
+  position: relative;
+  pointer-events: none;
+}
+.contact-b .contact__grid > * {
+  pointer-events: auto;
+}
+/* C: the sea on the left, held while the form scrolls on the right */
+.contact-c {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  min-height: 100svh;
+}
+.contact-c__sea {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+  display: flex;
+  align-items: flex-end;
+  padding: 0 var(--margin) clamp(48px, 8vh, 96px);
+}
+.contact-c__intro {
+  position: relative;
+}
+.contact-c__form {
+  padding: calc(72px + clamp(48px, 6vw, 96px)) var(--margin) clamp(72px, 7vw, 120px);
+  align-self: center;
+}
+@media (max-width: 900px) {
+  .contact-c {
+    display: block;
+  }
+  .contact-c__sea {
+    position: relative;
+    height: auto;
+    min-height: 70svh;
+    padding-top: 120px;
+  }
+  .contact-a__form > h2 {
+    grid-column: 1 / -1;
+  }
+}
 
 @media (max-width: 560px) {
   .contact__row {
@@ -1692,7 +1726,8 @@ img[src*="sealinkday"] {
   }
   .contact__intro,
   .contact__form,
-  .contact__done {
+  .contact__done,
+  .contact__panel {
     grid-column: 1 / -1;
   }
   .panel-page__text,
