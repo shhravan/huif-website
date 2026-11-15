@@ -461,46 +461,23 @@ html.lenis body {
   color: var(--color-text-inverse);
 }
 .opening__line {
-  max-width: 40ch;
+  max-width: 30ch;
   margin: 16px 0 0;
-  font-size: var(--text-lead);
-  line-height: 1.35;
+  font-family: var(--font-display);
+  font-size: var(--text-sub);
+  line-height: 1.25;
   text-wrap: pretty;
 }
-.opening__facts {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: min(860px, 56vw);
-  gap: 16px clamp(24px, 3.4vw, 56px);
-  margin: clamp(24px, 3vw, 40px) 0 clamp(24px, 3vw, 36px);
-}
-.opening__facts div {
-  margin: 0;
-}
-.opening__facts dt {
-  margin: 0 0 2px;
-  font-size: var(--text-small);
+.opening__when {
+  margin: 12px 0 clamp(24px, 3vw, 36px);
   color: var(--color-text-inverse-muted);
-}
-.opening__facts dd {
-  margin: 0;
-  font-size: var(--text-lead);
-  line-height: 1.2;
+  font-size: var(--text-small);
+  letter-spacing: 0.04em;
 }
 
 @media (orientation: portrait) {
   .opening .gate-scene__gate {
     --gate-h: min(98svh, 192vw);
-  }
-  .opening__facts {
-    max-width: none;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px 20px;
-    margin: 18px 0 22px;
-  }
-  .opening__facts dd {
-    font-size: var(--text-lead);
   }
 }
 
@@ -1555,6 +1532,18 @@ img[src*="sealinkday"] {
   margin: 6px 0 0;
   max-width: 52ch;
 }
+.partners__intro {
+  margin: 0 0 36px;
+  max-width: 52ch;
+  font-size: var(--text-lead);
+}
+.partners__gets {
+  color: var(--color-text-muted);
+}
+.partners__gets strong {
+  color: var(--color-text);
+  font-weight: 500;
+}
 .partners__note {
   margin: 32px 0 0;
   color: var(--color-text-muted);
@@ -1575,9 +1564,136 @@ img[src*="sealinkday"] {
   font-size: var(--text-lead);
 }
 
+/* Contact: the intro beside the form, one column on phones */
+.contact__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 40px var(--gap);
+  padding-block: clamp(48px, 6vw, 96px) clamp(72px, 7vw, 120px);
+}
+.contact__intro {
+  grid-column: 1 / span 5;
+}
+.contact__form,
+.contact__done {
+  grid-column: 7 / -1;
+}
+.contact__lead {
+  max-width: 36ch;
+  margin: 24px 0;
+  font-size: var(--text-lead);
+}
+.contact__direct a,
+.contact__status a {
+  color: inherit;
+  overflow-wrap: anywhere;
+}
+.contact__form {
+  display: grid;
+  gap: 24px;
+  justify-items: start;
+}
+.contact__form > * {
+  width: 100%;
+}
+.contact__form > .button {
+  width: auto;
+}
+.contact__topics {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.contact__topics legend,
+.contact__field > span {
+  display: block;
+  margin-bottom: 8px;
+  font-size: var(--text-small);
+  font-weight: 500;
+}
+.contact__topics label {
+  position: relative;
+}
+.contact__topics input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.contact__topics span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--color-text-muted);
+  font-size: var(--text-small);
+}
+.contact__topics input:checked + span {
+  background: var(--color-accent-solid);
+  border-color: var(--color-accent-solid);
+  color: var(--color-accent-on-solid);
+}
+.contact__topics input:focus-visible + span {
+  outline: 2px solid var(--color-accent-solid);
+  outline-offset: 2px;
+}
+.contact__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.contact__field input,
+.contact__field select,
+.contact__field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-text-muted);
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+.contact__field textarea {
+  resize: vertical;
+}
+.contact__field :is(input, select, textarea):focus-visible {
+  outline: 2px solid var(--color-accent-solid);
+  outline-offset: 0;
+}
+.contact__field [aria-invalid="true"] {
+  border-color: currentColor;
+  border-width: 2px;
+}
+.contact__error {
+  margin: 6px 0 0;
+  font-size: var(--text-small);
+}
+.contact__status:empty {
+  display: none;
+}
+.contact__done {
+  font-size: var(--text-lead);
+}
+
+@media (max-width: 560px) {
+  .contact__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 @media (max-width: 900px) {
   .page {
     padding-top: 88px;
+  }
+  .contact__intro,
+  .contact__form,
+  .contact__done {
+    grid-column: 1 / -1;
   }
   .panel-page__text,
   .panel-page__photo,

@@ -40,7 +40,7 @@ export default function SiteFooter({ home = true }: { home?: boolean }) {
                 <p className="site-footer__label site-footer__label--gap">{footer.reach}</p>
                 <ul>
                   <li>
-                    <a className="site-footer__email" href={site.contact.href}>
+                    <a className="site-footer__email" href={`mailto:${CONTACT_EMAIL}`}>
                       <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                         <rect x="3" y="5" width="18" height="14" rx="2" />
                         <path d="m3.5 6.5 8.5 6.5 8.5-6.5" />

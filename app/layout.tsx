@@ -8,7 +8,7 @@ const SITE_URL = `https://shhravan.github.io${process.env.NEXT_PUBLIC_BASE_PATH 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Harvard Undergraduate India Forum",
-  description: "India Uncharted: A Nation of Multitudes. The first Harvard forum in India. Mumbai, 13–14 March 2027.",
+  description: "India Uncharted: A Nation of Multitudes. Convening the voices shaping India’s next decade. Mumbai, 13–14 March 2027.",
   openGraph: { type: "website", siteName: "Harvard Undergraduate India Forum", images: [{ url: "og/logo.jpg", width: 1200, height: 1200 }] },
   twitter: { card: "summary" },
 };

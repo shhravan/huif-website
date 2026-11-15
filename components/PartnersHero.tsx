@@ -2,9 +2,9 @@
 
 import { useRef } from "react";
 import SeaLink from "./SeaLink";
-import { CONTACT_EMAIL, partners, site } from "@/content/site";
+import { partners, site } from "@/content/site";
 
-export const partnersMail = CONTACT_EMAIL ? `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(partners.close.subject)}` : site.contact.href;
+export const partnersMail = `${site.contact.href}?type=partnering`;
 
 /** The top of the Partners page: the same Sea Link in points as the About section, the invitation in the sea beside it. */
 export default function PartnersHero() {

@@ -99,14 +99,7 @@ export default function GateIntro() {
           India Forum
         </h1>
         <p className="opening__line">{opening.line}</p>
-        <dl className="opening__facts">
-          {opening.facts.map((f) => (
-            <div key={f.label}>
-              <dt>{f.label}</dt>
-              <dd>{f.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <p className="opening__when">{opening.when}</p>
         <a className="button button--light" href={opening.action.href}>
           {opening.action.label}
         </a>

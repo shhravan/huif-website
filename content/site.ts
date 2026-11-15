@@ -3,8 +3,13 @@
  * Sources: docs/website-content.md (final) and BRIEF.md. Terms follow GLOSSARY.md.
  */
 
-/** The team's contact address. Until it is set, "Get in touch" leads to the closing section, which says so. */
+/** The team's contact address, shown on the contact page and in the footer. */
+import { asset } from "@/lib/asset";
+
 export const CONTACT_EMAIL: string | null = "harvardundergraduateindiaforum@gmail.com";
+
+/** Web3Forms access key: contact-form messages arrive at the address it was created for. Public by design. Until it is set, the form opens the visitor's email app. */
+export const FORM_KEY: string | null = null;
 
 export const site = {
   name: "Harvard Undergraduate India Forum",
@@ -18,20 +23,16 @@ export const site = {
   instagram: { label: "Instagram", handle: "@harvardu_indiaforum", href: "https://www.instagram.com/harvardu_indiaforum" },
   contact: {
     label: "Get in touch",
-    href: CONTACT_EMAIL ? `mailto:${CONTACT_EMAIL}` : "#contact",
+    href: asset("/contact/"),
   },
 } as const;
 
 export const opening = {
   /** The one bold line under the name. */
-  line: "The first Harvard forum in India.",
+  line: "Convening the voices shaping India’s next decade.",
+  /** Where and when, one quiet line under it. */
+  when: "Mumbai, 13–14 March 2027",
   action: { label: "See the programme", href: "#programme" },
-  /** The facts strip under the title. */
-  facts: [
-    { label: "When", value: "13–14 March 2027" },
-    { label: "Where", value: "Mumbai" },
-    { label: "Theme", value: "India Uncharted" },
-  ],
 } as const;
 
 /** The team's photographs. Files are in public/photos as <name>-<width>.webp. */
@@ -319,7 +320,6 @@ export const partners = {
         text: "Leaders from government, business, culture and the professions, on panels from law and energy to film and sport.",
       },
     ],
-    note: "Expected attendance: TBA.",
   },
   offer: {
     heading: "What partners receive",
@@ -340,22 +340,70 @@ export const partners = {
       { lead: "Students to meet", text: "Talk to students about internships, graduate roles and research." },
     ],
   },
+  /** No tiers or amounts: each opportunity is a real need, what it makes possible, and what the partner receives. Draft wording, for the team to confirm. */
   ways: {
     heading: "Ways to partner",
+    lead: "There are no tiers. Each part of the Forum has a real need: choose the one closest to your work, or tell us what you have in mind.",
     items: [
-      { lead: "Forum partner", text: "The lead partner of HUIF 2027, across both days." },
-      { lead: "Strand partner", text: "One of the four strands and its four panels." },
-      { lead: "Panel partner", text: "One panel and its question." },
-      { lead: "In-kind partner", text: "Venue, hospitality, travel or media." },
+      {
+        lead: "Partner a strand",
+        text: "Bring the speakers for one of the four strands, Power, Capital, Making or Culture, to Mumbai.",
+        gets: "Your name with the strand’s four panels, on stage, on this site and in the programme.",
+      },
+      {
+        lead: "Partner a panel",
+        text: "Bring one panel and its question to the stage.",
+        gets: "Your name with the panel, on stage, on its page and in the programme.",
+      },
+      {
+        lead: "Host the evening",
+        text: "Saturday’s keynote and social, where speakers, students and partners meet.",
+        gets: "The evening in your name, and a welcome from the stage.",
+      },
+      {
+        lead: "Bring students to Mumbai",
+        text: "Travel and stays for the Harvard students who make the Forum.",
+        gets: "Time with those students, about internships, graduate roles and research.",
+      },
+      {
+        lead: "Give in kind",
+        text: "A venue, hospitality, travel or media reach.",
+        gets: "Your name alongside the Forum’s partners.",
+      },
     ],
-    note: "Tiers and amounts: TBA. Write to us and we’ll send the details.",
+    gets: "In return",
+    note: "Amounts are set with each partner. Tell us what interests you and we’ll send the details.",
   },
   close: {
     heading: "Talk to us about partnering",
     line: "Tell us a little about your organisation and what you’d like from the Forum.",
     action: "Email the team",
-    subject: "Partnering with HUIF 2027",
   },
+} as const;
+
+/** The contact page: one form for every "Get in touch". `?type=partnering` (and the other keys) preselects the topic. */
+export const contact = {
+  title: "Get in touch",
+  lead: "Tell us who you are and what you have in mind. We reply within a few days.",
+  topics: [
+    { key: "partnering", label: "Partnering with the Forum" },
+    { key: "speaking", label: "Speaking" },
+    { key: "attending", label: "Attending" },
+    { key: "press", label: "Press" },
+    { key: "other", label: "Something else" },
+  ],
+  topicLabel: "What is it about?",
+  interestLabel: "Which part of the Forum interests you?",
+  interests: ["A strand", "A panel", "The evening", "Bringing students to Mumbai", "In kind", "Not sure yet"],
+  fields: { name: "Name", email: "Email", org: "Organisation (optional)", message: "Message" },
+  placeholders: { name: "Your name", email: "name@email.com", org: "Company, university or publication" },
+  action: "Send message",
+  sending: "Sending…",
+  sent: "Thanks. Your message has reached the team, and we’ll reply by email.",
+  /** used when no form key is set, or the form service fails: the visitor's email app opens instead */
+  mailed: "Your email app has opened with your message. Send it from there, or write to us directly:",
+  invalid: { name: "Enter your name.", email: "Enter an email address, like name@email.com.", message: "Enter a message." },
+  direct: "Or write to us directly",
 } as const;
 
 export const closing = {

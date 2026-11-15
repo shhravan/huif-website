@@ -101,7 +101,7 @@ test("the menu's links land on their own sections", async () => {
 
 test("no sideways scrolling at 320px", async () => {
   const p = await page({ viewport: { width: 320, height: 640 } });
-  const paths = ["", "partners/", await (async () => {
+  const paths = ["", "partners/", "contact/", await (async () => {
     await p.goto(url(), { waitUntil: "networkidle" });
     return p.evaluate(() => document.querySelector('a[href*="/panels/"]').getAttribute("href").replace(/^.*?panels\//, "panels/"));
   })()];

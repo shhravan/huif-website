@@ -38,7 +38,6 @@ export default function PartnersPage() {
           </h2>
           <div>
             <List items={partners.audience.items} />
-            <p className="partners__note">{partners.audience.note}</p>
           </div>
         </section>
 
@@ -56,7 +55,18 @@ export default function PartnersPage() {
             {partners.ways.heading}
           </h2>
           <div>
-            <List items={partners.ways.items} />
+            <p className="partners__intro">{partners.ways.lead}</p>
+            <ul className="partners__list">
+              {partners.ways.items.map((i) => (
+                <li key={i.lead}>
+                  <h3>{i.lead}</h3>
+                  <p>{i.text}</p>
+                  <p className="partners__gets">
+                    <strong>{partners.ways.gets}:</strong> {i.gets}
+                  </p>
+                </li>
+              ))}
+            </ul>
             <p className="partners__note">{partners.ways.note}</p>
           </div>
         </section>
